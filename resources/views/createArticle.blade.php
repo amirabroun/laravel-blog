@@ -7,7 +7,7 @@
         </div>
         <div class="card-body">
             <p class="card-text">create youre article</p>
-            <form action="" method="POST">
+            <form action="{{ route('create') }}" method="POST">
                 @csrf
                 <div class="row">
                     <div class="col-sm-8">

@@ -4,7 +4,7 @@
     <div class="row">
         @foreach ($articles as $article)
         <div class="col-4 bg-info border shadow bg-white">
-            <a href="">
+            <a class="text-dark" href="{{ url('/blog/' . $article->title) }}">
                 <div class="text-center">
                     <h1 class="mt-1">
                         {{ $article->title }}
@@ -15,7 +15,7 @@
                     </div>
                     <div class="mt-1 mb-1">
                         <h3>
-                            {{ $article->body }}
+                            {{ Str::substr($article->body, 0, 20)  . ' ...'}}  
                         </h3>
                     </div>
                 </div>
