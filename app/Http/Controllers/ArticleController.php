@@ -9,14 +9,33 @@ use Faker\Generator as Faker;
 
 class ArticleController extends Controller
 {
-    public function index(Request $request, Faker $faker)
+    public function index()
     {
-        $this->createArticle($request->input('title'), $request->input('author'), $request->input('body'), $faker);
+        $articles = Article::all(['title', 'body', 'image_name']);
+
+        return view('blog')->with('articles', $articles);
+    }
+
+    public function singleArticle($title)
+    {
+        $article = Article::query()->where('title', '=', $title)->first();
+
+        $author = Author::find($article->author_id);
+
+        return view('singleArticle')->with([
+            'article' => $article,
+            'author' => $author
+        ]);
+    }
+
+    public function createArticle(Request $request, Faker $faker)
+    {
+        $this->createPost($request->input('title'), $request->input('author'), $request->input('body'), $faker);
 
         return redirect()->route('blog');
     }
 
-    public function createArticle($title, $author, $body, Faker $faker)
+    public function createPost($title, $author, $body, Faker $faker)
     {
         $article = new Article;
 

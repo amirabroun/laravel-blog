@@ -1,0 +1,30 @@
+GET /api/authors
+Host: blog.test
+
+
+###
+POST /api/author
+Host: blog.test
+Content-Type: application/json
+
+{
+    "name": "mohammadMiri",
+    "email": "mohammadMiri@gmail.com"
+}
+
+
+###
+PUT  /api/author/3
+Host: blog.test
+Content-Type: application/json
+
+{
+    "name": "mostafa",
+    "email": "mostafa@gmail.com"
+}
+
+
+###
+POST /api/author/4
+Host: blog.test
+Content-Type: application/json

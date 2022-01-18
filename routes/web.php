@@ -3,7 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\IndexController;
+use App\Http\Controllers\AuthorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,17 +16,17 @@ use App\Http\Controllers\IndexController;
 |
 */
 
-Route::get('/', [IndexController::class, 'index'])->name('blog');
+Route::get('/', [ArticleController::class, 'index'])->name('blog');
 
-Route::get('/admin', function () {
-    return view('admin');
-})->name('admin');
+Route::get('/blog', function () {
+    return redirect()->route('blog');
+});
 
+Route::get('/blog/{title}', [ArticleController::class, 'singleArticle']);
 
-Route::get('/singleArticle/{title}', function ($title = null) {
-    return view('singleArticle');
-})->name('singleArticle');
+Route::get('/author/{name}', [AuthorController::class, 'singleAuthor']);
 
+Route::get('/author', [AuthorController::class, 'index'])->name('author');
 
 Route::get('/article', function () {
     return view('article');
@@ -36,4 +36,4 @@ Route::get('/createArticle', function () {
     return view('createArticle');
 })->name('createArticle');
 
-Route::post('/createArticle', [ArticleController::class, 'index'])->name('create');
+Route::post('/createArticle', [ArticleController::class, 'createArticle'])->name('create');
