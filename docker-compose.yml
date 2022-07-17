@@ -7,7 +7,7 @@ services:
         links:
             - php
         volumes:
-            - ${PWD}:/usr/share/nginx/www
+            - ./:/usr/share/nginx/www
         ports:
             - ${APP_PORT:-8000}:80
 
@@ -15,7 +15,7 @@ services:
         container_name: php8
         build: ./docker/php
         volumes:
-            - ${PWD}:/usr/share/nginx/www
+            - ./:/usr/share/nginx/www
         env_file:
             - ./.env
 
