@@ -17,4 +17,11 @@ RUN pecl install xdebug \ docker-php-ext-enable xdebug
 
 COPY xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+RUN groupadd -g 1000 www
+RUN useradd -u 1000 -ms /bin/bash -g www www
+
+COPY --chown=www:www . /
+
+USER www
+
+CMD ["php-fpm"]
