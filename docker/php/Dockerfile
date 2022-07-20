@@ -1,5 +1,8 @@
 FROM php:8-fpm
 
+USER root
+RUN apt-get update && apt-get install -y nodejs npm
+
 RUN apt-get update --fix-missing \
     && apt-get install -y curl wget zip unzip git g++ \
     libpng-dev \
