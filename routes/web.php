@@ -16,3 +16,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::controller(App\Http\Controllers\AuthController::class)->group(function () {
+    Route::prefix('login')->group(function () {
+        Route::get('/', 'index');
+        Route::post('/', 'login')->name('login');
+    });
+
+    Route::prefix('register')->group(function () {
+        Route::get('/', 'index')->name('register');
+    });
+});
