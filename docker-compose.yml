@@ -2,7 +2,7 @@ version: "3.9"
 services:
 
     nginx:
-        container_name: ${APP_TITLE:-nginx}
+        container_name: ${APP_NAME:-nginx}-nginx
         build: ./docker/nginx
         links:
             - php
@@ -12,7 +12,7 @@ services:
             - ${APP_PORT:-8000}:80
 
     php:
-        container_name: php8
+        container_name: ${APP_TITLE:-php8}
         build: ./docker/php
         volumes:
             - ./:/usr/share/nginx/www
