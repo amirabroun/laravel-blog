@@ -29,3 +29,8 @@ Route::controller(App\Http\Controllers\AuthController::class)->group(function ()
 
     Route::get('log-out', 'logout')->name('log-out');
 });
+
+Route::prefix('posts')->controller(App\Http\Controllers\PostController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::post('/', 'store')->name('post.new');
+});
