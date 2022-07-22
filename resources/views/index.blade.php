@@ -66,6 +66,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/log-out">Exit</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/posts">New Post</a>
+                </li>
                 @endauth
 
                 @guest
@@ -75,10 +79,6 @@
                 @endguest
 
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2 rounded-0" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success rounded-0 my-2 my-sm-0" type="submit">Search</button>
-            </form>
         </div>
     </nav>
     <!-- navbar ends -->
