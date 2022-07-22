@@ -102,21 +102,23 @@
 </head>
 
 <body>
-    <div id="bg"></div>
     <form action="{{ route('login') }}" method="POST">
         {{ csrf_field() }}
         <div class="form-field">
-            <input name="username" placeholder="Email / Username" required />
+            <input name="email" placeholder="Email" required />
         </div>
         <div class="form-field">
             <input name="password" type="password" placeholder="Password" required />
         </div>
-        <? if (isset($error)) { ?>
-            <div class="form-field">
-                <? echo $error ?>
-            </div>
-        <?
-        } ?>
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <div class="form-field">
             <button class="btn" type="submit">Log in</button>
         </div>

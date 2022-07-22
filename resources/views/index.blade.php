@@ -37,10 +37,9 @@
     <!-- navbar start -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <span class="navbar-brand">
-            <? if (isset($_SESSION["_admin_log_"])) { ?>
-                Welcome <? echo $_SESSION["_admin_log_"]->first_name . ' ' . $_SESSION["_admin_log_"]->last_name ?> !
-            <?
-            } ?>
+            @auth
+            Welcome {{ Auth::user()->name }}!
+            @endauth
         </span>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -62,20 +61,23 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Notification</a>
                 </li>
-                <? if (isset($_SESSION["_admin_log_"])) { ?>
-                    <li class="nav-item">
-                        <form method="post" action="log-out">
-                            <input type="hidden">
-                            <a class="nav-link" onclick="this.parentNode.submit();">Exit</a>
-                        </form>
-                    </li>
-                <?
-                } else { ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
-                    </li>
-                <?
-                } ?>
+
+                @auth
+                <li class="nav-item">
+                    <form method="get" action="{{ route('log-out') }}">
+                        {{ csrf_field() }}
+                        <input type="hidden">
+                        <a class="nav-link" onclick="this.parentNode.submit();">Exit</a>
+                    </form>
+                </li>
+                @endauth
+
+                @guest
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                @endguest
+
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2 rounded-0" type="search" placeholder="Search" aria-label="Search">
