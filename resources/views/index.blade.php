@@ -64,11 +64,7 @@
 
                 @auth
                 <li class="nav-item">
-                    <form method="get" action="{{ route('log-out') }}">
-                        {{ csrf_field() }}
-                        <input type="hidden">
-                        <a class="nav-link" onclick="this.parentNode.submit();">Exit</a>
-                    </form>
+                    <a class="nav-link" href="/log-out">Exit</a>
                 </li>
                 @endauth
 

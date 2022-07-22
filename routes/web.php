@@ -21,8 +21,11 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::prefix('login')->controller(App\Http\Controllers\AuthController::class)->group(function () {
-    Route::get('/', 'index');
-    Route::post('/', 'login')->name('login');
+Route::controller(App\Http\Controllers\AuthController::class)->group(function () {
+    Route::prefix('login')->group(function () {
+        Route::get('/', 'index');
+        Route::post('/', 'login')->name('login');
+    });
+
     Route::get('log-out', 'logout')->name('log-out');
 });
