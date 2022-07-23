@@ -30,5 +30,6 @@ Route::controller(App\Http\Controllers\AuthController::class)->group(function ()
 
 Route::prefix('posts')->controller(App\Http\Controllers\PostController::class)->group(function () {
     Route::get('/', 'index');
+    Route::delete('/', 'destroy')->name('post.delete');
     Route::post('/', 'store')->name('post.new');
 });
