@@ -49,6 +49,10 @@
                 </li>
                 @auth
                 <li class="nav-item">
+                    <a class="nav-link text-dark" href="/users">Users</a>
+                </li>
+                
+                <li class="nav-item">
                     <a class="nav-link text-info" href="/posts">New Post</a>
                 </li>
 
@@ -75,16 +79,26 @@
                 @foreach ($posts as $post)
                 <div class="card rounded-0 shadow-sm">
                     <div class="card-header">
-                        <span>By</span>
-                        <span class="text-info"> {{ $post->user()->first()->name }} </span>
-                        @isset($post->created_at)
-                        <span>On</span>
-                        <span class="text-success"> {{ $post->created_at }} </span>
-                        @endisset
+                        <form action="{{ route('post.delete') }}" method="POST">
+                            <span>By</span>
+                            <span class="text-info"> {{ $post->user()->first()->name }} </span>
+                            @isset($post->created_at)
+                            <span>On</span>
+                            <span class="text-success"> {{ $post->created_at }} </span>
+                            @endisset
+
+                            @auth
+                            <input type="hidden" name="_method" value="DELETE" />
+                            <input type="hidden" name="id" value="{{ $post->id }}" />
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input class="btn text-danger ml-3" type="submit" value="Delete">
+                            @endauth
+
+                        </form>
                     </div>
                     <div class="card-body">
                         @isset($post->image_url)
-                        <img class="card-img-top" src="{{ URL::asset('/resources/image/' . $post->image_url) }}" alt="bootstrap simple blog">
+                        <img class="card-img-top" src="{{ URL::asset('/public/image/' . $post->image_url) }}" alt="bootstrap simple blog">
                         <hr>
                         @endisset
                         <h2 class="card-title">{{ $post->title }} </h2>
@@ -135,8 +149,8 @@
         </div>
     </div>
     <!-- main content ends -->
-    <div class="footer-section mt-5">
-        <p class="text-center m-0 text-white">Written by Amir Abroun</p>
+    <div style="bottom:0px; height:50px; width:100%;" class="footer-section mt-4">
+        <p class="text-center mb-4 text-white">Written by Amir Abroun</p>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

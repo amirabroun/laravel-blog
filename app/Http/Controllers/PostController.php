@@ -32,6 +32,15 @@ class PostController extends Controller
         return redirect('/');
     }
 
+    public function destroy(Request $request)
+    {
+        File::delete(public_path('image/' . Post::query()->find($request->id)->image_url));
+
+        Post::destroy($request->id);
+
+        return redirect('/');
+    }
+
     /**
      * @param \Illuminate\Http\UploadedFile|\Illuminate\Http\UploadedFile|array|null $file
      * @return string $fileName
