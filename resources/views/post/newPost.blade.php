@@ -244,14 +244,12 @@
     <div class="content">
         <div class="container">
             <div class="row align-items-stretch no-gutters contact-wrap">
-
                 <div class="col-md-12">
                     <div class="form h-100">
                         <a href="/" class="link text-danger mb-4">
                             - back to blog </a>
                         <h3 class="mt-4">New Post</h3>
-
-                        <form class="mb-5" method="post" action="{{ route('post.new') }}" id="contactForm" name="contactForm">
+                        <form class="mb-1" method="post" action="{{ route('post.new') }}" id="contactForm" name="contactForm"  enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <div class="row">
                                 <div class="col-md-6 form-group mb-5">
@@ -260,18 +258,42 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12 form-group mb-3 mt-5">
+                                <div class="col-md-12 form-group mb-3 mt-3">
                                     <label for="message" class="col-form-label">- message :</label>
                                     <textarea class="form-control" name="message" id="message" cols="30" rows="4" placeholder="Write your message"></textarea>
                                 </div>
                             </div>
+                            <div class="container">
+                                <div class="row it">
+                                    <div class="col-sm-offset-1 col-sm-10" id="one">
+                                        <h5 class="mt-4">Upload image</h5>
+                                        <div id="uploader ">
+                                            <div class="row uploadDoc mt-4">
+                                                <div class="col-sm-3">
+                                                    <div class="fileUpload btn btn-orange">
+                                                        <input name="image" type="file" class="upload up"  />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif
                             <div class="row">
-                                <div class="col-md-12 form-group mt-4">
+                                <div class="col-md-12 form-group mt-5 mb-1">
                                     <input type="submit" value="Create" class="btn btn-info rounded-0 py-2 px-4">
                                     <span class="submitting"></span>
                                 </div>
                             </div>
-
                         </form>
                     </div>
                 </div>
