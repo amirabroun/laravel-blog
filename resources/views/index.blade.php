@@ -37,9 +37,7 @@
     <!-- navbar start -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <span class="navbar-brand">
-            @auth
-            Welcome {{ Auth::user()->name }}!
-            @endauth
+            @auth Welcome {{ Auth::user()->name }}! @endauth
         </span>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -49,26 +47,13 @@
                 <li class="nav-item">
                     <span class="sr-only">(current)</span>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Notification</a>
-                </li>
-
                 @auth
                 <li class="nav-item">
-                    <a class="nav-link" href="/log-out">Exit</a>
+                    <a class="nav-link text-info" href="/posts">New Post</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/posts">New Post</a>
+                    <a class="nav-link text-danger" href="/log-out">Exit</a>
                 </li>
                 @endauth
 
@@ -86,85 +71,28 @@
     <div class="container mt-5">
         <div class="row main-section">
             <div class="col-sm-12 col-md-9 col-lg-9">
+                @isset($posts)
+                @foreach ($posts as $post)
                 <div class="card rounded-0 shadow-sm">
                     <div class="card-header">
                         <span>By</span>
-                        <span class="text-success"> AJay Marathe</span>
+                        <span class="text-info"> {{ $post->user()->first()->name }} </span>
+                        @isset($post->created_at)
                         <span>On</span>
-                        <span class="text-success"> 28 Dec 2018</span>
+                        <span class="text-success"> {{ $post->created_at }} </span>
+                        @endisset
                     </div>
                     <div class="card-body">
-                        <img class="card-img-top" src="{{ URL::asset('/resources/image/kajal2.png') }}" alt="bootstrap simple blog">
+                        @isset($post->image_url)
+                        <img class="card-img-top" src="{{ URL::asset('/resources/image/' . $post->image_url) }}" alt="bootstrap simple blog">
                         <hr>
-                        <h2 class="card-title">Kajal Aggarwal Wons The Best Actress Award At Zee Golden Awards 2017 For Nene Raju Nene Mantri Movie.</h2>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est dicta nisi ab consequatur fugit obcaecati harum expedita, doloremque dolorem quam aut quas ad amet assumenda. Provident sunt ipsum minima autem.</p>
-                        <a href="blog-post.html" class="btn btn-primary">Read more</a>
+                        @endisset
+                        <h2 class="card-title">{{ $post->title }} </h2>
+                        <p class="card-text">{{ $post->body }} </p>
                     </div>
                 </div>
-                <!-- second post  -->
-                <div class="card rounded-0 shadow-sm">
-                    <div class="card-header">
-                        <span>By</span>
-                        <span class="text-success"> AJay Marathe</span>
-                        <span>On</span>
-                        <span class="text-success"> 28 Dec 2018</span>
-                    </div>
-                    <div class="card-body">
-                        <img class="card-img-top" src="https://via.placeholder.com/750x300" alt="bootstrap simple blog">
-                        <hr>
-                        <h2 class="card-title">Kajal Aggarwal Wons The Best Actress Award At Zee Golden Awards 2017 For Nene Raju Nene Mantri Movie.</h2>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est consequatur aliquam, non eius aut natus at consequuntur quasi sed corporis possimus adipisci dignissimos atque praesentium sint autem pariatur asperiores laudantium.</p>
-                        <a href="blog-post.html" class="btn btn-primary">Read more</a>
-                    </div>
-                </div>
-                <!-- third post  -->
-                <div class="card rounded-0 shadow-sm">
-                    <div class="card-header">
-                        <span>By</span>
-                        <span class="text-success"> AJay Marathe</span>
-                        <span>On</span>
-                        <span class="text-success"> 28 Dec 2018</span>
-                    </div>
-                    <div class="card-body">
-                        <img class="card-img-top" src="https://via.placeholder.com/750x300" alt="bootstrap simple blog">
-                        <hr>
-                        <h2 class="card-title">Kajal Aggarwal Wons The Best Actress Award At Zee Golden Awards 2017 For Nene Raju Nene Mantri Movie.</h2>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est consequatur aliquam, non eius aut natus at consequuntur quasi sed corporis possimus adipisci dignissimos atque praesentium sint autem pariatur asperiores laudantium.</p>
-                        <a href="blog-post.html" class="btn btn-primary">Read more</a>
-                    </div>
-                </div>
-                <!-- forth post -->
-                <div class="card rounded-0 shadow-sm">
-                    <div class="card-header">
-                        <span>By</span>
-                        <span class="text-success"> AJay Marathe</span>
-                        <span>On</span>
-                        <span class="text-success"> 28 Dec 2018</span>
-                    </div>
-                    <div class="card-body">
-                        <img class="card-img-top" src="img/kajal2.png" alt="bootstrap simple blog">
-                        <hr>
-                        <h2 class="card-title">Kajal Aggarwal Wons The Best Actress Award At Zee Golden Awards 2017 For Nene Raju Nene Mantri Movie.</h2>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est consequatur aliquam, non eius aut natus at consequuntur quasi sed corporis possimus adipisci dignissimos atque praesentium sint autem pariatur asperiores laudantium.</p>
-                        <a href="blog-post.html" class="btn btn-primary">Read more</a>
-                    </div>
-                </div>
-                <!-- fifth post  -->
-                <div class="card rounded-0 shadow-sm">
-                    <div class="card-header">
-                        <span>By</span>
-                        <span class="text-success"> AJay Marathe</span>
-                        <span>On</span>
-                        <span class="text-success"> 28 Dec 2018</span>
-                    </div>
-                    <div class="card-body">
-                        <img class="card-img-top" src="https://via.placeholder.com/750x300" alt="bootstrap simple blog">
-                        <hr>
-                        <h2 class="card-title">Kajal Aggarwal Wons The Best Actress Award At Zee Golden Awards 2017 For Nene Raju Nene Mantri Movie.</h2>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est consequatur aliquam, non eius aut natus at consequuntur quasi sed corporis possimus adipisci dignissimos atque praesentium sint autem pariatur asperiores laudantium.</p>
-                        <a href="blog-post.html" class="btn btn-primary">Read more</a>
-                    </div>
-                </div>
+                @endforeach
+
                 <div class="d-flex justify-content-center">
                     <nav aria-label="...">
                         <ul class="pagination">
@@ -185,6 +113,7 @@
                         </ul>
                     </nav>
                 </div>
+                @endisset
             </div>
             <div class="col-sm-12 col-md-3 col-lg-3">
                 <div class="card rounded-0 shadow-sm">
