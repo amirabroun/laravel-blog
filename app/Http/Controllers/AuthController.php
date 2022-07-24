@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    public function index($id)
+    {
+        return view('auth.profile', [
+            'user' => User::query()->find($id)
+        ]);
+    }
+
     public function login(Request $request)
     {
         $user = $request->validate([
@@ -43,7 +50,7 @@ class AuthController extends Controller
 
         return redirect('/');
     }
-    
+
     public function logout(Request $request)
     {
         Auth::logout();

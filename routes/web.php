@@ -18,6 +18,8 @@ Route::view('/', 'index', ['posts' => App\Models\Post::all()]);
 Route::view('/welcome', 'welcome');
 
 Route::controller(App\Http\Controllers\AuthController::class)->group(function () {
+    Route::get('users/{id}', 'index');
+
     Route::prefix('login')->group(function () {
         Route::view('/', 'auth.login');
         Route::post('/', 'login')->name('login');
