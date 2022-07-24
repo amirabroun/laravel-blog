@@ -94,7 +94,7 @@
                     <div class="card-header">
                         <form action="{{ route('post.delete') }}" method="POST">
                             <span>By</span>
-                            <span class="text-info"> {{ $post->user()->first()->name }} </span>
+                            <span class="text-info"> {{ $post->user()->first()->first_name }} </span>
                             @isset($post->created_at)
                             <span>On</span>
                             <span class="text-success"> {{ $post->created_at }} </span>
