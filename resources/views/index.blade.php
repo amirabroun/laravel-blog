@@ -22,8 +22,8 @@
         .footer-section {
             background: #E8CBC0;
             background: linear-gradient(to right, #636FA4, #E8CBC0);
-            padding-top: 60px;
-            padding-bottom: 60px;
+            padding-top: 25px;
+            padding-bottom: 50px;
         }
 
         .comment-section span {
