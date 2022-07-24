@@ -23,6 +23,11 @@ Route::controller(App\Http\Controllers\AuthController::class)->group(function ()
         Route::post('/', 'login')->name('login');
     });
 
+    Route::prefix('register')->group(function () {
+        Route::view('/', 'auth.register');
+        Route::post('/', 'register')->name('register');
+    });
+
     Route::get('log-out', 'logout')->name('log-out');
 });
 

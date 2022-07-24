@@ -52,4 +52,11 @@ class User extends Authenticatable
     {
         return $this->is_admin == 1;
     }
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
+
+        return $this;
+    }
 }
