@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ URL::asset('/resources/css/bootstrap.css') }}" rel="stylesheet" id="bootstrap-css">
-    <title> User profile </title>
+    <title> {{ $user->first_name . ' ' . $user->last_name }} </title>
 
     <style>
         body {
@@ -128,17 +128,19 @@
 <body>
     <div class="container emp-profile">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="profile-head">
-                    <ul class="nav nav-tabs" style="margin-top: -80;" id="myTab" role="tablist">
+                    <ul class="nav nav-tabs" id="myTab">
                         <li class="nav-item">
-                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="/">
+                                About
+                            </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="row mt-4">
+        <div class="row mt-2">
             <div class="col-md-8">
                 <div class="tab-content profile-tab" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -146,16 +148,8 @@
                             <div class="col-md-3">
                                 <label>Name : </label>
                             </div>
-                            <div class="col-md-3">
-                                <p> {{ $user->name }} </p>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-3">
-                                <label>Email : </label>
-                            </div>
-                            <div class="col-md-3">
-                                <p> {{ $user->email }} </p>
+                            <div class="col-md-6">
+                                <p> {{ $user->first_name . ' ' . $user->last_name }} </p>
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -163,7 +157,15 @@
                                 <label>ID : </label>
                             </div>
                             <div class="col-md-3">
-                                <p>9912377972</p>
+                                <p> {{ $user->student_number }} </p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-3">
+                                <label>Email : </label>
+                            </div>
+                            <div class="col-md-6">
+                                <p> {{ $user->email }} </p>
                             </div>
                         </div>
                     </div>
