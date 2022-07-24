@@ -13,15 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [App\Http\Controllers\PublicController::class, 'index']);
+Route::view('/', 'index', ['posts' => App\Models\Post::all()]);
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
+Route::view('/welcome', 'welcome');
 
 Route::controller(App\Http\Controllers\AuthController::class)->group(function () {
     Route::prefix('login')->group(function () {
-        Route::get('/', 'index');
+        Route::view('/', 'auth.login');
         Route::post('/', 'login')->name('login');
     });
 
