@@ -37,7 +37,7 @@
     <!-- navbar start -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <span class="navbar-brand">
-            @auth Welcome {{ Auth::user()->name }}! @endauth
+            @auth Welcome {{ Auth::user()->name ?? 'friend' }}! @endauth
         </span>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -47,15 +47,20 @@
                 <li class="nav-item">
                     <span class="sr-only">(current)</span>
                 </li>
+
                 @auth
                 <li class="nav-item">
                     <a class="nav-link text-dark" href="/users">Users</a>
                 </li>
-                
+                @endauth
+
+                @if (auth()->user()?->isAdmin())
                 <li class="nav-item">
                     <a class="nav-link text-info" href="/posts">New Post</a>
                 </li>
+                @endif
 
+                @auth
                 <li class="nav-item">
                     <a class="nav-link text-danger" href="/log-out">Exit</a>
                 </li>
@@ -87,12 +92,12 @@
                             <span class="text-success"> {{ $post->created_at }} </span>
                             @endisset
 
-                            @auth
+                            @if (auth()->user()?->isAdmin())
                             <input type="hidden" name="_method" value="DELETE" />
                             <input type="hidden" name="id" value="{{ $post->id }}" />
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input class="btn text-danger ml-3" type="submit" value="Delete">
-                            @endauth
+                            @endif
 
                         </form>
                     </div>
