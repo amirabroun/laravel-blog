@@ -13,7 +13,7 @@
         }
 
         .emp-profile {
-            padding: 7%;
+            padding: 4%;
             margin-top: 12%;
             margin-bottom: 3%;
             border-radius: 1.5rem;
@@ -140,16 +140,90 @@
                 </div>
             </div>
         </div>
+        @if ($updatePermission)
+        <div class="row mt-2">
+            <div class="col-md-8">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active">
+                        <form action="{{ route('profile.update', ['id' => $user->id]) }}" method="post">
+                            <input type="hidden" name="_method" value="PUT">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>First Name :</label>
+                                </div>
+                                <div class="form-outline">
+                                    <input type="text" name="first_name" value="{{ $user->first_name }}" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <label>Last Name : </label>
+                                </div>
+                                <div class="form-outline">
+                                    <input type="text" name="last_name" value="{{ $user->last_name }}" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <label>ID : </label>
+                                </div>
+                                <div class="form-outline">
+                                    <input type="text" name="student_number" value="{{ $user->student_number }}" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-md-3">
+                                    <label>Email : </label>
+                                </div>
+                                <div class="form-outline">
+                                    <input type="text" name="email" value="{{ $user->email }}" class="form-control" />
+                                </div>
+                            </div>
+                            @if ($errors->any())
+                            <div class="alert alert-danger mt-4">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif
+                            @isset($updateMessage)
+                            <div class="alert alert-info mt-4">
+                                <ul>
+                                    <li>{{ $updateMessage }}</li>
+                                </ul>
+                            </div>
+                            @endisset
+                            <div class="form-field mt-4">
+                                <button class="btn btn-info" type="submit">update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @else
+
         <div class="row mt-2">
             <div class="col-md-8">
                 <div class="tab-content profile-tab" id="myTabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <div class="row">
                             <div class="col-md-3">
-                                <label>Name : </label>
+                                <label>First Name : </label>
                             </div>
                             <div class="col-md-6">
-                                <p> {{ $user->first_name . ' ' . $user->last_name }} </p>
+                                <p> {{ $user->first_name }} </p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-3">
+                                <label>Last Name : </label>
+                            </div>
+                            <div class="col-md-6">
+                                <p> {{ $user->last_name }} </p>
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -172,6 +246,7 @@
                 </div>
             </div>
         </div>
+        @endif
     </div>
 </body>
 

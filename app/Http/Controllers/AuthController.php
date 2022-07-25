@@ -5,13 +5,33 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
     public function index($id)
     {
         return view('auth.profile', [
-            'user' => User::query()->find($id)
+            'user' => $user = User::query()->find($id),
+            'updatePermission' => $this->authUser->id == $user->id || $this->authUser->isAdmin(),
+        ]);
+    }
+
+    public function updateUser(Request $request, $id)
+    {
+        $user = $request->validate([
+            'first_name' => 'string',
+            'last_name' => 'string',
+            'student_number' => Rule::unique('users', 'student_number')->ignore($id),
+            'email' => ['email', Rule::unique('users', 'email')->ignore($id)],
+        ]);
+
+        User::query()->where('id', $id)->update($user);
+
+        return view('auth.profile', [
+            'user' => User::query()->find($id),
+            'updatePermission' => true,
+            'updateMessage' => 'User profile updated successfully'
         ]);
     }
 

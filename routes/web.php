@@ -21,6 +21,7 @@ Route::controller(App\Http\Controllers\AuthController::class)->group(function ()
     Route::prefix('users')->group(function () {
         Route::view('', 'usersList', ['users' => App\Models\User::all()]);
         Route::get('{id}', 'index')->name('profile');
+        Route::put('{id}', 'updateUser')->name('profile.update');
     });
 
     Route::prefix('login')->group(function () {
