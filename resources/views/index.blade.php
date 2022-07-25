@@ -13,6 +13,7 @@
 
         body {
             font-family: "Poppins", sans-serif;
+            background-image: linear-gradient(to left bottom, #233b5e, #006990, #00999d, #00c581, #b9e752);
         }
 
         .main-section .card {
@@ -21,7 +22,7 @@
 
         .footer-section {
             background: #E8CBC0;
-            background: linear-gradient(to right, #636FA4, #E8CBC0);
+            background: linear-gradient(112.1deg, rgb(32, 38, 57) 11.4%, rgb(63, 76, 119) 70.2%);
             padding-top: 25px;
             padding-bottom: 50px;
         }
