@@ -13,7 +13,8 @@
 
         body {
             font-family: "Poppins", sans-serif;
-            background-image: linear-gradient(to left bottom, #233b5e, #006990, #00999d, #00c581, #b9e752);
+            background-color: #FFDEE9;
+            background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 100%);
         }
 
         .main-section .card {
