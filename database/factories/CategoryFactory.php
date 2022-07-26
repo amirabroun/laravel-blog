@@ -3,12 +3,11 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
-class UserFactory extends Factory
+class CategoryFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,11 +17,8 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'student_number' => fake()->unique()->numberBetween(1111111111, 9999999999),
-            'first_name' => fake()->name(),
-            'last_name' => fake()->lastName(),
-            'email' => fake()->safeEmail(),
-            'password' => Hash::make('password'),
+            'title' => fake()->unique()->colorName(),
+            'description' => fake()->text(),
         ];
     }
 
