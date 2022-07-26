@@ -24,9 +24,17 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('title')->unique();
+            $table->string('description')->nullable();
+            $table->timestamps();
+        });
+
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('category_id')->constrained();
             $table->string('title');
             $table->text('body');
             $table->string('image_url')->nullable();
@@ -44,5 +52,7 @@ return new class extends Migration
         Schema::dropIfExists('posts');
 
         Schema::dropIfExists('users');
+
+        Schema::dropIfExists('categories');
     }
 };
