@@ -17,6 +17,11 @@ class AuthController extends Controller
         ]);
     }
 
+    public function getUsers()
+    {
+        return view('usersList')->with('users', User::all());
+    }
+
     public function updateUser(Request $request, $id)
     {
         $user = $request->validate([

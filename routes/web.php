@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PublicController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,13 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'index', ['posts' => App\Models\Post::all()]);
+Route::get('/', [PublicController::class, 'index']);
 
 Route::view('/welcome', 'welcome');
 
 Route::controller(App\Http\Controllers\AuthController::class)->group(function () {
     Route::prefix('users')->group(function () {
-        Route::view('', 'usersList', ['users' => App\Models\User::all()]);
+        Route::get('/', 'getUsers');
         Route::get('{id}', 'index')->name('profile');
         Route::put('{id}', 'updateUser')->name('profile.update');
     });
