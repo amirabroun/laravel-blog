@@ -87,12 +87,12 @@
     </nav>
     <!-- navbar ends -->
     <!-- main content start  -->
-    <div class="container mt-5">
+    <div class="container-fuild m-5">
         <div class="row main-section">
-            <div class="col-sm-12 col-md-9 col-lg-9">
+            <div class="col-sm-12 col-md-12 col-lg-9">
                 @isset($posts)
                 @foreach ($posts as $post)
-                <div class="card rounded-0 shadow-sm">
+                <div class="card shadow-sm">
                     <div class="card-header">
                         <form action="{{ route('post.delete') }}" method="POST">
                             <span>By</span>
@@ -144,21 +144,46 @@
                 </div>
                 @endisset
             </div>
-            <div class="col-sm-12 col-md-3 col-lg-3">
-                <div class="card rounded-0 shadow-sm">
+            <div class="col-sm-12 col-md-12 col-lg-3">
+                <div class="card shadow-sm">
                     <div class="card-header">
                         Category
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><a href="#">Social</a></li>
-                        <li class="list-group-item"><a href="#">Sports</a></li>
-                        <li class="list-group-item"><a href="#">Technology</a></li>
-                        <li class="list-group-item"><a href="#">Trend's</a></li>
-                        <li class="list-group-item"><a href="#">Samsung</a></li>
+                        <li class="list-group-item">
+                            # <a class="text-dark" href="#">
+                                All
+                            </a>
+                        </li>
+
+                        @isset($categories)
+                        @foreach ($categories as $category)
+
+                        <li class="list-group-item">
+                            # <a class="text-dark" href="#">
+                                {{ $category->title }}
+                            </a>
+                            <span>
+                                <a href="{{ route('category.info', ['title' => $category->title]) }}" class="ml-2 btn-sm btn-light text-info" href="#">
+                                    info
+                                </a>
+                            </span>
+                        </li>
+
+                        @endforeach
+                        @endisset
                     </ul>
+
+                    @if (auth()->user()?->isAdmin())
                     <div class="card-footer">
-                        <span class="text-info"> Ads will be goes here</span>
+                        <span>
+                            <a class="text-success" href="#">
+                                Add category
+                            </a>
+                        </span>
                     </div>
+                    @endif
+
                 </div>
             </div>
         </div>
