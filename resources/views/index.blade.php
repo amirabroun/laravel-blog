@@ -11,8 +11,12 @@
     <style>
         @import url(https://fonts.googleapis.com/css?family=Poppins);
 
-        body {
+        body,
+        html {
             font-family: "Poppins", sans-serif;
+            height: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
             background-color: #FFDEE9;
             background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 100%);
         }
@@ -91,7 +95,7 @@
     <!-- main content start  -->
     <div class="container-fuild m-5">
         <div class="row main-section">
-            <div class="col-sm-12 col-md-12 col-lg-9">
+            <div class="col-sm-12 col-md-12 col-lg-9 mb-4">
                 @isset($posts)
                 @foreach ($posts as $post)
                 <div class="card shadow-sm">
@@ -131,27 +135,6 @@
                     </div>
                 </div>
                 @endforeach
-
-                <div class="d-flex justify-content-center">
-                    <nav aria-label="...">
-                        <ul class="pagination">
-                            <li class="page-item disabled">
-                                <span class="page-link">Previous</span>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item active">
-                                <span class="page-link">
-                                    2
-                                    <span class="sr-only">(current)</span>
-                                </span>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
                 @endisset
             </div>
             <div class="col-sm-12 col-md-12 col-lg-3">
@@ -201,14 +184,9 @@
         </div>
     </div>
     <!-- main content ends -->
-    <div style="bottom:0px; height:30px; width:100%;" class="footer-section mt-4">
+    <div style="bottom:0px; height:30px; width:100%;" class="footer-section">
         <p class="text-center mb-4 text-white">Written by Amir Abroun</p>
     </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 
 </html>
