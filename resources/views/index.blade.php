@@ -22,10 +22,12 @@
         }
 
         .footer-section {
+            position: fixed;
             background: #E8CBC0;
             background: linear-gradient(112.1deg, rgb(32, 38, 57) 11.4%, rgb(63, 76, 119) 70.2%);
             padding-top: 25px;
             padding-bottom: 50px;
+            margin-top: 4000px;
         }
 
         .comment-section span {
@@ -159,7 +161,7 @@
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            # <a class="text-dark" href="#">
+                            # <a class="text-dark" href="/">
                                 All
                             </a>
                         </li>
@@ -168,7 +170,9 @@
                         @foreach ($categories as $category)
 
                         <li class="list-group-item">
-                            # <a class="text-dark" href="#">
+                            # <a class=" @isset($activeCategory)
+                             @if ($activeCategory == $category->id) {{ 'text-danger' }}
+                            @else {{ 'text-dark'  }} @endif @endisset" href="{{ route('blog.filter.category', ['category_title' => $category->title]) }}">
                                 {{ $category->title }}
                             </a>
                             <span>
@@ -197,7 +201,7 @@
         </div>
     </div>
     <!-- main content ends -->
-    <div style="bottom:0px; height:50px; width:100%;" class="footer-section mt-4">
+    <div style="bottom:0px; height:30px; width:100%;" class="footer-section mt-4">
         <p class="text-center mb-4 text-white">Written by Amir Abroun</p>
     </div>
     <!-- Optional JavaScript -->

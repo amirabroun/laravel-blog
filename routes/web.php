@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\PublicController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [PublicController::class, 'index']);
+Route::controller(App\Http\Controllers\PublicController::class)->group(function () {
+    Route::get('/',  'index');
+    Route::get('/{category_title}',  'getCategoryFilterPosts')->name('blog.filter.category');
+});
 
 Route::view('/welcome', 'welcome');
 
