@@ -96,7 +96,11 @@
                     <div class="card-header">
                         <form action="{{ route('post.delete') }}" method="POST">
                             <span>By</span>
-                            <span class="text-info"> {{ $post->user()->first()->first_name }} </span>
+                            <span class="text-info">
+                                <a class=" text-info" href="{{ route('profile', ['id' => $post->user->id]) }}">
+                                    {{ $post->user()->first()->first_name }}
+                                </a>
+                            </span>
                             @isset($post->created_at)
                             <span>On</span>
                             <span class="text-success"> {{ $post->created_at }} </span>
@@ -117,7 +121,11 @@
                         <hr>
                         @endisset
                         <h2 class="card-title">{{ $post->title }} </h2>
-                        <p class="card-text">{{ $post->body }} </p>
+                        <p class="card-text">{{ $post->body }}
+                            <a href="{{ route('post.show', ['id' => $post->id]) }}">
+                                more ...
+                            </a>
+                        </p>
                     </div>
                 </div>
                 @endforeach
@@ -164,7 +172,7 @@
                                 {{ $category->title }}
                             </a>
                             <span>
-                                <a href="{{ route('category.info', ['title' => $category->title]) }}" class="ml-2 btn-sm btn-light text-info" href="#">
+                                <a href="{{ route('category.show', ['title' => $category->title]) }}" class="ml-2 btn-sm btn-light text-info" href="#">
                                     info
                                 </a>
                             </span>

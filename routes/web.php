@@ -40,10 +40,11 @@ Route::controller(App\Http\Controllers\AuthController::class)->group(function ()
 
 Route::prefix('posts')->controller(App\Http\Controllers\PostController::class)->group(function () {
     Route::get('/', 'index');
+    Route::get('/{id}', 'show')->name('post.show');
     Route::delete('/', 'destroy')->name('post.delete');
     Route::post('/', 'store')->name('post.new');
 });
 
 Route::prefix('categories')->controller(App\Http\Controllers\CategoryController::class)->group(function () {
-    Route::get('/{title}', 'categoryPage')->name('category.info');
+    Route::get('/{title}', 'categoryPage')->name('category.show');
 });

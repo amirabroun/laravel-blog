@@ -13,6 +13,13 @@ class PostController extends Controller
         return view('post.newPost');
     }
 
+    public function show($id)
+    {
+        return view('post.singlePost')->with([
+            'post' => Post::query()->find($id)
+        ]);
+    }
+
     public function store(Request $request)
     {
         $post = $request->validate([
