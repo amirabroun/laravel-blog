@@ -43,3 +43,7 @@ Route::prefix('posts')->controller(App\Http\Controllers\PostController::class)->
     Route::delete('/', 'destroy')->name('post.delete');
     Route::post('/', 'store')->name('post.new');
 });
+
+Route::prefix('categories')->controller(App\Http\Controllers\CategoryController::class)->group(function () {
+    Route::get('/{title}', 'categoryPage')->name('category.info');
+});
