@@ -13,7 +13,8 @@ class AuthController extends Controller
     {
         return view('auth.profile', [
             'user' => $user = User::query()->find($id),
-            'updatePermission' => $this->authUser->id == $user->id || $this->authUser->isAdmin(),
+            'updatePermission' => !isset($this->authUser) ? false
+                : $this->authUser->id == $user->id || $this->authUser->isAdmin()
         ]);
     }
 
