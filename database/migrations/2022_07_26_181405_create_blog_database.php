@@ -40,6 +40,17 @@ return new class extends Migration
             $table->string('image_url')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('labels', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->timestamps();
+        });
+
+        Schema::create('label_post', function (Blueprint $table) {
+            $table->foreignId('post_id')->constrained();
+            $table->foreignId('label_id')->constrained();
+        });
     }
 
     /**
