@@ -1,29 +1,30 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-    <span class="navbar-brand">
-        @auth Welcome&nbsp;
-        <a class="text-info" href=" {{ route('profile', ['id' => auth()->user()->id ]) }} ">
-            {{ Auth::user()->first_name ?? 'friend' }}!
+    <span>
+        <a class="nav-link text-info" href=" {{ route('blog') }} ">
+            blog
         </a>
+    </span>
+    <span>
+        |
+    </span>
+    <span class="ml-3">
+        @auth Welcome&nbsp;
+        <a class="text-dark" href=" {{ route('profile', ['id' => auth()->user()->id ]) }} ">
+            {{ Auth::user()->first_name ?? 'friend' }}
+        </a> !
         @endauth
     </span>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <span class="sr-only">(current)</span>
-            </li>
-
+    <div class="collapse navbar-collapse ml-0" id="navbarSupportedContent">
+        <ul class="navbar-nav">
             @auth
-            <li class="nav-item">
+            <li class="nav-item ml-2">
                 <a class="nav-link text-dark" href="/users">Users</a>
             </li>
             @endauth
 
             @if (auth()->user()?->isAdmin())
             <li class="nav-item">
-                <a class="nav-link text-info" href="/posts">New Post</a>
+                <a class="nav-link text-dark" href="/posts">New Post</a>
             </li>
             @endif
 
