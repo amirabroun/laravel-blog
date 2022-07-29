@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::controller(App\Http\Controllers\PublicController::class)->group(function () {
-    Route::get('/',  'index');
+    Route::get('/',  'index')->name('blog');
     Route::get('category={category_title?}',  'getCategoryFilterPosts')->name('blog.filter.category');
 });
 
@@ -22,18 +22,18 @@ Route::view('/welcome', 'welcome');
 
 Route::controller(App\Http\Controllers\AuthController::class)->group(function () {
     Route::prefix('users')->group(function () {
-        Route::get('/', 'getUsers');
+        Route::get('/', 'getUsers')->name('user.all');
         Route::get('{id}', 'index')->name('profile');
         Route::put('{id}', 'updateUser')->name('profile.update');
     });
 
     Route::prefix('login')->group(function () {
-        Route::view('/', 'auth.login');
+        Route::view('/', 'auth.login')->name('login.page');
         Route::post('/', 'login')->name('login');
     });
 
     Route::prefix('register')->group(function () {
-        Route::view('/', 'auth.register');
+        Route::view('/', 'auth.register')->name('register.page');
         Route::post('/', 'register')->name('register');
     });
 
@@ -41,7 +41,7 @@ Route::controller(App\Http\Controllers\AuthController::class)->group(function ()
 });
 
 Route::prefix('posts')->controller(App\Http\Controllers\PostController::class)->group(function () {
-    Route::get('/', 'index');
+    Route::get('/', 'index')->name('post.all');
     Route::get('/{id}', 'show')->name('post.show');
     Route::delete('/', 'destroy')->name('post.delete');
     Route::post('/', 'store')->name('post.new');
