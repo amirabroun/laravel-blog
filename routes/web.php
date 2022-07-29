@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(App\Http\Controllers\PublicController::class)->group(function () {
     Route::get('/',  'index')->name('blog');
-    Route::get('category={category_title?}',  'getCategoryFilterPosts')->name('blog.filter.category');
+    Route::get('categories/{category_title}/posts',  'getCategoryFilterPosts')->name('blog.filter.category');
 });
 
 Route::view('/welcome', 'welcome');
