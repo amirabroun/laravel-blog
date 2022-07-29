@@ -22,7 +22,7 @@ class UserFactory extends Factory
             'first_name' => fake()->name(),
             'last_name' => fake()->lastName(),
             'email' => fake()->safeEmail(),
-            'password' => Hash::make('password'),
+            'password' => fake()->password(),
         ];
     }
 
