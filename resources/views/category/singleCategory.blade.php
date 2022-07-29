@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="{{ URL::asset('/resources/css/bootstrap.css') }}">
     <title>Category {{ $category->title }}</title>
     <style>
-        @import url('https://fonts.googleapis.com/css?family=Kanit:100,200,300,400,500,600,700,800,900');
 
         body,
         html {

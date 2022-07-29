@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <style>
-        @import url('https://fonts.googleapis.com/css?family=Kanit:100,200,300,400,500,600,700,800,900');
 
         body {
             font-family: 'Kanit', sans-serif;
