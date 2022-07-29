@@ -11,7 +11,7 @@ class Post extends Model
 
     protected $fillable = ['title', 'body', 'user_id', 'image_url', 'created_at', 'updated_at'];
 
-    protected $with = ['user'];
+    protected $with = ['user', 'labels'];
 
     public function user()
     {
@@ -21,5 +21,10 @@ class Post extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function labels()
+    {
+        return $this->belongsToMany(Label::class);
     }
 }
