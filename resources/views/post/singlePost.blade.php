@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="{{ URL::asset('/resources/css/bootstrap.css') }}">
-    <title>Highway Single Post</title>
+    <title>{{ $post->title }}</title>
 
     <style>
         body,
@@ -115,7 +115,7 @@
 </head>
 
 <body>
-    <div class="container mt-4"  style="margin-bottom: 110px;">
+    <div class="container mt-4" style="margin-bottom: 110px;">
         <div class="col-md-10">
             <div class="row">
                 <div class="card shadow-sm single-blog-post card-body text-dark">
@@ -136,15 +136,19 @@
                         <a class="text-danger" href="/">Back to Blog</a>
                         <br>
                         <br>
+
+                        @isset($post->labels)
                         <div class="tags-share">
                             <div class="row">
-                                <div class="col-md-6">
-                                    lable :
-                                    <a class="bg-light text-dark p-1 rounded" href="#">label 1</a>
-                                    <a class="bg-light text-dark p-1 rounded" href="#">label 2</a>
+                                <div class="col">
+                                    lables :
+                                    @foreach ($post->labels as $label)
+                                    <a class="bg-light text-dark  rounded mr-1 mt-3" href="#"> {{ $label->title }} </a>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
+                        @endisset
                     </div>
                 </div>
             </div>
