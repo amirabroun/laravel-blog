@@ -5,18 +5,10 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <style>
-        #bg {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            filter: blur(5px);
-        }
+        @import url('https://fonts.googleapis.com/css?family=Kanit:100,200,300,400,500,600,700,800,900');
 
         body {
-            font-family: 'Lato', sans-serif;
+            font-family: 'Kanit', sans-serif;
             color: #4A4A4A;
             display: flex;
             justify-content: center;
@@ -25,6 +17,8 @@
             overflow: hidden;
             margin: 0;
             padding: 0;
+            background-color: #FFDEE9;
+            background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 100%);
         }
 
         form {

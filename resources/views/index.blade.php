@@ -9,11 +9,11 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>Blog</title>
     <style>
-        @import url(https://fonts.googleapis.com/css?family=Poppins);
+        @import url('https://fonts.googleapis.com/css?family=Kanit:100,200,300,400,500,600,700,800,900');
 
         body,
         html {
-            font-family: "Poppins", sans-serif;
+            font-family: 'Kanit', sans-serif;
             height: 100%;
             min-height: 100%;
             overflow-x: hidden;
@@ -42,57 +42,8 @@
 </head>
 
 <body>
-    <!-- navbar start -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-        <span class="navbar-brand">
-            @auth Welcome&nbsp;
-            <a class="text-info" href=" {{ route('profile', ['id' => auth()->user()->id ]) }} ">
-                {{ Auth::user()->first_name ?? 'friend' }}!
-            </a>
-            @endauth
-        </span>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <span class="sr-only">(current)</span>
-                </li>
+    @include('partials.nav')
 
-                @auth
-                <li class="nav-item">
-                    <a class="nav-link text-dark" href="/users">Users</a>
-                </li>
-                @endauth
-
-                @if (auth()->user()?->isAdmin())
-                <li class="nav-item">
-                    <a class="nav-link text-info" href="/posts">New Post</a>
-                </li>
-                @endif
-
-                @auth
-                <li class="nav-item">
-                    <a class="nav-link text-danger" href="/log-out">Exit</a>
-                </li>
-                @endauth
-
-                @guest
-                <li class="nav-item">
-                    <a class="nav-link text-info" href="/login">Login</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" href="/register">Register</a>
-                </li>
-                @endguest
-
-            </ul>
-        </div>
-    </nav>
-    <!-- navbar ends -->
-    <!-- main content start  -->
     <div class="container-fuild m-5">
         <div class="row main-section">
             <div class="col-sm-12 col-md-12 col-lg-9 mb-4">
@@ -143,30 +94,28 @@
                         Category
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            # <a class="text-dark" href="/">
+                        <li class="list-group-item {{ !Route::is('blog') ? : 'bg-light' }}">
+                            # <a class="{{ Route::is('blog') ? 'text-info' : 'text-dark' }}" href="/">
                                 All
                             </a>
                         </li>
 
                         @isset($categories)
                         @foreach ($categories as $category)
-
-                        <li class="list-group-item">
-                            # <a class=" @isset($activeCategory)
-                             @if ($activeCategory == $category->id) {{ 'text-danger' }}
-                            @else {{ 'text-dark'  }} @endif @endisset" href="{{ route('blog.filter.category', ['category_title' => $category->title]) }}">
+                        <li class="list-group-item {{ ($activeCategory ?? null) == $category->id ? 'bg-light' : '' }}">
+                            # <a class="{{ ($activeCategory ?? null) == $category->id ? 'text-info' : 'text-dark' }}
+                            {{ Route::is('blog') ? 'text-dark' : 'text-info' }}" href="{{ route('blog.filter.category', ['category_title' => $category->title]) }}">
                                 {{ $category->title }}
                             </a>
                             <span>
-                                <a href="{{ route('category.show', ['title' => $category->title]) }}" class="ml-2 btn-sm btn-light text-info" href="#">
+                                <a href="{{ route('category.show', ['title' => $category->title]) }}" class="ml-2 btn-sm btn-light text-success" href="#">
                                     info
                                 </a>
                             </span>
                         </li>
-
                         @endforeach
                         @endisset
+
                     </ul>
 
                     @if (auth()->user()?->isAdmin())
@@ -183,10 +132,8 @@
             </div>
         </div>
     </div>
-    <!-- main content ends -->
-    <div style="bottom:0px; height:30px; width:100%;" class="footer-section">
-        <p class="text-center mb-4 text-white">Written by Amir Abroun</p>
-    </div>
+
+    @include('partials.footer')
 </body>
 
 </html>

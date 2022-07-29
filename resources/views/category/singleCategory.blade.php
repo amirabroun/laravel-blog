@@ -4,10 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://fonts.googleapis.com/css?family=Kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="{{ URL::asset('/resources/css/bootstrap.css') }}">
     <title>Category {{ $category->title }}</title>
     <style>
+        @import url('https://fonts.googleapis.com/css?family=Kanit:100,200,300,400,500,600,700,800,900');
+
         body,
         html {
             font-family: 'Kanit', sans-serif;
@@ -96,6 +97,8 @@
 </head>
 
 <body>
+    @include('partials.nav')
+
     <div class="container mt-4" style="margin-bottom: 100px;">
         <div class="col-md-10 ">
             <div class="row">
@@ -107,6 +110,9 @@
                             <div class="row">
                                 <div class="col-8">
                                     {{ $category->created_at }}
+                                    <a class="ml-3 text-info" href="{{ route('blog.filter.category', ['category_title' => $category->title]) }}">
+                                        Posts in this category
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -117,9 +123,7 @@
         </div>
     </div>
 
-    <div style="bottom:0px; height:50px; width:100%;" class="footer-section">
-        <p class="text-center mb-4 text-white">Written by Amir Abroun</p>
-    </div>
+    @include('partials.footer')
 </body>
 
 </html>
