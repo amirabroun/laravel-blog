@@ -17,7 +17,7 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'title' => fake()->text(rand(8, 15)),
+            'title' => fake()->unique()->text(rand(8, 15)),
             'description' => fake()->paragraph(rand(10, 15))
         ];
     }
