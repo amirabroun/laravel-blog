@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\{User, File};
+use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
     public function index()
     {
-        return view('post.newPost');
+        return view('posts.storePost');
     }
 
     public function show($id)
@@ -24,28 +24,28 @@ class PostController extends Controller
     {
         $post = $request->validate([
             'title' => 'required|string',
-            'message' => 'required|string',
+            'body' => 'required|string',
         ]);
 
-        /** @var User */
-        $user = auth()->user();
+        $post['image_url'] = $this->saveFile($request->file('image'));
 
-        $user->posts()->save(new Post([
-            'title' => $post['title'],
-            'body' => $post['message'],
-            'image_url' => $this->saveFile($request->file('image')),
-        ]));
+        $this->authUser->posts()->save(new Post($post));
 
         return redirect('/');
     }
 
     public function destroy(Request $request)
     {
-        File::delete(public_path('image/' . Post::query()->find($request->id)->image_url));
+        $post = Post::query()->find($request->id);
+        $postCategory = $post->category->title;
 
-        Post::destroy($request->id);
+        File::delete(public_path('image/' . $post->image_url));
 
-        return redirect('/');
+        $post->labels()->detach($post->labels);
+
+        $post->delete();
+
+        return redirect(route('blog.filter.category', ['category_title' => $postCategory]));
     }
 
     /**
