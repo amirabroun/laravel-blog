@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://fonts.googleapis.com/css?family=Kanit:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="{{ URL::asset('/resources/css/bootstrap.css') }}">
     <title>{{ $post->title }}</title>
 
@@ -115,6 +114,8 @@
 </head>
 
 <body>
+    @include('partials.nav')
+
     <div class="container mt-4" style="margin-bottom: 110px;">
         <div class="col-md-10">
             <div class="row">
@@ -122,13 +123,13 @@
                     <img src="https://laravel.com/images/partners.png" alt="">
                     <hr>
                     <div class="text-content text-dark">
-                        <a class="text-info" href="{{ route('category.show', ['title' => $post->category->title]) }}">
+                        <a class="text-info" href="{{ route('categories.show', ['title' => $post->category->title]) }}">
                             {{ $post->category->title }}
                         </a> / {{ $post->title }}
                         <p> {{ $post->body }}
                             <br>
                             <br>
-                            <a class=" text-info" href="{{ route('profile', ['id' => $post->user->id]) }}">
+                            <a class=" text-info" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
                                 {{ $post->user->first_name . ' ' . $post->user->last_name }}
                             </a> on {{ $post->created_at }}
                             <br>
@@ -155,9 +156,7 @@
         </div>
     </div>
 
-    <div style="bottom:0px; height:30px; width:100%;" class="footer-section mt-4">
-        <p class="text-center mb-4 text-white">Written by Amir Abroun</p>
-    </div>
+    @include('partials.footer')
 </body>
 
 </html>

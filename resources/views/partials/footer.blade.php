@@ -1,3 +1,3 @@
-<div style="bottom:0px; height:30px; width:100%;" class="footer-section">
-    <p class="text-center mb-4 text-white">Written by Amir Abroun</p>
+<div style="bottom: -20px; height:10px; width:100%;" class="footer-section">
+    <p class="text-center text-white" style="margin-top: -6px;">Written by Amir Abroun</p>
 </div>
