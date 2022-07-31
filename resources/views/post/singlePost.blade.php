@@ -123,9 +123,14 @@
                     <img src="https://laravel.com/images/partners.png" alt="">
                     <hr>
                     <div class="text-content text-dark">
+
+                        @isset($post->category)
                         <a class="text-info" href="{{ route('categories.show', ['title' => $post->category->title]) }}">
                             {{ $post->category->title }}
-                        </a> / {{ $post->title }}
+                        </a> /
+                        @endisset
+
+                        {{ $post->title }}
                         <p> {{ $post->body }}
                             <br>
                             <br>
@@ -138,18 +143,18 @@
                         <br>
                         <br>
 
-                        @isset($post->labels)
+                        @if($post->labels->count())
                         <div class="tags-share">
                             <div class="row">
                                 <div class="col">
-                                    lables :
+                                    labels :
                                     @foreach ($post->labels as $label)
                                     <a class="bg-light text-dark  rounded mr-1 mt-3" href="#"> {{ $label->title }} </a>
                                     @endforeach
                                 </div>
                             </div>
                         </div>
-                        @endisset
+                        @endif
                     </div>
                 </div>
             </div>
