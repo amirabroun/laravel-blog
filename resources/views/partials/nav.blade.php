@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <span>
-        <a class="nav-link text-info" href=" {{ route('blog') }} ">
+        <a class="nav-link text-info" href=" {{ route('posts.index') }} ">
             blog
         </a>
     </span>

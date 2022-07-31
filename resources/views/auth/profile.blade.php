@@ -132,7 +132,7 @@
 
 <body>
     <div class="container emp-profile">
-        <a class="text-danger" href="{{ route('blog') }}">Back to Blog</a>
+        <a class="text-danger" href="{{ route('posts.index') }}">Back to Blog</a>
 
         @if ($updatePermission)
         <div class="row">

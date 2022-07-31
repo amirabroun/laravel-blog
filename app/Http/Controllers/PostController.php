@@ -2,13 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
+use App\Models\{Post, Category};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index($categoryTitle = null)
+    {
+        if (!$categoryTitle) {
+            return view('index')->with([
+                'posts' => $posts ?? Post::all(),
+                'categories' => $categories ?? Category::all()
+            ]);
+        }
+
+        $category = Category::query()->where('title', $categoryTitle)->first();
+
+        return view('index')->with([
+            'posts' => $category->posts,
+            'categories' => $categories ?? Category::all(),
+            'activeCategory' => $category->id
+        ]);
+    }
+
+    public function create()
     {
         return view('post.newPost');
     }

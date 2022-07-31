@@ -13,11 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(App\Http\Controllers\PublicController::class)->group(function () {
-    Route::get('/',  'index')->name('blog');
-    Route::get('categories/{category_title}/posts',  'getCategoryFilterPosts')->name('blog.filter.category');
-});
-
 Route::view('/welcome', 'welcome');
 
 Route::controller(App\Http\Controllers\AuthController::class)->group(function () {
@@ -40,11 +35,16 @@ Route::controller(App\Http\Controllers\AuthController::class)->group(function ()
     Route::get('log-out', 'logout')->name('log-out');
 });
 
-Route::prefix('posts')->controller(App\Http\Controllers\PostController::class)->group(function () {
-    Route::get('/create', 'index')->name('posts.create');
-    Route::get('/{id}', 'show')->name('posts.show');
-    Route::delete('/{id}', 'destroy')->name('posts.destroy');
-    Route::post('/', 'store')->name('posts.store');
+Route::controller(App\Http\Controllers\PostController::class)->group(function () {
+    Route::get('/', 'index')->name('posts.index');
+    Route::get('/categories/{category_title}/posts',  'index')->name('blog.filter.category');
+
+    Route::prefix('posts')->group(function () {
+        Route::get('/create', 'create')->name('posts.create');
+        Route::get('/{id}', 'show')->name('posts.show');
+        Route::delete('/{id}', 'destroy')->name('posts.destroy');
+        Route::post('/', 'store')->name('posts.store');
+    });
 });
 
 Route::prefix('categories')->controller(App\Http\Controllers\CategoryController::class)->group(function () {

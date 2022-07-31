@@ -38,7 +38,7 @@
     <div class="container emp-profile">
         <div class="row">
             <div class="col">
-                <a class="text-danger" href="{{ route('blog') }}">Back to Blog</a>
+                <a class="text-danger" href="{{ route('posts.index') }}">Back to Blog</a>
                 <hr>
                 <br>
                 <h3>New Post</h3>
