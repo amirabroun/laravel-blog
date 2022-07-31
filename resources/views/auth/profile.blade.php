@@ -138,7 +138,7 @@
         <div class="row">
             <div class="col">
                 <hr>
-                <form action="{{ route('profile.update', ['id' => $user->id]) }}" method="post">
+                <form action="{{ route('users.profile.update', ['id' => $user->id]) }}" method="post">
                     <input type="hidden" name="_method" value="PUT">
                     @csrf
 

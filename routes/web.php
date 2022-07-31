@@ -22,18 +22,18 @@ Route::view('/welcome', 'welcome');
 
 Route::controller(App\Http\Controllers\AuthController::class)->group(function () {
     Route::prefix('users')->group(function () {
-        Route::get('/', 'getUsers')->name('user.all');
-        Route::get('{id}', 'index')->name('profile');
-        Route::put('{id}', 'updateUser')->name('profile.update');
+        Route::get('/', 'index')->name('users.index');
+        Route::get('/{id}', 'show')->name('users.profile.show');
+        Route::put('/{id}', 'update')->name('users.profile.update');
     });
 
     Route::prefix('login')->group(function () {
-        Route::view('/', 'auth.login')->name('login.page');
+        Route::view('/', 'auth.login')->name('login.index');
         Route::post('/', 'login')->name('login');
     });
 
     Route::prefix('register')->group(function () {
-        Route::view('/', 'auth.register')->name('register.page');
+        Route::view('/', 'auth.register')->name('register.index');
         Route::post('/', 'register')->name('register');
     });
 
@@ -41,12 +41,12 @@ Route::controller(App\Http\Controllers\AuthController::class)->group(function ()
 });
 
 Route::prefix('posts')->controller(App\Http\Controllers\PostController::class)->group(function () {
-    Route::get('/', 'index')->name('post.all');
-    Route::get('/{id}', 'show')->name('post.show');
-    Route::delete('/', 'destroy')->name('post.delete');
-    Route::post('/', 'store')->name('post.new');
+    Route::get('/create', 'index')->name('posts.create');
+    Route::get('/{id}', 'show')->name('posts.show');
+    Route::delete('/{id}', 'destroy')->name('posts.destroy');
+    Route::post('/', 'store')->name('posts.store');
 });
 
 Route::prefix('categories')->controller(App\Http\Controllers\CategoryController::class)->group(function () {
-    Route::get('/{title}', 'categoryPage')->name('category.show');
+    Route::get('/{title}', 'show')->name('categories.show');
 });

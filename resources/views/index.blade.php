@@ -49,25 +49,25 @@
                 @foreach ($posts as $post)
                 <div class="card shadow-sm">
                     <div class="card-header">
-                        <form action="{{ route('post.delete') }}" method="POST">
+                        <form action="{{ route('posts.destroy', ['id' => $post->id]) }}" method="POST">
+
                             <span>By</span>
                             <span class="text-info">
-                                <a class=" text-info" href="{{ route('profile', ['id' => $post->user->id]) }}">
+                                <a class=" text-info" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
                                     {{ $post->user()->first()->first_name }}
                                 </a>
                             </span>
+
                             @isset($post->created_at)
                             <span>On</span>
                             <span class="text-success"> {{ $post->created_at }} </span>
                             @endisset
 
                             @if (auth()->user()?->isAdmin())
-                            <input type="hidden" name="_method" value="DELETE" />
-                            <input type="hidden" name="id" value="{{ $post->id }}" />
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            @method('DELETE')
+                            @csrf
                             <input class="btn text-danger ml-3" type="submit" value="Delete">
                             @endif
-
                         </form>
                     </div>
                     <div class="card-body">
@@ -77,7 +77,7 @@
                         @endisset
                         <h2 class="card-title">{{ $post->title }} </h2>
                         <p class="card-text">{{ $post->body }}
-                            <a href="{{ route('post.show', ['id' => $post->id]) }}">
+                            <a href="{{ route('posts.show', ['id' => $post->id]) }}">
                                 more ...
                             </a>
                         </p>
@@ -106,7 +106,7 @@
                                 {{ $category->title }}
                             </a>
                             <span>
-                                <a href="{{ route('category.show', ['title' => $category->title]) }}" class="ml-2 btn-sm btn-light text-success" href="#">
+                                <a href="{{ route('categories.show', ['title' => $category->title]) }}" class="ml-2 btn-sm btn-light text-success" href="#">
                                     info
                                 </a>
                             </span>

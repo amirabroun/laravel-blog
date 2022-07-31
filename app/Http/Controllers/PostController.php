@@ -10,7 +10,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        return view('posts.storePost');
+        return view('post.newPost');
     }
 
     public function show($id)
@@ -34,9 +34,9 @@ class PostController extends Controller
         return redirect('/');
     }
 
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $post = Post::query()->find($request->id);
+        $post = Post::query()->find($id);
         $postCategory = $post->category->title;
 
         File::delete(public_path('image/' . $post->image_url));

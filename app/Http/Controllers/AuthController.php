@@ -9,7 +9,7 @@ use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
-    public function index($id)
+    public function show($id)
     {
         return view('auth.profile', [
             'user' => $user = User::query()->find($id),
@@ -18,12 +18,12 @@ class AuthController extends Controller
         ]);
     }
 
-    public function getUsers()
+    public function index()
     {
         return view('usersList')->with('users', User::all());
     }
 
-    public function updateUser(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $user = $request->validate([
             'first_name' => 'string',

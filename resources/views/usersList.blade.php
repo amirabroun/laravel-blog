@@ -10,19 +10,33 @@
     <style>
         body {
             font-family: 'Kanit', sans-serif;
+            background-color: #FFDEE9;
+            background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 100%);
+        }
+
+        .card {
             color: #4A4A4A;
             display: flex;
             min-height: 100vh;
             margin-top: 10px;
             margin-bottom: 10px;
-            background-color: #FFDEE9;
-            background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 100%);
+        }
+
+        .footer-section {
+            position: fixed;
+            background: #E8CBC0;
+            background: linear-gradient(112.1deg, rgb(32, 38, 57) 11.4%, rgb(63, 76, 119) 70.2%);
+            padding-top: 25px;
+            padding-bottom: 50px;
+            margin-top: 4000px;
         }
     </style>
 </head>
 
 <body>
-    <div class="container-fluid">
+    @include('partials.nav')
+
+    <div class="container-fluid mt-2 mb-5">
         <div class="row">
             <div class="col">
                 <div class="card">
@@ -43,7 +57,7 @@
                                 <tr>
                                     <td>
                                         <span class="" style="font-size: 14px;">
-                                            <a href="{{ route('profile', ['id' => $user->id]) }}" class="text-info">
+                                            <a href="{{ route('users.profile.show', ['id' => $user->id]) }}" class="text-info">
                                                 {{ $user->first_name . ' ' . $user->last_name }}
                                             </a>
                                             <h6 class="mb-0 text-muted mt-2" style="font-size: 14px;"> {{ $user->email }} </h6>
@@ -64,6 +78,9 @@
             </div>
         </div>
     </div>
+    <br>
+
+    @include('partials.footer')
 </body>
 
 </html>
