@@ -92,8 +92,8 @@
                         Category
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item {{ !Route::is('blog') ? : 'bg-light' }}">
-                            # <a class="{{ Route::is('blog') ? 'text-info' : 'text-dark' }}" href="/">
+                        <li class="list-group-item {{ !Route::is('posts.index') ? : 'bg-light' }}">
+                            # <a class="{{ Route::is('posts.index') ? 'text-info' : 'text-dark' }}" href="/">
                                 All
                             </a>
                         </li>
@@ -102,7 +102,7 @@
                         @foreach ($categories as $category)
                         <li class="list-group-item {{ ($activeCategory ?? null) == $category->id ? 'bg-light' : '' }}">
                             # <a class="{{ ($activeCategory ?? null) == $category->id ? 'text-info' : 'text-dark' }}
-                            {{ Route::is('blog') ? 'text-dark' : 'text-info' }}" href="{{ route('blog.filter.category', ['category_title' => $category->title]) }}">
+                            {{ Route::is('posts.index') ? 'text-dark' : 'text-info' }}" href="{{ route('blog.filter.category', ['category_title' => $category->title]) }}">
                                 {{ $category->title }}
                             </a>
                             <span>
