@@ -13,4 +13,22 @@ class CategoryController extends Controller
             'category' => Category::query()->where('title', $title)->first()
         ]);
     }
+
+    public function create()
+    {
+        return view('category. createCategory');
+    }
+
+    public function store(Request $request)
+    {
+        $category = $request->validate([
+            'title' => 'required|string|unique:categories,title',
+            'description' => 'string'
+        ]);
+
+        $newCategory = new Category($category);
+        $newCategory->save();
+
+        return redirect(route('posts.index'));
+    }
 }

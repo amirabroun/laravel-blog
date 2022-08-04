@@ -48,5 +48,7 @@ Route::controller(App\Http\Controllers\PostController::class)->group(function ()
 });
 
 Route::prefix('categories')->controller(App\Http\Controllers\CategoryController::class)->group(function () {
+    Route::get('/create', 'create')->name('categories.create');
     Route::get('/{title}', 'show')->name('categories.show');
+    Route::post('/', 'store')->name('categories.store');
 });

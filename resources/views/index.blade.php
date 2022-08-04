@@ -119,7 +119,7 @@
                     @if (auth()->user()?->isAdmin())
                     <div class="card-footer">
                         <span>
-                            <a class="text-success" href="#">
+                            <a class="text-success" href="{{ route('categories.create') }}">
                                 Add category
                             </a>
                         </span>
