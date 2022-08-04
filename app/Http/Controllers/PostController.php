@@ -20,9 +20,9 @@ class PostController extends Controller
         $category = Category::query()->where('title', $categoryTitle)->first();
 
         return view('index')->with([
-            'posts' => $category->posts,
+            'posts' => $category?->posts,
             'categories' => $categories ?? Category::all(),
-            'activeCategory' => $category->id
+            'activeCategory' => $category?->id
         ]);
     }
 
@@ -43,9 +43,12 @@ class PostController extends Controller
         $post = $request->validate([
             'title' => 'required|string',
             'body' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
         ]);
 
-        $post['image_url'] = $this->saveFile($request->file('image'));
+        !$request->file('image') ?:
+            $post['image_url'] = $this->saveFile($request->file('image'));
+
 
         $this->authUser->posts()->save(new Post($post));
 
@@ -55,15 +58,19 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::query()->find($id);
-        $postCategory = $post->category->title;
+        $postCategory = $post?->category?->title;
 
-        File::delete(public_path('image/' . $post->image_url));
+        !isset($post->image_url) ?: File::delete(public_path('image/' . $post?->image_url));
 
-        $post->labels()->detach($post->labels);
+        !isset($post->labels) ?: $post->labels()->detach($post->labels);
 
         $post->delete();
 
-        return redirect(route('blog.filter.category', ['category_title' => $postCategory]));
+        if ($postCategory) {
+            return redirect(route('blog.filter.category', ['category_title' => $postCategory]));
+        }
+
+        return redirect(route('posts.index'));
     }
 
     /**

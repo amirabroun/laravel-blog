@@ -54,9 +54,10 @@
                         <div class="col-md-6 ">
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1"  class="col-form-label">Category :</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>1</option>
-                                    <option>2</option>
+                                <select class="form-control" id="exampleFormControlSelect1" name="category_id">
+                                    @foreach (App\Models\Category::all() as $category)
+                                    <option value="{{ $category->id }}"> {{ $category->title }} </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
