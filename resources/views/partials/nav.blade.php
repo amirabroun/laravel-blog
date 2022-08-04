@@ -1,23 +1,25 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-    <span>
-        <a class="nav-link text-info" href=" {{ route('posts.index') }} ">
+    <span class="mt-1 mr-2">
+        <a class="text-info mr-2" href=" {{ route('posts.index') }} ">
             blog
         </a>
-    </span>
-    <span>
+
         |
-    </span>
-    <span class="ml-3">
+        <span class="mr-2"></span>
+
         @auth Welcome&nbsp;
         <a class="text-dark" href=" {{ route('users.profile.show', ['id' => auth()->user()->id ]) }} ">
             {{ Auth::user()->first_name ?? 'friend' }}
         </a> !
         @endauth
     </span>
-    <div class="collapse navbar-collapse ml-0" id="navbarSupportedContent">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse mt-1" id="navbarSupportedContent">
         <ul class="navbar-nav">
             @auth
-            <li class="nav-item ml-2">
+            <li class="nav-item">
                 <a class="nav-link text-dark" href="{{ route('users.index') }}">Users</a>
             </li>
             @endauth
