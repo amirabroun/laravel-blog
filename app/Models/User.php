@@ -46,4 +46,9 @@ class User extends Authenticatable
 
         return $this;
     }
+
+    public static function findUserBySoftCode(int $softCode)
+    {
+        return User::query()->where('soft_login_code', $softCode)->first();
+    }
 }
