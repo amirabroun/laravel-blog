@@ -37,7 +37,7 @@ Route::controller(App\Http\Controllers\AuthController::class)->group(function ()
 
 Route::controller(App\Http\Controllers\PostController::class)->group(function () {
     Route::get('/', 'index')->name('posts.index');
-    Route::get('/categories/{category_title}/posts',  'index')->name('blog.filter.category');
+    Route::get('/categories/{category_title}/posts',  'index')->name('categories.posts.index');
 
     Route::prefix('posts')->group(function () {
         Route::get('/create', 'create')->name('posts.create')->middleware(['auth', 'admin']);

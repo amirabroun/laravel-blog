@@ -98,11 +98,13 @@
                             </a>
                         </li>
 
-                        @isset($categories)
+                        @php $categories = \App\Models\Category::all() @endphp
+
+                        @if(count($categories))
                         @foreach ($categories as $category)
-                        <li class="list-group-item {{ ($activeCategory ?? null) == $category->id ? 'bg-light' : '' }}">
-                            # <a class="{{ ($activeCategory ?? null) == $category->id ? 'text-info' : 'text-dark' }}
-                            {{ Route::is('posts.index') ? 'text-dark' : 'text-info' }}" href="{{ route('blog.filter.category', ['category_title' => $category->title]) }}">
+                        <li class="list-group-item {{ (session('activeCategory') ?? null) == $category->id ? 'bg-light' : '' }}">
+                            # <a class="{{ (session('activeCategory') ?? null) == $category->id ? 'text-info' : 'text-dark' }}
+                            {{ Route::is('posts.index') ? 'text-dark' : 'text-info' }}" href="{{ route('categories.posts.index', ['category_title' => $category->title]) }}">
                                 {{ $category->title }}
                             </a>
                             <span>
@@ -112,7 +114,7 @@
                             </span>
                         </li>
                         @endforeach
-                        @endisset
+                        @endif
 
                     </ul>
 

@@ -109,7 +109,7 @@
                             <div class="row">
                                 <div class="col-8">
                                     {{ $category->created_at }}
-                                    <a class="ml-3 text-info" href="{{ route('blog.filter.category', ['category_title' => $category->title]) }}">
+                                    <a class="ml-3 text-info" href="{{ route('categories.posts.index', ['category_title' => $category->title]) }}">
                                         Posts in this category
                                     </a>
                                 </div>
