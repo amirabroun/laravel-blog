@@ -27,8 +27,12 @@ class PostController extends Controller
 
     public function show($id)
     {
+        if (!$post = Post::query()->find($id)) {
+            abort(404);
+        }
+
         return view('post.singlePost')->with([
-            'post' => Post::query()->find($id)
+            'post' => $post
         ]);
     }
 
