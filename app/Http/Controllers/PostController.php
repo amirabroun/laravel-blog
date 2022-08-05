@@ -11,12 +11,7 @@ class PostController extends Controller
 {
     public function index($categoryTitle = null)
     {
-        $posts = Post::all()->filter(['name', $categoryTitle]);
-        if (URL::current() == route('posts.index')) {
-            return view('index')->with(['posts' => Post::all()]);
-        }
-
-        if ($category = Category::query()->where('title', $categoryTitle)->first()) {
+        if (URL::current() != route('posts.index') && ($category = Category::query()->where('title', $categoryTitle)->first())) {
             session()->put('activeCategory', $category->id);
 
             return view('index')->with(['posts' => $category->posts]);
