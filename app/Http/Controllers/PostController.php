@@ -5,25 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\{Post, Category};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\URL;
 
 class PostController extends Controller
 {
     public function index($categoryTitle = null)
     {
-        if (!$categoryTitle) {
-            return view('index')->with([
-                'posts' => $posts ?? Post::all(),
-                'categories' => $categories ?? Category::all()
-            ]);
+        $posts = Post::all()->filter(['name', $categoryTitle]);
+        if (URL::current() == route('posts.index')) {
+            return view('index')->with(['posts' => Post::all()]);
         }
 
-        $category = Category::query()->where('title', $categoryTitle)->first();
+        if ($category = Category::query()->where('title', $categoryTitle)->first()) {
+            session()->put('activeCategory', $category->id);
 
-        return view('index')->with([
-            'posts' => $category?->posts,
-            'categories' => $categories ?? Category::all(),
-            'activeCategory' => $category?->id
-        ]);
+            return view('index')->with(['posts' => $category->posts]);
+        }
+
+        return view('index')->with(['posts' => Post::all()]);
     }
 
     public function create()
