@@ -58,7 +58,6 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::query()->find($id);
-        $postCategory = $post?->category?->title;
 
         !isset($post->image_url) ?: File::delete(public_path('image/' . $post?->image_url));
 
@@ -66,11 +65,7 @@ class PostController extends Controller
 
         $post->delete();
 
-        if ($postCategory) {
-            return redirect(route('blog.filter.category', ['category_title' => $postCategory]));
-        }
-
-        return redirect(route('posts.index'));
+        return redirect()->back();
     }
 
     /**
