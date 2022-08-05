@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::view('/welcome', 'welcome');
 
 Route::controller(App\Http\Controllers\AuthController::class)->group(function () {
-    Route::prefix('users')->group(function () {
-        Route::get('/', 'index')->name('users.index');
+    Route::prefix('users')->middleware('auth')->group(function () {
+        Route::get('/', 'index')->name('users.index')->middleware('admin');
         Route::get('/{id}', 'show')->name('users.profile.show');
-        Route::put('/{id}', 'update')->name('users.profile.update');
+        Route::put('/{id}', 'update')->name('users.profile.update')->middleware('admin');
     });
 
     Route::prefix('login')->group(function () {
@@ -40,15 +40,15 @@ Route::controller(App\Http\Controllers\PostController::class)->group(function ()
     Route::get('/categories/{category_title}/posts',  'index')->name('blog.filter.category');
 
     Route::prefix('posts')->group(function () {
-        Route::get('/create', 'create')->name('posts.create');
+        Route::get('/create', 'create')->name('posts.create')->middleware(['auth', 'admin']);
         Route::get('/{id}', 'show')->name('posts.show');
-        Route::delete('/{id}', 'destroy')->name('posts.destroy');
-        Route::post('/', 'store')->name('posts.store');
+        Route::delete('/{id}', 'destroy')->name('posts.destroy')->middleware(['auth', 'admin']);
+        Route::post('/', 'store')->name('posts.store')->middleware(['auth', 'admin']);
     });
 });
 
 Route::prefix('categories')->controller(App\Http\Controllers\CategoryController::class)->group(function () {
-    Route::get('/create', 'create')->name('categories.create');
+    Route::get('/create', 'create')->name('categories.create')->middleware(['auth', 'admin']);
     Route::get('/{title}', 'show')->name('categories.show');
-    Route::post('/', 'store')->name('categories.store');
+    Route::post('/', 'store')->name('categories.store')->middleware(['auth', 'admin']);
 });
