@@ -48,9 +48,12 @@ class PostController extends Controller
             $post['image_url'] = $this->saveFile($request->file('image'));
 
 
-        $this->authUser->posts()->save(new Post($post));
+        $post = $this->authUser->posts()->save(new Post($post));
+        $category = $post->category;
 
-        return redirect('/');
+        session()->put('activeCategory', $category->id);
+
+        return redirect(route('categories.posts.index', ['category_title' => $category->title]));
     }
 
     public function destroy($id)
