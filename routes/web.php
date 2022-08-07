@@ -9,6 +9,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::controller(App\Http\Controllers\PostController::class)->group(function () {
+    Route::get('/', 'index')->name('posts.index');
+    Route::get('/categories/{category_title}/posts',  'index')->name('categories.posts.index');
+
+    Route::prefix('posts')->group(function () {
+        Route::get('/create', 'create')->name('posts.create')->middleware(['auth', 'admin']);
+        Route::get('/{id}', 'show')->name('posts.show');
+        Route::delete('/{id}', 'destroy')->name('posts.destroy')->middleware(['auth', 'admin']);
+        Route::post('/', 'store')->name('posts.store')->middleware(['auth', 'admin']);
+    });
+});
+
 Route::controller(App\Http\Controllers\AuthController::class)->group(function () {
     Route::prefix('users')->middleware('auth')->group(function () {
         Route::get('/', 'index')->name('users.index')->middleware('admin');
@@ -27,18 +39,6 @@ Route::controller(App\Http\Controllers\AuthController::class)->group(function ()
     });
 
     Route::get('log-out', 'logout')->name('log-out');
-});
-
-Route::controller(App\Http\Controllers\PostController::class)->group(function () {
-    Route::get('/', 'index')->name('posts.index');
-    Route::get('/categories/{category_title}/posts',  'index')->name('categories.posts.index');
-
-    Route::prefix('posts')->group(function () {
-        Route::get('/create', 'create')->name('posts.create')->middleware(['auth', 'admin']);
-        Route::get('/{id}', 'show')->name('posts.show');
-        Route::delete('/{id}', 'destroy')->name('posts.destroy')->middleware(['auth', 'admin']);
-        Route::post('/', 'store')->name('posts.store')->middleware(['auth', 'admin']);
-    });
 });
 
 Route::prefix('categories')->controller(App\Http\Controllers\CategoryController::class)->group(function () {
