@@ -55,6 +55,9 @@ class AuthController extends Controller
         }
 
         $request->session()->regenerate();
+        $request->session()->put(
+            ['soft:auth' => User::query()->where('email', $user['email'])->first()]
+        );
 
         return redirect('/');
     }
@@ -69,10 +72,12 @@ class AuthController extends Controller
         (new User($user))->setPasswordAttribute($user['password'])->save();
 
         Auth::attempt($user);
+        $user = User::query()->where('email', $user['email'])->first();
 
         $request->session()->regenerate();
-
-        $user = User::query()->where('email', $user['email'])->first();
+        $request->session()->put(
+            ['soft:auth' => $user]
+        );
 
         return redirect('/');
     }

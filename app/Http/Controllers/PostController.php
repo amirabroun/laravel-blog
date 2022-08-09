@@ -17,6 +17,7 @@ class PostController extends Controller
             return view('index')->with(['posts' => $category->posts()->orderBy('created_at', 'desc')->get()]);
         }
 
+        session()->forget('activeCategory');
         return view('index')->with(['posts' => Post::query()->orderBy('created_at', 'desc')->get()]);
     }
 
