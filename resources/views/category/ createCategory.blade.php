@@ -120,6 +120,9 @@
         <div class="col-md-10">
             <div class="row">
                 <div class="card shadow-sm single-blog-post card-body text-dark">
+                    <a class="text-danger" href="{{ route('posts.index') }}">Back to Blog</a>
+                    <hr>
+                    <br>
                     <div class="text-content text-dark">
                         <form class="mb-1" method="post" action="{{ route('categories.store') }}" id="contactForm" name="contactForm" enctype="multipart/form-data">
                             {{ csrf_field() }}

@@ -2,7 +2,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{{ URL::asset('/resources/css/bootstrap.css') }}" rel="stylesheet" id="bootstrap-css">
     <title>Users</title>
@@ -48,7 +47,7 @@
                             <thead>
                                 <tr>
                                     <th class="border-0 col-4" style="font-size: 13px;">Name</th>
-                                    <th class="border-0 col-4" style="font-size: 13px;">Student Number</th>
+                                    <th class="border-0 col-4" style="font-size: 12px;">Student Number</th>
                                     <th class="border-0 col-4" style="font-size: 13px;">Added</th>
                                 </tr>
                             </thead>

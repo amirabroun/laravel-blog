@@ -125,6 +125,11 @@
         <div class="form-field">
             <button class="btn" type="submit">Register</button>
         </div>
+        <div class="form-field">
+            <h6 style="margin: 0 auto; ">
+                or <a class="text-dark" href=" {{ route('softLogin.index') }} "> Soft log in?</a>
+            </h6>
+        </div>
     </form>
 </body>
 

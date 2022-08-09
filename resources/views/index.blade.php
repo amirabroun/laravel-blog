@@ -48,9 +48,9 @@
                 @isset($posts)
                 @foreach ($posts as $post)
                 <div class="card shadow-sm">
+                    @if (auth()->user()?->isAdmin())
                     <div class="card-header">
                         <form action="{{ route('posts.destroy', ['id' => $post->id]) }}" method="POST">
-
                             <span>By</span>
                             <span class="text-info">
                                 <a class=" text-info" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
@@ -70,6 +70,7 @@
                             @endif
                         </form>
                     </div>
+                    @endif
                     <div class="card-body">
                         @isset($post->image_url)
                         <img class="card-img-top" src="{{ URL::asset('/public/image/' . $post->image_url) }}" alt="bootstrap simple blog">
@@ -88,9 +89,6 @@
             </div>
             <div class="col-sm-12 col-md-12 col-lg-3">
                 <div class="card shadow-sm">
-                    <div class="card-header">
-                        Category
-                    </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item {{ !Route::is('posts.index') ? : 'bg-light' }}">
                             # <a class="{{ Route::is('posts.index') ? 'text-info' : 'text-dark' }}" href="/">

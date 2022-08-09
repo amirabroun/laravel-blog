@@ -120,8 +120,11 @@
         <div class="col-md-10">
             <div class="row">
                 <div class="card shadow-sm single-blog-post card-body text-dark">
-                    <img src="https://laravel.com/images/partners.png" alt="">
+                    @isset($post->image_url)
+                    <img src="{{ URL::asset('/public/image/' . $post->image_url) }}" alt="">
                     <hr>
+                    @endisset
+
                     <div class="text-content text-dark">
 
                         @isset($post->category)
@@ -133,15 +136,13 @@
                         {{ $post->title }}
                         <p> {{ $post->body }}
                             <br>
-                            <br>
+                            <br>By
                             <a class=" text-info" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
                                 {{ $post->user->first_name . ' ' . $post->user->last_name }}
                             </a> on {{ $post->created_at }}
                             <br>
                         </p>
                         <a class="text-danger" href="/">Back to Blog</a>
-                        <br>
-                        <br>
 
                         @if($post->labels->count())
                         <div class="tags-share">

@@ -5,9 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{{ URL::asset('/resources/css/bootstrap.css') }}">
-    <title>Category {{ $category->title }}</title>
+    <title>Category: {{ $category->title }}</title>
     <style>
-
         body,
         html {
             font-family: 'Kanit', sans-serif;
@@ -115,8 +114,8 @@
                                 </div>
                             </div>
                         </div>
-                        <a class="text-danger" href="/">Back to Blog</a>
                     </div>
+                    <a class="text-danger" href="/">Back to Blog</a>
                 </div>
             </div>
         </div>

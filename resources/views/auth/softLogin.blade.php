@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Soft Login</title>
-    <style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
+    <style>
         body {
             font-family: 'Kanit', sans-serif;
             color: #4A4A4A;
@@ -109,8 +110,13 @@
             </ul>
         </div>
         @endif
+        <div class="form-field mt-1">
+            <button class="btn" type="submit">Soft log in</button>
+        </div>
         <div class="form-field">
-            <button class="btn" type="submit">Log in</button>
+            <h6 style="margin: 0 auto; ">
+                or <a class="text-dark" href=" {{ route('login.index') }} "> Log in?</a>
+            </h6>
         </div>
     </form>
 </body>
