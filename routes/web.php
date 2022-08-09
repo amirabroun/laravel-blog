@@ -21,26 +21,6 @@ Route::controller(App\Http\Controllers\PostController::class)->group(function ()
     });
 });
 
-Route::controller(App\Http\Controllers\AuthController::class)->group(function () {
-    Route::prefix('users')->middleware('auth')->group(function () {
-        Route::get('/', 'index')->name('users.index')->middleware('admin');
-        Route::get('/{id}', 'show')->name('users.profile.show');
-        Route::put('/{id}', 'update')->name('users.profile.update')->middleware('admin');
-    });
-
-    Route::prefix('login')->group(function () {
-        Route::view('/', 'auth.login')->name('login.index');
-        Route::post('/', 'login')->name('login');
-    });
-
-    Route::prefix('register')->group(function () {
-        Route::view('/', 'auth.register')->name('register.index');
-        Route::post('/', 'register')->name('register');
-    });
-
-    Route::get('log-out', 'logout')->name('log-out');
-});
-
 Route::prefix('categories')->controller(App\Http\Controllers\CategoryController::class)->group(function () {
     Route::get('/create', 'create')->name('categories.create')->middleware(['auth', 'admin']);
     Route::get('/{title}', 'show')->name('categories.show');
