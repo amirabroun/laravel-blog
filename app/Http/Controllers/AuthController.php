@@ -11,8 +11,12 @@ class AuthController extends Controller
 {
     public function show($id)
     {
+        if (!$user = User::query()->find($id)) {
+            abort(404);
+        }
+
         return view('auth.profile', [
-            'user' => $user = User::query()->find($id),
+            'user' => $user,
             'updatePermission' => !isset($this->authUser) ? false
                 : $this->authUser->id == $user->id || $this->authUser->isAdmin()
         ]);

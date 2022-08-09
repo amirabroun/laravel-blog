@@ -9,8 +9,12 @@ class CategoryController extends Controller
 {
     public function show($title)
     {
+        if (!$category = Category::query()->where('title', $title)->first()) {
+            abort(404);
+        }
+
         return view('category.singleCategory')->with([
-            'category' => Category::query()->where('title', $title)->first()
+            'category' => $category
         ]);
     }
 
