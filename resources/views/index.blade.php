@@ -42,14 +42,14 @@
 <body>
     @include('partials.nav')
 
-    <div class="container-fuild m-5">
+    <div class="col mt-3 mb-5">
         <div class="row main-section">
             <div class="col-sm-12 col-md-12 col-lg-9 mb-4">
                 @isset($posts)
                 @foreach ($posts as $post)
                 <div class="card shadow-sm">
                     @if (auth()->user()?->isAdmin())
-                    <div class="card-header">
+                    <div class="card-header" style="font-size: 15px;">
                         <form action="{{ route('posts.destroy', ['id' => $post->id]) }}" method="POST">
                             <span>By</span>
                             <span class="text-info">
@@ -60,13 +60,13 @@
 
                             @isset($post->created_at)
                             <span>On</span>
-                            <span class="text-success"> {{ $post->created_at }} </span>
+                            <span class="text-success mr-1">{{ date('m/d h:m', strtotime($post->created_at)) }} </span>
                             @endisset
 
                             @if (auth()->user()?->isAdmin())
                             @method('DELETE')
                             @csrf
-                            <input class="btn text-danger ml-3" type="submit" value="Delete">
+                            <input class="btn text-danger"  style="font-size: 12px;" type="submit" value="Delete">
                             @endif
                         </form>
                     </div>
