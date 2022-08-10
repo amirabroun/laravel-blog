@@ -7,18 +7,20 @@
     <title>Users</title>
 
     <style>
-        body {
+        body,
+        html {
             font-family: 'Kanit', sans-serif;
+            height: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
             background-color: #FFDEE9;
             background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 100%);
         }
 
-        .card {
-            color: #4A4A4A;
-            display: flex;
-            min-height: 100vh;
-            margin-top: 10px;
-            margin-bottom: 10px;
+        .table td,
+        .table th {
+            padding-right: 3px;
+            padding-left: 3px;
         }
 
         .footer-section {
@@ -27,7 +29,7 @@
             background: linear-gradient(112.1deg, rgb(32, 38, 57) 11.4%, rgb(63, 76, 119) 70.2%);
             padding-top: 25px;
             padding-bottom: 50px;
-            margin-top: 4000px;
+            margin-top: 400px;
         }
     </style>
 </head>
@@ -35,13 +37,10 @@
 <body>
     @include('partials.nav')
 
-    <div class="container-fluid mt-2 mb-5">
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title mb-1">Manage Users</h5>
-                    </div>
+    <div class="container mt-4" style="margin-bottom: 100px;">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="card shadow-sm single-blog-post card-body text-dark">
                     <div class="table-responsive">
                         <table class="table no-wrap user-table mb-1">
                             <thead>
@@ -54,19 +53,19 @@
                             <tbody>
                                 @foreach ($users as $key => $user)
                                 <tr>
-                                    <td>
+                                    <td class="col-4 mt-5">
                                         <span class="" style="font-size: 14px;">
                                             <a href="{{ route('users.profile.show', ['id' => $user->id]) }}" class="text-info">
                                                 {{ $user->first_name . ' ' . $user->last_name }}
                                             </a>
-                                            <h6 class="mb-0 text-muted mt-2" style="font-size: 14px;"> {{ $user->email }} </h6>
+                                            <h6 class="mb-0 text-muted mt-2" style="font-size: 12px;"> {{ $user->email }} </h6>
                                         </span>
                                     </td>
-                                    <td>
-                                        <span class="text-muted" style="font-size: 14px;">{{ $user->student_number }}</span>
+                                    <td class="col-5">
+                                        <span class="text-muted" style="font-size: 13px;">{{ $user->student_number }}</span>
                                     </td>
-                                    <td>
-                                        <span class="text-muted" style="font-size: 14px;">{{ date('Y / M / D', strtotime($user->created_at)) }}</span>
+                                    <td class="col-2">
+                                        <span class="text-muted" style="font-size: 12px;">{{ date('Y-m-d', strtotime($user->created_at)) }}</span>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -77,7 +76,6 @@
             </div>
         </div>
     </div>
-    <br>
 
     @include('partials.footer')
 </body>
