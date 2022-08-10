@@ -2,52 +2,41 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>Blog</title>
+
+    @include('partials.abstract-css')
     <style>
-        body,
-        html {
-            font-family: 'Kanit', sans-serif;
-            height: 100%;
-            min-height: 100%;
-            overflow-x: hidden;
-            background-color: #FFDEE9;
-            background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 100%);
-        }
-
-        .main-section .card {
-            margin-bottom: 1.5rem !important;
-        }
-
-        .footer-section {
-            position: fixed;
-            background: #E8CBC0;
-            background: linear-gradient(112.1deg, rgb(32, 38, 57) 11.4%, rgb(63, 76, 119) 70.2%);
-            padding-top: 25px;
-            padding-bottom: 50px;
-            margin-top: 4000px;
-        }
-
-        .comment-section span {
-            display: block;
-            margin-bottom: 10px;
+        .btn-delete {
+            display: inline-block;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: .25rem;
+            transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
         }
     </style>
 </head>
 
 <body>
     @include('partials.nav')
-
     <div class="col mt-3 mb-5">
         <div class="row main-section">
-            <div class="col-sm-12 col-md-12 col-lg-9 mb-4">
+            <div class="col-lg-1"></div>
+            <div class="col-sm-12 col-md-12 col-lg-7 mb-4">
                 @isset($posts)
                 @foreach ($posts as $post)
-                <div class="card shadow-sm">
+                <div class="card shadow-sm mb-4">
                     @if (auth()->user()?->isAdmin())
                     <div class="card-header" style="font-size: 15px;">
                         <form action="{{ route('posts.destroy', ['id' => $post->id]) }}" method="POST">
@@ -66,19 +55,19 @@
                             @if (auth()->user()?->isAdmin())
                             @method('DELETE')
                             @csrf
-                            <input class="btn text-danger"  style="font-size: 12px;" type="submit" value="Delete">
+                            <input class="btn-delete text-danger" style="font-size: 12px;" type="submit" value="Delete">
                             @endif
                         </form>
                     </div>
                     @endif
                     <div class="card-body">
                         @isset($post->image_url)
-                        <img class="card-img-top" src="{{ URL::asset('/public/image/' . $post->image_url) }}" alt="bootstrap simple blog">
+                        <img class="card-img-top w-100" src="{{ URL::asset('/public/image/' . $post->image_url) }}" alt="bootstrap simple blog">
                         <hr>
                         @endisset
                         <h2 class="card-title">{{ $post->title }} </h2>
                         <p class="card-text">{{ $post->body }}
-                            <a href="{{ route('posts.show', ['id' => $post->id]) }}">
+                            <a class="text-info" href="{{ route('posts.show', ['id' => $post->id]) }}">
                                 more ...
                             </a>
                         </p>
@@ -87,7 +76,7 @@
                 @endforeach
                 @endisset
             </div>
-            <div class="col-sm-12 col-md-12 col-lg-3">
+            <div class="col-sm-12 col-md-12 col-lg-3 mb-4">
                 <div class="card shadow-sm">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item {{ !Route::is('posts.index') ? : 'bg-light' }}">
@@ -128,6 +117,7 @@
 
                 </div>
             </div>
+            <div class="col-lg-1"></div>
         </div>
     </div>
 

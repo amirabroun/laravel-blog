@@ -3,12 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Soft Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
+    @include('partials.abstract-css')
     <style>
         body {
-            font-family: 'Kanit', sans-serif;
             color: #4A4A4A;
             display: flex;
             justify-content: center;
@@ -17,7 +17,7 @@
             overflow: hidden;
             margin: 0;
             padding: 0;
-            background-color: #FFDEE9;
+            background-color: #E4E5E6;
             background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 100%);
         }
 

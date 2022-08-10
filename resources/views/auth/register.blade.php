@@ -3,21 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
-    <style>
-        #bg {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            filter: blur(5px);
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Register</title>
 
+    @include('partials.abstract-css')
+    <style>
         body {
-            font-family: 'Lato', sans-serif;
-            color: #4A4A4A;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -25,6 +16,8 @@
             overflow: hidden;
             margin: 0;
             padding: 0;
+            background-color: #FFDEE9;
+            background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 100%);
         }
 
         form {
@@ -127,7 +120,7 @@
         </div>
         <div class="form-field">
             <h6 style="margin: 0 auto; ">
-                or <a class="text-dark" href=" {{ route('softLogin.index') }} "> Soft log in?</a>
+                or <a class="text-dark" href=" {{ route('login.index') }} "> Log in?</a>
             </h6>
         </div>
     </form>

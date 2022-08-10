@@ -29,7 +29,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav">
-            <li class="nav-item d-block d-sm-none">
+            <li class="nav-item d-block  d-lg-none">
                 <h1>
                     <hr>
                 </h1>
@@ -39,30 +39,30 @@
                 <a class="mr-3 text-dark" href="{{ route('users.index') }}">Users</a>
             </li>
 
-            <li class="nav-item d-block d-sm-none">
+            <li class="nav-item d-block  d-lg-none">
                 <h1></h1>
             </li>
 
             @if (auth()->user()?->isAdmin())
-            <li class="nav-item d-block d-sm-none">
+            <li class="nav-item d-block  d-lg-none">
                 <h1></h1>
             </li>
             <li class="nav-item">
                 <a class="mr-3 text-dark" href="{{ route('posts.create') }}">New Post</a>
             </li>
-            <li class="nav-item d-block d-sm-none">
+            <li class="nav-item d-block  d-lg-none">
                 <h1></h1>
             </li>
             @endif
 
             @auth
-            <li class="nav-item d-block d-sm-none">
+            <li class="nav-item d-block  d-lg-none">
                 <h1></h1>
             </li>
             <li class="nav-item">
                 <a class="mr-3 text-danger" href="{{ route('log-out') }}">Exit</a>
             </li>
-            <li class="nav-item d-block d-sm-none">
+            <li class="nav-item d-block  d-lg-none">
                 <h1></h1>
             </li>
             @endauth
