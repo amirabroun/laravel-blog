@@ -8,7 +8,7 @@
 
     @include('partials.abstract-css')
     <style>
-        .btn-delete {
+        .action-post-btn {
             display: inline-block;
             font-weight: 400;
             text-align: center;
@@ -39,39 +39,60 @@
                 <div class="card shadow-sm mb-4">
                     @if (auth()->user()?->isAdmin())
                     <div class="card-header" style="font-size: 15px;">
-                        <form action="{{ route('posts.destroy', ['id' => $post->id]) }}" method="POST">
-                            <span>By</span>
-                            <span class="text-info">
-                                <a class=" text-info" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
-                                    {{ $post->user()->first()->first_name }}
-                                </a>
-                            </span>
+                        <span>By</span>
+                        <span class="text-info">
+                            <a class=" text-info" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
+                                {{ $post->user()->first()->first_name }}
+                            </a>
+                        </span>
 
-                            @isset($post->created_at)
-                            <span>On</span>
-                            <span class="text-success mr-1">{{ date('m/d h:m', strtotime($post->created_at)) }} </span>
-                            @endisset
+                        @isset($post->created_at)
+                        <span>On</span>
+                        <span class="text-success mr-1">{{ date('m/d h:m', strtotime($post->created_at)) }} </span>
+                        @endisset
 
-                            @if (auth()->user()?->isAdmin())
-                            @method('DELETE')
-                            @csrf
-                            <input class="btn-delete text-danger" style="font-size: 12px;" type="submit" value="Delete">
-                            @endif
-                        </form>
+                        @if (auth()->user()?->isAdmin())
+                        <button class="toggler action-post-btn" style="font-size: 12px;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-post-{{ $post->id }}" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="toggler">. . .</span>
+                        </button>
+                        <div class="collapse" id="navbarSupportedContent-post-{{ $post->id }}">
+                            <ul class="navbar-nav bg-light">
+                                <li class="nav-item">
+                                    <h1>
+                                        <hr>
+                                    </h1>
+                                </li>
+
+                                <li class="nav-item">
+                                    <form action="{{ route('posts.destroy', ['id' => $post->id]) }}" method="POST" id="delete-form-{{ $post->id }}">
+                                        @csrf @method('DELETE')
+                                    </form>
+                                    <a href="javascript:void(0)" class="mr-3 text-danger" onclick="$('#delete-form-{{ $post->id }}').submit()">
+                                        Delete
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        @endif
                     </div>
                     @endif
-                    <div class="card-body">
-                        @isset($post->image_url)
-                        <img class="card-img-top w-100" src="{{ URL::asset('/public/image/' . $post->image_url) }}" alt="bootstrap simple blog">
-                        <hr>
-                        @endisset
-                        <h2 class="card-title">{{ $post->title }} </h2>
-                        <p class="card-text">{{ $post->body }}
-                            <a class="text-info" href="{{ route('posts.show', ['id' => $post->id]) }}">
-                                more ...
-                            </a>
-                        </p>
-                    </div>
+                    <a class="text-dark" style="text-decoration: none;" href="{{ route('posts.show', ['id' => $post->id]) }}">
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                # {{ $post->title }}
+                            </h2>
+                            @isset($post->image_url)
+                            <br>
+                            <hr>
+                            <img class="card-img-top w-100" src="{{ URL::asset('/public/image/' . $post->image_url) }}" alt="bootstrap simple blog">
+                            <br>
+                            <br>
+                            @endisset
+                            <p class="card-text">
+                                {{ $post->body }}
+                            </p>
+                        </div>
+                    </a>
                 </div>
                 @endforeach
                 @endisset
