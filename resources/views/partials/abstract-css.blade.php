@@ -24,4 +24,27 @@
         padding-bottom: 50px;
         margin-top: 4000px;
     }
+
+    .action-post-btn {
+        display: inline-block;
+        font-weight: 400;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-radius: .25rem;
+        transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+
+    .shadow-post> :hover {
+        cursor: pointer;
+        box-shadow: 0 1rem 1rem 1rem rgba(0, 0, 0.1, 0.10);
+    }
 </style>

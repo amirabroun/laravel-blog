@@ -7,25 +7,6 @@
     <title>Blog</title>
 
     @include('partials.abstract-css')
-    <style>
-        .action-post-btn {
-            display: inline-block;
-            font-weight: 400;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            border: 1px solid transparent;
-            padding: .375rem .75rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            border-radius: .25rem;
-            transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-        }
-    </style>
 </head>
 
 <body>
@@ -33,27 +14,27 @@
     <div class="col mt-3 mb-5">
         <div class="row main-section">
             <div class="col-lg-1"></div>
-            <div class="col-sm-12 col-md-12 col-lg-7 mb-4">
+            <div class="col-sm-12 col-md-12 col-lg-7 mb-4 shadow-post">
                 @isset($posts)
                 @foreach ($posts as $post)
-                <div class="card shadow-sm mb-4">
+                <div class="card mb-4">
                     @if (auth()->user()?->isAdmin())
                     <div class="card-header" style="font-size: 15px;">
                         <span>By</span>
-                        <span class="text-info">
-                            <a class=" text-info" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
+                        <span>
+                            <a style="color: blue;" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
                                 {{ $post->user()->first()->first_name }}
                             </a>
                         </span>
 
                         @isset($post->created_at)
                         <span>On</span>
-                        <span class="text-success mr-1">{{ date('m/d h:m', strtotime($post->created_at)) }} </span>
+                        <span class="text-dark mr-1">{{ date('m/d h:m', strtotime($post->created_at)) }} </span>
                         @endisset
 
                         @if (auth()->user()?->isAdmin())
                         <button class="toggler action-post-btn" style="font-size: 12px;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-post-{{ $post->id }}" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="toggler">. . .</span>
+                            <span class="toggler">...</span>
                         </button>
                         <div class="collapse" id="navbarSupportedContent-post-{{ $post->id }}">
                             <ul class="navbar-nav bg-light">
@@ -61,6 +42,16 @@
                                     <h1>
                                         <hr>
                                     </h1>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{ route('posts.edit', ['id' => $post->id]) }}" class="mr-3 text-info">
+                                        edit
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <h1></h1>
                                 </li>
 
                                 <li class="nav-item">
@@ -81,13 +72,12 @@
                             <h2 class="card-title">
                                 # {{ $post->title }}
                             </h2>
-                            @isset($post->image_url)
-                            <br>
+                            @if(File::exists(base_path('/public/image/') . $post->image_url) && isset($post->image_url))
                             <hr>
-                            <img class="card-img-top w-100" src="{{ URL::asset('/public/image/' . $post->image_url) }}" alt="bootstrap simple blog">
+                            <img class="card-img-top w-100" src="{{ URL::asset('/public/image/' . $post->image_url) }}" alt="#">
                             <br>
                             <br>
-                            @endisset
+                            @endif
                             <p class="card-text">
                                 {{ $post->body }}
                             </p>
