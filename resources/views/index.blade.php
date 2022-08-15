@@ -19,17 +19,17 @@
                 @foreach ($posts as $post)
                 <div class="card mb-4">
                     @if (auth()->user()?->isAdmin())
-                    <div class="card-header" style="font-size: 15px;">
-                        <span>By</span>
+                    <div class="card-header text-muted" style="font-size: 15px;">
                         <span>
-                            <a style="color: blue;" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
-                                {{ $post->user()->first()->first_name }}
+                            <a style="color: blue;" class="text-dark" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
+                                {{ $post->user()->first()->first_name . ' ' . $post->user()->first()->last_name }}
                             </a>
                         </span>
-
+                        <span class="text-muted">
+                            /
+                        </span>
                         @isset($post->created_at)
-                        <span>On</span>
-                        <span class="text-dark mr-1">{{ date('m/d h:m', strtotime($post->created_at)) }} </span>
+                        <span class="text-dark mr-2">{{ date('F j, Y, g:i a', strtotime($post->created_at)) }} </span>
                         @endisset
 
                         @if (auth()->user()?->isAdmin())
