@@ -16,16 +16,15 @@
         <div class="col-md-10">
             <div class="row">
                 <div class="card shadow-sm single-blog-post card-body text-dark">
-                    @isset($post->image_url)
-                    <img src="{{ URL::asset('/public/image/' . $post->image_url) }}" alt="">
+                    @if(File::exists(base_path('/public/image/') . $post->image_url) && isset($post->image_url))
+                    <img src="{{ URL::asset('/public/image/' . $post->image_url) }}" alt="#">
                     <hr>
                     @endisset
 
                     <div class="text-content text-dark">
-
                         <p>
                             @isset($post->category)
-                            <a class="text-info" href="{{ route('categories.show', ['title' => $post->category->title]) }}">
+                            <a class="text-muted" href="{{ route('categories.show', ['title' => $post->category->title]) }}">
                                 {{ $post->category->title }}
                             </a>/
                             @endisset
@@ -35,14 +34,22 @@
                             </span>
                         </p>
 
-                        <p> {{ $post->body }}</p>
-                        <br>By
-                        <a class=" text-info" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
-                            {{ $post->user->first_name . ' ' . $post->user->last_name }}
-                        </a> on {{ $post->created_at }}
-                        <br>
+                        <div class="text-muted">
+                            <p class="text-dark"> {{ $post->body }}</p>
+                            <br>
+                            <br>
+                            <a class="text-dark" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
+                                {{ $post->user->first_name . ' ' . $post->user->last_name }}
+                            </a> /
+                            <span style="font-size: 13px;">
+                                {{ date('F j, Y, g:i a', strtotime($post->created_at)) }}
+                            </span>
+                        </div>
+
                         <hr>
-                        <a class="text-danger" href="/">Back to Blog</a>
+                        <a href="{{ route('posts.edit', ['id' => $post->id]) }}" class="text-info"> edit</a>
+                        /
+                        <a class="text-danger" href="{{ route('posts.index') }}">Back to Blog</a>
 
                         @if($post->labels->count())
                         <div class="tags-share">

@@ -47,4 +47,33 @@
         cursor: pointer;
         box-shadow: 0 1rem 1rem 1rem rgba(0, 0, 0.1, 0.10);
     }
+
+    .form-input {
+        height: calc(1.5em + 0.75rem + 2px);
+        padding: 0.375rem 0.75rem;
+        line-height: 1.5;
+        background-clip: padding-box;
+        border-radius: 0.25rem;
+        font-family: inherit;
+        outline: none;
+        background-color: #fff;
+        width: 100%;
+        border: none;
+        display: block;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    }
+
+    .form-text-area {
+        padding: 0.375rem 0.75rem;
+        line-height: 1.5;
+        background-clip: padding-box;
+        border-radius: 0.25rem;
+        font-family: inherit;
+        outline: none;
+        background-color: #fff;
+        width: 100%;
+        border: none;
+        display: block;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    }
 </style>

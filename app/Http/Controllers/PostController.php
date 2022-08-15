@@ -18,12 +18,24 @@ class PostController extends Controller
         }
 
         session()->forget('activeCategory');
+
         return view('index')->with(['posts' => Post::query()->orderBy('created_at', 'desc')->get()]);
     }
 
     public function create()
     {
         return view('post.newPost');
+    }
+
+    public function edit(int $id)
+    {
+        if (!$post = Post::query()->find($id)) {
+            abort(404);
+        }
+
+        return view('post.editPost')->with([
+            'post' => $post
+        ]);
     }
 
     public function show($id)
@@ -45,23 +57,39 @@ class PostController extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        !$request->file('image') ?:
-            $post['image_url'] = $this->saveFile($request->file('image'));
+        if ($file = $request->file('image')) {
+            $post['image_url'] = $this->saveFile($file);
+        }
 
+        $this->authUser->posts()->save(new Post($post));
 
-        $post = $this->authUser->posts()->save(new Post($post));
-        $category = $post->category;
+        return redirect('/');
+    }
 
-        session()->put('activeCategory', $category->id);
+    public function update(Request $request, int $id)
+    {
+        $newPostData = $request->validate([
+            'title' => 'required|string',
+            'body' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+        ]);
 
-        return redirect(route('categories.posts.index', ['category_title' => $category->title]));
+        if ($file = $request->file('image')) {
+            $newPostData['image_url'] = $this->saveFile($file);
+        }
+
+        Post::query()->find($id)->update($newPostData);
+
+        return view('post.singlePost')->with([
+            'post' => Post::find($id)
+        ]);
     }
 
     public function destroy($id)
     {
         $post = Post::query()->find($id);
 
-        !isset($post->image_url) ?: File::delete(public_path('image/' . $post?->image_url));
+        $this->deleteFile($post->image_url ?? null);
 
         !isset($post->labels) ?: $post->labels()->detach($post->labels);
 
@@ -70,8 +98,25 @@ class PostController extends Controller
         return redirect()->back();
     }
 
+    public function deletePostFile(int|Post $postOrId)
+    {
+        if (!($postOrId instanceof Post)) {
+            $post = Post::query()->find($postOrId);
+        }
+
+        if (!isset($post->image_url)) {
+            return back()->withErrors(['file' => 'post does not have file']);
+        }
+
+        $this->deleteFile($post->image_url);
+
+        $post->update(['image_url' => null]);
+
+        return redirect()->back();
+    }
+
     /**
-     * @param \Illuminate\Http\UploadedFile|\Illuminate\Http\UploadedFile|array|null $file
+     * @param $file
      * @return string $fileName
      */
     private function saveFile($file)
@@ -81,5 +126,14 @@ class PostController extends Controller
         $file->store('image', 'public');
 
         return $fileName;
+    }
+
+    private function deleteFile($path)
+    {
+        if (!File::exists(base_path('/public/image/') . $path)) {
+            return false;
+        }
+
+        return File::delete(public_path('image/' . $path));
     }
 }
