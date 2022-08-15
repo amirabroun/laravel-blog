@@ -2,7 +2,7 @@ version: "3.9"
 services:
 
     nginx:
-        container_name: blog
+        container_name: "${APP_TITLE}"
         build: ./docker/nginx
         links:
             - php
@@ -10,7 +10,7 @@ services:
             - ./:/usr/share/nginx/www
 
     php:
-        container_name: "php-${APP_TITLE}"
+        container_name: "${APP_NAME}"
         build: ./docker/php
         volumes:
             - ./:/usr/share/nginx/www
