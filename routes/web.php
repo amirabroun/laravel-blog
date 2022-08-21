@@ -30,6 +30,8 @@ Route::controller(App\Http\Controllers\PostController::class)->group(function ()
 Route::prefix('categories')->controller(App\Http\Controllers\CategoryController::class)->group(function () {
     Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/create', 'create')->name('categories.create');
+        Route::get('/edit/{id}', 'edit')->name('categories.edit');
+        Route::put('/{id}', 'update')->name('categories.update');
         Route::post('/', 'store')->name('categories.store');
     });
 

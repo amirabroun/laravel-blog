@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -21,6 +22,31 @@ class CategoryController extends Controller
     public function create()
     {
         return view('category. createCategory');
+    }
+
+    public function edit($id)
+    {
+        if (!$category = Category::query()->where('id', $id)->first()) {
+            abort(404);
+        }
+
+        return view('category.editCategory')->with([
+            'category' => $category
+        ]);
+    }
+
+    public function update(Request $request, int $id)
+    {
+        $newCategoryData = $request->validate([
+            'title' => ['required', Rule::unique('categories', 'title')->ignore($id)],
+            'description' => 'required|string'
+        ]);
+
+        Category::query()->find($id)->update($newCategoryData);
+
+        return view('category.singleCategory')->with([
+            'category' => Category::query()->find($id)
+        ]);
     }
 
     public function store(Request $request)

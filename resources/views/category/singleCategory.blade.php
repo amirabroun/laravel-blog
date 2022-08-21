@@ -16,21 +16,25 @@
         <div class="col-md-10 ">
             <div class="row">
                 <div class="card shadow-sm single-blog-post card-body text-dark">
-                    <a class="text-danger" href="/">Back to Blog</a>
-                    <hr>
                     <div class="text-content text-dark mb-1">
                         <h2 class="mt-2"> {{ $category->title }} </h2>
                         <p>{{ $category->description }}</p>
                         <div class="tags-share mb-1">
                             <div class="row">
-                                <div class="col-8">
+                                <div class="col">
                                     <br>
-                                    <a class=" text-info" href="{{ route('categories.posts.index', ['category_title' => $category->title]) }}">
-                                        Posts in this category
-                                    </a>
+                                    <span style="font-size: 13px;">
+                                        {{ date('F j, Y, g:i a', strtotime($category->created_at)) }}
+                                    </span>
                                     <br>
                                     <hr>
-                                    {{ $category->created_at }}
+                                    <a href="{{ route('categories.edit', ['id' => $category->id]) }}" class="text-dark"> edit</a>
+                                    /
+                                    <a class="text-dark" style="font-size: 15px;" href="{{ route('categories.posts.index', ['category_title' => $category->title]) }}">
+                                        Posts in this category
+                                    </a>
+                                    /
+                                    <a class="text-danger" style="font-size: 16px;" href="{{ route('posts.index') }}">Back to Blog</a>
                                 </div>
                             </div>
                         </div>

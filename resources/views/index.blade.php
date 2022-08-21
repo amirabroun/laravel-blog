@@ -70,7 +70,7 @@
                     <a class="text-dark" style="text-decoration: none;" href="{{ route('posts.show', ['id' => $post->id]) }}">
                         <div class="card-body">
                             <h2 class="card-title">
-                                # {{ $post->title }}
+                                {{ $post->title }}
                             </h2>
                             @if(File::exists(base_path('/public/image/') . $post->image_url) && isset($post->image_url))
                             <hr>
@@ -90,30 +90,52 @@
             <div class="col-sm-12 col-md-12 col-lg-3 mb-4">
                 <div class="card shadow-sm">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item {{ !Route::is('posts.index') ? : 'bg-light' }}">
-                            # <a class="{{ Route::is('posts.index') ? 'text-info' : 'text-dark' }}" href="/">
-                                All
+                        <li class="list-group-item {{ !session('activeCategory') ? 'bg-light' : '' }}">
+                            <a style="font-size: 23px;" href="{{ route('posts.index') }}" class="{{ !session('activeCategory') ? 'text-danger' : 'text-dark' }}">
+                                #
                             </a>
+                            <span class="text-dark" href="{{ route('posts.index') }}">
+                                All
+                            </span>
                         </li>
 
                         @php $categories = \App\Models\Category::all() @endphp
 
                         @if(count($categories))
                         @foreach ($categories as $category)
-                        <li class="list-group-item {{ (session('activeCategory') ?? null) == $category->id ? 'bg-light' : '' }}">
-                            # <a class="{{ (session('activeCategory') ?? null) == $category->id ? 'text-info' : 'text-dark' }}
-                            {{ Route::is('posts.index') ? 'text-dark' : 'text-info' }}" href="{{ route('categories.posts.index', ['category_title' => $category->title]) }}">
+                        <li class="list-group-item {{ session('activeCategory') == $category->id ? 'bg-light' : '' }}">
+                            <a style="font-size: 23px;" class="mr-2 {{ session('activeCategory') == $category->id ? 'text-danger' : 'text-dark' }}" href="{{ route('categories.posts.index', ['category_title' => $category->title]) }}">
+                                #
+                            </a>
+                            <a class="text-dark" href="{{ route('categories.show', ['title' => $category->title]) }}">
                                 {{ $category->title }}
                             </a>
-                            <span>
-                                <a href="{{ route('categories.show', ['title' => $category->title]) }}" class="ml-2 btn-sm btn-light text-success" href="#">
-                                    info
-                                </a>
-                            </span>
+
+                            <button class="toggler action-post-btn ml-2 p-1 btn-sm btn-light text-success" style="font-size: 12px;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-category-{{ $category->id }}" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="toggler">act</span>
+                            </button>
+                            <div class="collapse" id="navbarSupportedContent-category-{{ $category->id }}">
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <h1>
+                                            <hr>
+                                        </h1>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="{{ route('categories.edit', ['id' => $category->id]) }}" class="mr-3 text-info">
+                                            edit
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <h1></h1>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                         @endforeach
                         @endif
-
                     </ul>
 
                     @if (auth()->user()?->isAdmin())
