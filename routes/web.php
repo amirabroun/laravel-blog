@@ -32,6 +32,7 @@ Route::prefix('categories')->controller(App\Http\Controllers\CategoryController:
         Route::get('/create', 'create')->name('categories.create');
         Route::get('/edit/{id}', 'edit')->name('categories.edit');
         Route::put('/{id}', 'update')->name('categories.update');
+        Route::delete('/{id}', 'destroy')->name('categories.destroy');
         Route::post('/', 'store')->name('categories.store');
     });
 

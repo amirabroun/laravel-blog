@@ -34,7 +34,7 @@
 
                         @if (auth()->user()?->isAdmin())
                         <button class="toggler action-post-btn" style="font-size: 12px;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-post-{{ $post->id }}" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="toggler">...</span>
+                            <span class="toggler text-dark">act</span>
                         </button>
                         <div class="collapse" id="navbarSupportedContent-post-{{ $post->id }}">
                             <ul class="navbar-nav bg-light">
@@ -87,8 +87,8 @@
                 @endforeach
                 @endisset
             </div>
-            <div class="col-sm-12 col-md-12 col-lg-3 mb-4">
-                <div class="card shadow-sm">
+            <div class="col-sm-12 col-md-12 col-lg-3 d-none d-lg-block d-xl-block">
+                <div class="card shadow-sm mb-4">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item {{ !session('activeCategory') ? 'bg-light' : '' }}">
                             <a style="font-size: 23px;" href="{{ route('posts.index') }}" class="{{ !session('activeCategory') ? 'text-danger' : 'text-dark' }}">
@@ -130,6 +130,15 @@
 
                                     <li class="nav-item">
                                         <h1></h1>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <form action="{{ route('categories.destroy', ['id' => $category->id]) }}" method="POST" id="delete-form-{{ $category->id }}">
+                                            @csrf @method('DELETE')
+                                        </form>
+                                        <a href="javascript:void(0)" class="mr-3 text-danger" onclick="$('#delete-form-{{ $category->id }}').submit()">
+                                            Delete
+                                        </a>
                                     </li>
                                 </ul>
                             </div>

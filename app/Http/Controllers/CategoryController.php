@@ -61,4 +61,13 @@ class CategoryController extends Controller
 
         return redirect(route('posts.index'));
     }
+
+    public function destroy(int $id)
+    {
+        $category = Category::query()->find($id);
+
+        $category->delete();
+
+        return redirect(route('posts.index'));
+    }
 }
