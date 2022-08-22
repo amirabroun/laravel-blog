@@ -44,8 +44,9 @@ class CategoryController extends Controller
 
         Category::query()->find($id)->update($newCategoryData);
 
-        return view('category.singleCategory')->with([
-            'category' => Category::query()->find($id)
+        return view('category.editCategory', [
+            'category' => Category::query()->find($id),
+            'updateMessage' => 'Category updated successfully'
         ]);
     }
 

@@ -80,8 +80,9 @@ class PostController extends Controller
 
         Post::query()->find($id)->update($newPostData);
 
-        return view('post.singlePost')->with([
-            'post' => Post::find($id)
+        return view('post.editPost', [
+            'post' => Post::query()->find($id),
+            'updateMessage' => 'Post updated successfully'
         ]);
     }
 
