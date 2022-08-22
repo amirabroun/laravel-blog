@@ -50,16 +50,16 @@
                             @endisset
 
                             <div class="row">
-                                <div class="col-md-12 form-group mt-5 mb-1">
+                                <div class="col-md-12 form-group mt-4 mb-1">
                                     <input type="submit" value="Update" style="border-radius: 5px;" class="btn btn-info shadow py-2  px-4 rounded">
                                 </div>
                             </div>
                         </form>
 
                         <hr>
-                        <a href="{{ route('categories.show', ['title' => $category->title]) }}" class="text-dark"> show</a>
+                        <a href="{{ route('categories.show', ['title' => $category->title]) }}" class="text-dark" style="font-size: 14px;"> show</a>
                         /
-                        <a class="text-danger" href="{{ route('posts.index') }}">Back to Blog</a>
+                        <a class="text-danger" href="{{ route('posts.index') }}" style="font-size: 14px;">Back to Blog</a>
                     </div>
                 </div>
             </div>

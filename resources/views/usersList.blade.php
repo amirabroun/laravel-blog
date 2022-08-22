@@ -20,7 +20,7 @@
     @include('partials.nav')
 
     <div class="row">
-        <div class="col mt-4" style="margin-bottom: 100px;">
+        <div class="col" style="margin-bottom: 100px;">
             <div class="row">
                 <div class="col-2"></div>
                 <div class="col-sm-12 col-lg-8 p-4">
@@ -49,7 +49,7 @@
                                             <span class="text-muted" style="font-size: 13px;">{{ $user->student_number }}</span>
                                         </td>
                                         <td class="col-2">
-                                            <span class="text-muted" style="font-size: 12px;">{{ date('Y-m-d', strtotime($user->created_at)) }}</span>
+                                            <span class="text-muted" style="font-size: 12px;">{{ date('F j, Y', strtotime($user->created_at)) }}</span>
                                         </td>
                                     </tr>
                                     @endforeach

@@ -46,23 +46,30 @@
                             </span>
                         </div>
 
-                        <hr>
-                        <a href="{{ route('posts.edit', ['id' => $post->id]) }}" class="text-info"> edit</a>
-                        /
-                        <a class="text-danger" href="{{ route('posts.index') }}">Back to Blog</a>
-
                         @if($post->labels->count())
                         <div class="tags-share">
+                            <br>
                             <div class="row">
                                 <div class="col">
-                                    labels :
+                                    <span class="text-muted" style="font-size: 13px;">
+                                        Labels :
+                                    </span>
                                     @foreach ($post->labels as $label)
-                                    <a class="bg-light text-dark  rounded mr-1 mt-3" href="#"> {{ $label->title }} </a>
+                                    <a class="bg-dark text-light pr-2 pl-2 rounded mr-2 mt-3" style="font-size: 14px;" href="#"> {{ $label->title }} </a>
                                     @endforeach
                                 </div>
                             </div>
                         </div>
                         @endif
+
+                        <hr>
+
+                        @if (auth()->user()?->isAdmin())
+                        <a href="{{ route('posts.edit', ['id' => $post->id]) }}" class="text-dark" style="font-size: 14px;"> edit</a>
+                        /
+                        @endif
+
+                        <a class="text-danger" href="{{ route('posts.index') }}" style="font-size: 14px;">Back to Blog</a>
                     </div>
                 </div>
             </div>

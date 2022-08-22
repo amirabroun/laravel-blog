@@ -45,7 +45,7 @@
                             <hr>
                             <div class="container">
                                 <div class="row">
-                                    <div class="col" id="one">
+                                    <div class="col">
                                         <div id="uploader">
                                             <div class="row uploadDoc mt-4">
                                                 @if(File::exists(base_path('/public/image/') . $post->image_url) && isset($post->image_url))
@@ -105,9 +105,9 @@
                         </form>
 
                         <hr>
-                        <a href="{{ route('posts.show', ['id' => $post->id]) }}" class="text-info"> show</a>
+                        <a href="{{ route('posts.show', ['id' => $post->id]) }}" class="text-dark" style="font-size: 14px;"> show</a>
                         /
-                        <a class="text-danger" href="{{ route('posts.index') }}">Back to Blog</a>
+                        <a class="text-danger" href="{{ route('posts.index') }}"  style="font-size: 14px;">Back to Blog</a>
                     </div>
                 </div>
             </div>

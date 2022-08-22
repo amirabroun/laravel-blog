@@ -55,7 +55,6 @@
         background-clip: padding-box;
         border-radius: 0.25rem;
         font-family: inherit;
-        outline: none;
         background-color: #fff;
         width: 100%;
         border: none;
