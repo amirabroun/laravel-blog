@@ -12,124 +12,59 @@
 <body>
     @include('partials.nav')
 
-    @if ($updatePermission)
-    <div class="container mt-4" style="margin-bottom: 110px;">
-        <div class="col-md-10">
-            <div class="row">
-                <div class="card shadow-sm card-body text-dark">
-                    <a class="text-danger" href="{{ route('posts.index') }}">Back to Blog</a>
-                    <hr>
-                    <br>
-                    <div class="text-content text-dark">
-                        <form action="{{ route('users.profile.update', ['id' => $user->id]) }}" method="post">
-                            <input type="hidden" name="_method" value="PUT">
-                            @csrf
-
-                            <div class=" row">
-                                <div class="col-sm-12 col-md-6 col-lg-6 mt-4">
-                                    <span class="text">First Name</span>
-                                    <input type="text" name="first_name" value="{{ $user->first_name }}" class="form-control text-muted mt-2" />
-                                </div>
-
-                                <div class="col-sm-12 col-md-6 col-lg-6 mt-4">
-                                    <span class="text">Last Name</span>
-                                    <input type="text" name="last_name" value="{{ $user->last_name }}" class="form-control text-muted mt-2" />
-                                </div>
-
-                                <div class="col-sm-12 col-md-6 col-lg-6 mt-4">
-                                    <span class="text">ID</span>
-                                    <input type="text" name="student_number" value="{{ $user->student_number }}" class="form-control text-muted mt-2" />
-                                </div>
-
-                                <div class="col-sm-12 col-md-6 col-lg-6 mt-4">
-                                    <span class="text">Email</span>
-                                    <input type="email" name="email" value="{{ $user->email }}" class="form-control mt-2 text-muted" />
-                                </div>
-
-                                <div class="col-sm-12 col-md-6 col-lg-6 mt-4">
-                                    <span class="text">Soft Code</span>
-                                    <input type="text" name="soft_code" value="{{ $user->soft_login_code }}" class="form-control mt-2 text-muted" />
-                                </div>
-                            </div>
-
-                            @if ($errors->any())
-                            <div class="alert alert-danger mt-4">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            @endif
-
-                            @isset($updateMessage)
-                            <div class="alert alert-info mt-4">
-                                <ul>
-                                    <li>{{ $updateMessage }}</li>
-                                </ul>
-                            </div>
-                            @endisset
-
-                            <div class="form-field mt-5">
-                                <button class="btn btn-info" type="submit">update</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    @else
-
     <div class="container mt-4" style="margin-bottom: 110px;">
         <div class="col-sm-12 col-md-10">
             <div class="row">
-                <div class="card shadow-sm card-body text-dark">
-                    <a class="text-danger" href="{{ route('posts.index') }}">Back to Blog</a>
-                    <hr>
-                    <br>
+                <div class="card shadow-sm single-blog-post card-body text-dark">
+                    <div class="text-content text-dark mb-1 mt-2">
+                        <span class="mr-3">
+                            First Name :
+                        </span>
+                        <span>
+                            {{ $user->first_name }}
+                        </span>
 
-                    <div class="row mt-4">
-                        <div class="col-4 col-md-2">
-                            <label>First Name : </label>
-                        </div>
-                        <div class="col-6 col-md-6">
-                            <p> {{ $user->first_name }} </p>
-                        </div>
-                    </div>
+                        <br class="mb-4">
 
-                    <div class="row mt-3">
-                        <div class="col-4 col-md-2">
-                            <label>Last Name : </label>
-                        </div>
-                        <div class="col-6 col-md-6">
-                            <p> {{ $user->last_name }} </p>
-                        </div>
-                    </div>
-                    
-                    <div class="row mt-3">
-                        <div class="col-2 col-md-1">
-                            <label>ID : </label>
-                        </div>
-                        <div class="col-6 col-md-10">
-                            <p> {{ $user->student_number }} </p>
-                        </div>
-                    </div>
-                    
-                    <div class="row mt-3">
-                        <div class="col-3 col-md-2">
-                            <label>Email : </label>
-                        </div>
-                        <div class="col-9 col-md-10">
-                            <p> {{ $user->email }} </p>
-                        </div>
-                    </div>
+                        <span class="mr-3">
+                            Last Name :
+                        </span>
+                        <span>
+                            {{ $user->last_name }}
+                        </span>
 
+                        <br class="mb-4">
+
+                        <span class="mr-3">
+                            ID :
+                        </span>
+                        <span>
+                            {{ $user->student_number }}
+                        </span>
+
+                        <br class="mb-4">
+
+
+                        <span class="mr-3">
+                            Email :
+                        </span>
+                        <span>
+                            {{ $user->email }}
+                        </span>
+
+                        <hr>
+
+                        @if (auth()->user()?->isAdmin())
+                        <a href="{{ route('users.profile.edit', ['id' => $user->id]) }}" style="font-size: 14px;" class="text-dark"> edit</a>
+                        /
+                        @endif
+
+                        <a class="text-danger" href="{{ route('posts.index') }}" style="font-size: 14px;">Back to Blog</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    @endif
 
     @include('partials.footer')
 </body>

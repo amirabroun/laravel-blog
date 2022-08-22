@@ -7,6 +7,7 @@ Route::controller(App\Http\Controllers\AuthController::class)->group(function ()
         Route::prefix('users')->middleware('auth')->group(function () {
             Route::get('/', 'index')->name('users.index')->middleware('admin');
             Route::get('/{id}', 'show')->name('users.profile.show');
+            Route::get('/{id}/edit', 'edit')->name('users.profile.edit');
             Route::put('/{id}', 'update')->name('users.profile.update')->middleware('admin');
         });
 

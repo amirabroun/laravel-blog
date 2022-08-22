@@ -27,6 +27,13 @@ class AuthController extends Controller
         return view('usersList')->with('users', User::all());
     }
 
+    public function edit(int $id)
+    {
+        $user = User::query()->find($id);
+
+        return view('auth.editProfile')->with('user', $user);
+    }
+
     public function update(Request $request, $id)
     {
         $user = $request->validate([
