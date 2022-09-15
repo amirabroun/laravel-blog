@@ -29,14 +29,14 @@
                             /
                         </span>
                         @isset($post->created_at)
-                        <span class="text-dark mr-2">{{ date('F j, Y, g:i a', strtotime($post->created_at)) }} </span>
+                        <span class="text-muted mr-2" style="font-size: 13px;">{{ date('D F j, Y, G:i', strtotime($post->created_at)) }} </span>
                         @endisset
 
                         @if (auth()->user()?->isAdmin())
-                        <button class="toggler action-post-btn" style="font-size: 12px;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-post-{{ $post->id }}" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <button class="toggler action-post-btn" style="font-size: 12px;" type="button" data-toggle="collapse" data-target="#SupportedContent-post-{{ $post->id }}" aria-controls="SupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="toggler text-dark">act</span>
                         </button>
-                        <div class="collapse" id="navbarSupportedContent-post-{{ $post->id }}">
+                        <div class="collapse" id="SupportedContent-post-{{ $post->id }}">
                             <ul class="navbar-nav bg-light">
                                 <li class="nav-item">
                                     <h1>
@@ -111,10 +111,10 @@
                                 {{ $category->title }}
                             </a>
 
-                            <button class="toggler action-post-btn ml-2 p-1 btn-sm btn-light text-success" style="font-size: 12px;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-category-{{ $category->id }}" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <button class="toggler action-post-btn ml-2 p-1 btn-sm btn-light text-success" style="font-size: 12px;" type="button" data-toggle="collapse" data-target="#SupportedContent-category-{{ $category->id }}" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="toggler">act</span>
                             </button>
-                            <div class="collapse" id="navbarSupportedContent-category-{{ $category->id }}">
+                            <div class="collapse" id="SupportedContent-category-{{ $category->id }}">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
                                         <h1>
@@ -150,7 +150,7 @@
                     @if (auth()->user()?->isAdmin())
                     <div class="card-footer">
                         <span>
-                            <a class="text-success" href="{{ route('categories.create') }}">
+                            <a class="text-info" href="{{ route('categories.create') }}">
                                 Add category
                             </a>
                         </span>
