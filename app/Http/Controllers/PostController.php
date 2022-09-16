@@ -14,12 +14,12 @@ class PostController extends Controller
         if (URL::current() != route('posts.index') && ($category = Category::query()->where('title', $categoryTitle)->first())) {
             session()->put('activeCategory', $category->id);
 
-            return view('index')->with(['posts' => $category->posts()->orderBy('created_at', 'desc')->get()]);
+            return view('index')->with(['posts' => $category->posts()->with('user')->orderBy('created_at', 'desc')->get()]);
         }
 
         session()->forget('activeCategory');
 
-        return view('index')->with(['posts' => Post::query()->orderBy('created_at', 'desc')->get()]);
+        return view('index')->with(['posts' => Post::query()->with('user')->orderBy('created_at', 'desc')->get()]);
     }
 
     public function create()

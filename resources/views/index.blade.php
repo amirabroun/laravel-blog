@@ -18,11 +18,10 @@
                 @isset($posts)
                 @foreach ($posts as $post)
                 <div class="card mb-4">
-                    @if (auth()->user()?->isAdmin())
-                    <div class="card-header text-muted" style="font-size: 15px;">
+                    <div class="card-header text-muted" style="font-size: 13.5px;">
                         <span>
                             <a style="color: blue;" class="text-dark" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
-                                {{ $post->user()->first()->first_name . ' ' . $post->user()->first()->last_name }}
+                                {{ $post->user->first_name . ' ' . $post->user->last_name }}
                             </a>
                         </span>
                         <span class="text-muted">
@@ -66,7 +65,6 @@
                         </div>
                         @endif
                     </div>
-                    @endif
                     <a class="text-dark" style="text-decoration: none;" href="{{ route('posts.show', ['id' => $post->id]) }}">
                         <div class="card-body">
                             <h2 class="card-title">
@@ -104,13 +102,14 @@
                         @if(count($categories))
                         @foreach ($categories as $category)
                         <li class="list-group-item {{ session('activeCategory') == $category->id ? 'bg-light' : '' }}">
-                            <a style="font-size: 23px;" class="mr-2 {{ session('activeCategory') == $category->id ? 'text-danger' : 'text-dark' }}" href="{{ route('categories.posts.index', ['category_title' => $category->title]) }}">
+                            <a style="font-size: 23px;" class="mr-2 {{ session('activeCategory') == $category->id ? 'text-danger' : 'text-dark' }}" href="{{ route('categories.posts.index', ['title' => $category->title]) }}">
                                 #
                             </a>
                             <a class="text-dark" href="{{ route('categories.show', ['title' => $category->title]) }}">
                                 {{ $category->title }}
                             </a>
 
+                            @if (auth()->user()?->isAdmin())
                             <button class="toggler action-post-btn ml-2 p-1 btn-sm btn-light text-success" style="font-size: 12px;" type="button" data-toggle="collapse" data-target="#SupportedContent-category-{{ $category->id }}" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="toggler">act</span>
                             </button>
@@ -123,7 +122,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="{{ route('categories.edit', ['id' => $category->id]) }}" class="mr-3 text-info">
+                                        <a href="{{ route('categories.edit', ['title' => $category->title]) }}" class="mr-3 text-info">
                                             edit
                                         </a>
                                     </li>
@@ -142,6 +141,8 @@
                                     </li>
                                 </ul>
                             </div>
+                            @endif
+
                         </li>
                         @endforeach
                         @endif
