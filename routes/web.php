@@ -24,13 +24,13 @@ Route::controller(App\Http\Controllers\PostController::class)->group(function ()
     });
 
     Route::get('/', 'index')->name('posts.index');
-    Route::get('/categories/{category_title}/posts',  'index')->name('categories.posts.index');
+    Route::get('/categories/{title}/posts',  'index')->name('categories.posts.index');
 });
 
 Route::prefix('categories')->controller(App\Http\Controllers\CategoryController::class)->group(function () {
     Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/create', 'create')->name('categories.create');
-        Route::get('/edit/{id}', 'edit')->name('categories.edit');
+        Route::get('/{title}/edit', 'edit')->name('categories.edit');
         Route::put('/{id}', 'update')->name('categories.update');
         Route::delete('/{id}', 'destroy')->name('categories.destroy');
         Route::post('/', 'store')->name('categories.store');

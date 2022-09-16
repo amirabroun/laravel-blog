@@ -30,11 +30,11 @@
                                     <hr>
                                     
                                     @if (auth()->user()?->isAdmin())
-                                    <a href="{{ route('categories.edit', ['id' => $category->id]) }}" style="font-size: 14px;" class="text-dark"> edit</a>
+                                    <a href="{{ route('categories.edit', ['title' => $category->title]) }}" style="font-size: 14px;" class="text-dark"> edit</a>
                                     /
                                     @endif
 
-                                    <a class="text-dark" style="font-size: 14px;" href="{{ route('categories.posts.index', ['category_title' => $category->title]) }}">
+                                    <a class="text-dark" style="font-size: 14px;" href="{{ route('categories.posts.index', ['title' => $category->title]) }}">
                                         Posts in this category
                                     </a>
                                     /

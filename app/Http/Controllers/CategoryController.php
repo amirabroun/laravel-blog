@@ -24,9 +24,9 @@ class CategoryController extends Controller
         return view('category. createCategory');
     }
 
-    public function edit($id)
+    public function edit($title)
     {
-        if (!$category = Category::query()->where('id', $id)->first()) {
+        if (!$category = Category::query()->where('title', $title)->first()) {
             abort(404);
         }
 
