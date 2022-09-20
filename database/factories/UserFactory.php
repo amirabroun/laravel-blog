@@ -22,7 +22,6 @@ class UserFactory extends Factory
             'first_name' => fake()->name(),
             'last_name' => fake()->lastName(),
             'email' => fake()->safeEmail(),
-            'soft_login_code' => fake()->unique()->numberBetween(100000, 999999),
             'password' => fake()->password(),
         ];
     }

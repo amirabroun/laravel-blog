@@ -118,7 +118,7 @@
         @if(!session('soft:auth'))
         <div class="form-field">
             <h6 style="margin: 0 auto; ">
-                or <a class="text-dark" href=" {{ route('softLogin.index') }} "> Soft log in?</a>
+                or <a class="text-dark" href=" {{ route('register.index') }} "> register?</a>
             </h6>
         </div>
         @endif

@@ -93,17 +93,6 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public function softLogin(Request $request)
-    {
-        $request->validate(['code' => 'required|int|exists:users,soft_login_code']);
-
-        $request->session()->put(
-            ['soft:auth' => User::findUserBySoftCode($request->code)]
-        );
-
-        return redirect('/');
-    }
-
     public function logout(Request $request)
     {
         Auth::logout();

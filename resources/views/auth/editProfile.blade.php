@@ -41,11 +41,6 @@
                                     <span class="text bg-light p-1">Email</span>
                                     <input type="email" name="email" value="{{ $user->email }}" class="form-input mt-2 text-muted" />
                                 </div>
-
-                                <div class="col-sm-12 col-md-6 col-lg-6 mt-4">
-                                    <span class="text bg-light p-1">Soft Code</span>
-                                    <input type="text" name="soft_code" value="{{ $user->soft_login_code }}" class="form-input mt-2 text-muted" />
-                                </div>
                             </div>
 
                             @if ($errors->any())
