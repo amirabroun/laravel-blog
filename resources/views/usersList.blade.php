@@ -30,14 +30,14 @@
                                 <thead>
                                     <tr>
                                         <th class="border-0 col-4" style="font-size: 13px;">Name</th>
-                                        <th class="border-0 col-4" style="font-size: 12px;">Student Number</th>
-                                        <th class="border-0 col-4" style="font-size: 13px;">Added</th>
+                                        <th class="border-0 col-2" style="font-size: 13px;"></th>
+                                        <th class="border-0 col-6" style="font-size: 13px;">Added</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($users as $key => $user)
                                     <tr>
-                                        <td class="col-4 mt-5">
+                                        <td class="col-4 mt-4">
                                             <span class="" style="font-size: 14px;">
                                                 <a href="{{ route('users.profile.show', ['id' => $user->id]) }}" class="text-info">
                                                     {{ $user->first_name . ' ' . $user->last_name }}
@@ -45,10 +45,8 @@
                                                 <h6 class="mb-0 text-muted mt-2" style="font-size: 12px;"> {{ $user->email }} </h6>
                                             </span>
                                         </td>
-                                        <td class="col-5">
-                                            <span class="text-muted" style="font-size: 13px;">{{ $user->student_number }}</span>
-                                        </td>
-                                        <td class="col-2">
+                                        <td class="col-2"></td>
+                                        <td class="col-6">
                                             <span class="text-muted" style="font-size: 12px;">{{ date('F j, Y', strtotime($user->created_at)) }}</span>
                                         </td>
                                     </tr>

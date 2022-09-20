@@ -34,17 +34,6 @@
                         </span>
 
                         <br class="mb-4">
-
-                        <span class="mr-3">
-                            ID :
-                        </span>
-                        <span>
-                            {{ $user->student_number }}
-                        </span>
-
-                        <br class="mb-4">
-
-
                         <span class="mr-3">
                             Email :
                         </span>

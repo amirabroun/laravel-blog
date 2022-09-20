@@ -39,7 +39,6 @@ class AuthController extends Controller
         $user = $request->validate([
             'first_name' => 'string',
             'last_name' => 'string',
-            'student_number' => Rule::unique('users', 'student_number')->ignore($id),
             'email' => ['email', Rule::unique('users', 'email')->ignore($id)],
         ]);
 

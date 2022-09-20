@@ -18,7 +18,6 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'student_number' => fake()->unique()->numberBetween(1111111111, 9999999999),
             'first_name' => fake()->name(),
             'last_name' => fake()->lastName(),
             'email' => fake()->safeEmail(),

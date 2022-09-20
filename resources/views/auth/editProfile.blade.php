@@ -33,11 +33,6 @@
                                 </div>
 
                                 <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
-                                    <span class="text bg-light p-1">ID</span>
-                                    <input type="text" name="student_number" value="{{ $user->student_number }}" class="form-input text-muted mt-2" />
-                                </div>
-
-                                <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
                                     <span class="text bg-light p-1">Email</span>
                                     <input type="email" name="email" value="{{ $user->email }}" class="form-input mt-2 text-muted" />
                                 </div>
