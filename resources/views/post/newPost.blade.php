@@ -29,15 +29,16 @@
                                         </select>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-6 col-lg-9 mt-2">
                                     <input type="text" class="form-input" name="title" id="name" placeholder="title">
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-md-12 mb-3 mt-3">
-                                    <textarea class="form-text-area" name="body" id="message" cols="30" rows="4" placeholder="Write your body"></textarea>
+                                <div class="col-md-12 mb-3 mt-4">
+                                    <span class="text bg-light p-1">Description</span>
+                                    <textarea class="form-text-area mt-1" name="body" id="message" cols="30" rows="4" placeholder="Write your body"></textarea>
                                 </div>
                             </div>
 
