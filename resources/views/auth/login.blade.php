@@ -115,13 +115,11 @@
         <div class="form-field">
             <button class="btn" type="submit">Log in</button>
         </div>
-        @if(!session('soft:auth'))
         <div class="form-field">
             <h6 style="margin: 0 auto; ">
                 or <a class="text-dark" href=" {{ route('register.index') }} "> register?</a>
             </h6>
         </div>
-        @endif
     </form>
 </body>
 
