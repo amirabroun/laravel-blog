@@ -6,7 +6,7 @@
         |
 
         @auth
-        <span class="mb-0 ml-2 mr-3">
+        <span class="mb-0 ml-2 mr-2">
             Welcome
             <a class="text-dark" href=" {{ route('users.profile.show', ['id' => auth()->user()->id ]) }} ">
                 {{ Auth::user()->first_name ?? 'friend' }}
@@ -35,9 +35,11 @@
                 </h1>
             </li>
 
+            @if (auth()->user()->isAdmin())
             <li class="nav-item">
                 <a class="mr-3 text-dark" href="{{ route('users.index') }}">Users</a>
             </li>
+            @endif
 
             <li class="nav-item d-block  d-lg-none">
                 <h1></h1>

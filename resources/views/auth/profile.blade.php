@@ -43,7 +43,7 @@
 
                         <hr>
 
-                        @if (auth()->user()?->isAdmin())
+                        @if (auth()->user()?->isAdmin() || auth()->user()?->id == $user->id)
                         <a href="{{ route('users.profile.edit', ['id' => $user->id]) }}" style="font-size: 14px;" class="text-dark"> edit</a>
                         /
                         @endif
