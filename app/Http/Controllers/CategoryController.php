@@ -14,14 +14,12 @@ class CategoryController extends Controller
             abort(404);
         }
 
-        return view('category.singleCategory')->with([
-            'category' => $category
-        ]);
+        return view('category.singleCategory')->with('category', $category);
     }
 
     public function create()
     {
-        return view('category. createCategory');
+        return view('category.createCategory');
     }
 
     public function edit($title)
@@ -30,9 +28,7 @@ class CategoryController extends Controller
             abort(404);
         }
 
-        return view('category.editCategory')->with([
-            'category' => $category
-        ]);
+        return view('category.editCategory')->with('category', $category);
     }
 
     public function update(Request $request, int $id)
@@ -57,10 +53,9 @@ class CategoryController extends Controller
             'description' => 'string'
         ]);
 
-        $newCategory = new Category($category);
-        $newCategory->save();
+        Category::create($category);
 
-        return redirect(route('posts.index'));
+        return redirect()->route('posts.index');
     }
 
     public function destroy(int $id)
@@ -69,6 +64,6 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        return redirect(route('posts.index'));
+        return redirect()->route('posts.index');
     }
 }

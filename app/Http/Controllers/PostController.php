@@ -5,21 +5,28 @@ namespace App\Http\Controllers;
 use App\Models\{Post, Category};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\URL;
 
 class PostController extends Controller
 {
-    public function index($categoryTitle = null)
+    public function index(string $categoryTitle = null)
     {
-        if (URL::current() != route('posts.index') && ($category = Category::query()->where('title', $categoryTitle)->first())) {
-            session()->put('activeCategory', $category->id);
+        if (url()->current() == route('posts.index')) {
+            session()->forget('activeCategory');
 
-            return view('index')->with(['posts' => $category->posts()->with('user')->orderBy('created_at', 'desc')->get()]);
+            return view('index')->with([
+                'posts' => Post::query()->with('user')->orderBy('created_at', 'desc')->get()
+            ]);
         }
 
-        session()->forget('activeCategory');
+        if (!$category = Category::query()->where('title', $categoryTitle)->first()) {
+            abort(404);
+        }
 
-        return view('index')->with(['posts' => Post::query()->with('user')->orderBy('created_at', 'desc')->get()]);
+        session()->put('activeCategory', $category->id);
+
+        return view('index')->with([
+            'posts' => $category->posts()->with('user')->orderBy('created_at', 'desc')->get()
+        ]);
     }
 
     public function create()
@@ -33,20 +40,16 @@ class PostController extends Controller
             abort(404);
         }
 
-        return view('post.editPost')->with([
-            'post' => $post
-        ]);
+        return view('post.editPost')->with('post', $post);
     }
 
-    public function show($id)
+    public function show(int $id)
     {
         if (!$post = Post::query()->find($id)) {
             abort(404);
         }
 
-        return view('post.singlePost')->with([
-            'post' => $post
-        ]);
+        return view('post.singlePost')->with('post', $post);
     }
 
     public function store(Request $request)
@@ -63,7 +66,7 @@ class PostController extends Controller
 
         $this->authUser->posts()->save(new Post($post));
 
-        return redirect('/');
+        return redirect()->route('posts.index');
     }
 
     public function update(Request $request, int $id)
@@ -86,7 +89,7 @@ class PostController extends Controller
         ]);
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $post = Post::query()->find($id);
 
@@ -116,10 +119,6 @@ class PostController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * @param $file
-     * @return string $fileName
-     */
     private function saveFile($file)
     {
         $fileName = $file->hashName();

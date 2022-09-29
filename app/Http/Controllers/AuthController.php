@@ -4,22 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
-    public function show($id)
+    public function show(int $id)
     {
         if (!$user = User::query()->find($id)) {
             abort(404);
         }
 
-        return view('auth.profile', [
-            'user' => $user,
-            'updatePermission' => !isset($this->authUser) ? false
-                : $this->authUser->id == $user->id || $this->authUser->isAdmin()
-        ]);
+        return view('auth.profile')->with('user', $user);
     }
 
     public function index()
@@ -34,7 +29,7 @@ class AuthController extends Controller
         return view('auth.editProfile')->with('user', $user);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         $user = $request->validate([
             'first_name' => 'string',
@@ -44,11 +39,7 @@ class AuthController extends Controller
 
         User::query()->where('id', $id)->update($user);
 
-        return view('auth.profile', [
-            'user' => User::query()->find($id),
-            'updatePermission' => true,
-            'updateMessage' => 'User profile updated successfully'
-        ]);
+        return view('auth.profile')->with('user', User::query()->find($id));
     }
 
     public function login(Request $request)
@@ -58,7 +49,7 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        if (!Auth::attempt($user)) {
+        if (!auth()->attempt($user)) {
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',
             ])->onlyInput('email');
@@ -66,7 +57,7 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect('/');
+        return redirect()->route('posts.index');
     }
 
     public function register(Request $request)
@@ -76,24 +67,23 @@ class AuthController extends Controller
             'password' => 'required|confirmed',
         ]);
 
-        (new User($user))->setPasswordAttribute($user['password'])->save();
+        User::create($user);
 
-        Auth::attempt($user);
-        $user = User::query()->where('email', $user['email'])->first();
+        auth()->attempt($user);
 
         $request->session()->regenerate();
 
-        return redirect('/');
+        return redirect()->route('posts.index');
     }
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        auth()->logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('posts.index');
     }
 }
