@@ -3,6 +3,8 @@ services:
 
     nginx:
         container_name: "${APP_TITLE}"
+        ports:
+            - "${APP_PORT}:80"
         build: ./docker/nginx
         links:
             - php
