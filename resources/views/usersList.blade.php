@@ -1,4 +1,4 @@
-<html lang="en">
+<html lang="en" style="text-align: right;">
 
 <head>
     <meta charset="UTF-8">
@@ -29,9 +29,9 @@
                             <table class="table no-wrap user-table mb-1">
                                 <thead>
                                     <tr>
-                                        <th class="border-0 col-4" style="font-size: 13px;">Name</th>
+                                        <th class="border-0 col-4" style="font-size: 13px;">اسم</th>
                                         <th class="border-0 col-2" style="font-size: 13px;"></th>
-                                        <th class="border-0 col-6" style="font-size: 13px;">Added</th>
+                                        <th class="border-0 col-6" style="font-size: 13px;">اضافه شده در</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,7 +47,7 @@
                                         </td>
                                         <td class="col-2"></td>
                                         <td class="col-6">
-                                            <span class="text-muted" style="font-size: 12px;">{{ date('F j, Y', strtotime($user->created_at)) }}</span>
+                                            <span class="text-muted" style="font-size: 12px;">{{ $user->created_at }}</span>
                                         </td>
                                     </tr>
                                     @endforeach

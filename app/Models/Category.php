@@ -9,6 +9,12 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $persianStrings = [
+        'title',
+        'summary',
+        'content',
+    ];
+
     protected $fillable = ['title', 'description'];
 
     protected $with = ['posts'];

@@ -31,14 +31,13 @@
                                 </div>
 
                                 <div class="col-6 col-lg-9 mt-2">
-                                    <input type="text" class="form-input" name="title" id="name" placeholder="title">
+                                    <input type="text" class="form-input" name="title" id="name" placeholder=" اسم ...">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-12 mb-3 mt-4">
-                                    <span class="text bg-light p-1">Description</span>
-                                    <textarea class="form-text-area mt-1" name="body" id="message" cols="30" rows="4" placeholder="Write your body"></textarea>
+                                    <textarea class="form-text-area mt-1" name="body" id="message" cols="30" rows="4" placeholder="توضیحات ..."></textarea>
                                 </div>
                             </div>
 
@@ -46,12 +45,12 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6" id="one">
-                                        <h5 class="mt-4">Upload image</h5>
+                                        <h5 class="mt-4">اپلود فایل</h5>
                                         <div id="uploader form-input">
                                             <div class="row uploadDoc mt-4 ">
                                                 <div class="col-sm-3 ">
                                                     <div class="fileUpload btn btn-orange ">
-                                                        <input name="image" type="file" class="upload up " />
+                                                        <input name="image" type="file" placeholder="توضیحات ..." class="upload up " />
                                                     </div>
                                                 </div>
                                             </div>
@@ -72,13 +71,13 @@
 
                             <div class="row">
                                 <div class="col-md-12 form-group mt-5 mb-1">
-                                    <input type="submit" value="Create" class="btn btn-info shadow py-2  px-4 rounded">
+                                    <input type="submit" value="ذخیره" class="btn btn-info shadow py-2  px-4 rounded">
                                 </div>
                             </div>
                         </form>
 
                         <hr>
-                        <a class="text-danger" href="{{ route('posts.index') }}" style="font-size: 14px;">Back to Blog</a>
+                        <a class="text-danger" href="{{ route('posts.index') }}" style="font-size: 14px;">بازگشت به صفحه اصلی</a>
                     </div>
                 </div>
             </div>

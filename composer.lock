@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6de1a6e0a73fb461ebdedbecef0dc6e5",
+    "content-hash": "21def205e550de7bb0a8352ad4ae5f49",
     "packages": [
         {
             "name": "brick/math",
@@ -892,6 +892,244 @@
                 }
             ],
             "time": "2022-06-20T21:43:11+00:00"
+        },
+        {
+            "name": "hatamiarash7/persian-faker",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hatamiarash7/Laravel-PersianFaker.git",
+                "reference": "02e56a9a6d275e1519f717ecd1bad8502bda3718"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hatamiarash7/Laravel-PersianFaker/zipball/02e56a9a6d275e1519f717ecd1bad8502bda3718",
+                "reference": "02e56a9a6d275e1519f717ecd1bad8502bda3718",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0|^8.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Hatamiarash7\\PFaker\\PFakerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hatamiarash7\\PFaker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Arash Hatami",
+                    "email": "hatamiarash7@gmail.com",
+                    "homepage": "https://github.com/hatamiarash7"
+                }
+            ],
+            "description": "Persian faker for laravel",
+            "keywords": [
+                "faker",
+                "farsi",
+                "laravel",
+                "persian"
+            ],
+            "support": {
+                "issues": "https://github.com/hatamiarash7/Laravel-PersianFaker/issues",
+                "source": "https://github.com/hatamiarash7/Laravel-PersianFaker/tree/master"
+            },
+            "time": "2021-10-07T11:05:10+00:00"
+        },
+        {
+            "name": "hekmatinasser/jalali",
+            "version": "v8.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hekmatinasser/jalali.git",
+                "reference": "78443cd3d250eaad07065d332f8889f2407acdd0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hekmatinasser/jalali/zipball/78443cd3d250eaad07065d332f8889f2407acdd0",
+                "reference": "78443cd3d250eaad07065d332f8889f2407acdd0",
+                "shasum": ""
+            },
+            "require": {
+                "hekmatinasser/notowo": "^1.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^4.18|^5.20|^6.24|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Hekmatinasser\\Jalali\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nasser Hekmati",
+                    "email": "hekmati.nasser@gmail.com"
+                }
+            ],
+            "description": "This Package helps developers to work with Jalali Datetime class for PHP",
+            "keywords": [
+                "Jalali",
+                "date",
+                "datetime",
+                "php",
+                "shamsi"
+            ],
+            "support": {
+                "issues": "https://github.com/hekmatinasser/jalali/issues",
+                "source": "https://github.com/hekmatinasser/jalali/tree/v8.1.5"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/hekmatinasser",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-11-14T17:44:24+00:00"
+        },
+        {
+            "name": "hekmatinasser/notowo",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hekmatinasser/notowo.git",
+                "reference": "c51ad5dcedac966dd93ce558ac7e6a84e0020d6d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hekmatinasser/notowo/zipball/c51ad5dcedac966dd93ce558ac7e6a84e0020d6d",
+                "reference": "c51ad5dcedac966dd93ce558ac7e6a84e0020d6d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Hekmatinasser\\Notowo\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nasser Hekmati",
+                    "email": "hekmati.nasser@gmail.com"
+                }
+            ],
+            "description": "This Package helps developers change number to word for all language on Laravel freamwork PHP",
+            "keywords": [
+                "Notowo",
+                "laravel",
+                "n2w",
+                "number",
+                "word"
+            ],
+            "support": {
+                "issues": "https://github.com/hekmatinasser/notowo/issues",
+                "source": "https://github.com/hekmatinasser/notowo/tree/v1.0.1"
+            },
+            "time": "2017-09-22T13:41:16+00:00"
+        },
+        {
+            "name": "hekmatinasser/verta",
+            "version": "v8.1.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hekmatinasser/verta.git",
+                "reference": "e7fb5826643ee4280f6bed55df9d050dc0f47342"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hekmatinasser/verta/zipball/e7fb5826643ee4280f6bed55df9d050dc0f47342",
+                "reference": "e7fb5826643ee4280f6bed55df9d050dc0f47342",
+                "shasum": ""
+            },
+            "require": {
+                "hekmatinasser/jalali": "^8.1",
+                "illuminate/support": "^8.0|^9.0",
+                "illuminate/validation": "^8.0|^9.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^4.18|^5.20|^6.24|^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Hekmatinasser\\Verta\\Laravel\\VertaServiceProvider"
+                    ],
+                    "aliases": {
+                        "Verta": "Hekmatinasser\\Verta\\Verta"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Hekmatinasser\\Verta\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nasser Hekmati",
+                    "email": "hekmati.nasser@gmail.com"
+                }
+            ],
+            "description": "This Package helps developers to work with Jalali Datetime class for Laravel Framework PHP",
+            "keywords": [
+                "Jalali",
+                "Verta",
+                "date",
+                "datetime",
+                "laravel",
+                "shamsi"
+            ],
+            "support": {
+                "issues": "https://github.com/hekmatinasser/verta/issues",
+                "source": "https://github.com/hekmatinasser/verta/tree/v8.1.8"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/hekmatinasser",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-11-26T18:35:53+00:00"
         },
         {
             "name": "laravel/framework",
@@ -2077,6 +2315,113 @@
                 }
             ],
             "time": "2021-12-04T23:24:31+00:00"
+        },
+        {
+            "name": "pishran/laravel-persian-string",
+            "version": "v1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pishran/laravel-persian-string.git",
+                "reference": "13fba56e4e931c8794e93f4ee30d97c8377760fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pishran/laravel-persian-string/zipball/13fba56e4e931c8794e93f4ee30d97c8377760fc",
+                "reference": "13fba56e4e931c8794e93f4ee30d97c8377760fc",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.6|^5.7|^5.8|^6.0|^7.0|^8.0|^9.0",
+                "php": "^7.2|^8.0",
+                "pishran/persian-string": "^1.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Pishran\\LaravelPersianString\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pishran\\LaravelPersianString\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Farid Aghili",
+                    "email": "farid@pishranit.ir",
+                    "homepage": "https://www.faridaghili.ir",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Convert Arabic/English/etc numbers and characters to Persian numbers and characters in Laravel models.",
+            "homepage": "https://github.com/pishran/laravel-persian-string",
+            "keywords": [
+                "laravel",
+                "persian",
+                "string"
+            ],
+            "support": {
+                "issues": "https://github.com/pishran/laravel-persian-string/issues",
+                "source": "https://github.com/pishran/laravel-persian-string/tree/v1.6"
+            },
+            "time": "2022-02-09T17:45:32+00:00"
+        },
+        {
+            "name": "pishran/persian-string",
+            "version": "v1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pishran/persian-string.git",
+                "reference": "02d21c24c60da4bbddcc3991ed4a611a5b923f3b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pishran/persian-string/zipball/02d21c24c60da4bbddcc3991ed4a611a5b923f3b",
+                "reference": "02d21c24c60da4bbddcc3991ed4a611a5b923f3b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2|^8.0|^9.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pishran\\PersianString\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Farid Aghili",
+                    "email": "farid@pishranit.ir",
+                    "homepage": "https://www.faridaghili.ir",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Convert Arabic/English/etc numbers and characters to Persian numbers and characters.",
+            "homepage": "https://github.com/pishran/persian-string",
+            "keywords": [
+                "persian",
+                "string"
+            ],
+            "support": {
+                "issues": "https://github.com/pishran/persian-string/issues",
+                "source": "https://github.com/pishran/persian-string/tree/v1.2"
+            },
+            "time": "2022-02-09T17:45:49+00:00"
         },
         {
             "name": "psr/container",
@@ -5165,6 +5510,85 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "webpajooh/persian-faker",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WebPajooh/PersianFaker.git",
+                "reference": "f02cb562b98e2b72cfd7aab8e1bbfa1ffaa52789"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WebPajooh/PersianFaker/zipball/f02cb562b98e2b72cfd7aab8e1bbfa1ffaa52789",
+                "reference": "f02cb562b98e2b72cfd7aab8e1bbfa1ffaa52789",
+                "shasum": ""
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PersianFaker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "WebPajooh",
+                    "email": "webpajooh@gmail.com"
+                }
+            ],
+            "description": "Do you need some fake data?",
+            "keywords": [
+                "faker",
+                "persian"
+            ],
+            "support": {
+                "issues": "https://github.com/WebPajooh/PersianFaker/issues",
+                "source": "https://github.com/WebPajooh/PersianFaker/tree/master"
+            },
+            "time": "2021-05-08T14:47:57+00:00"
+        },
+        {
+            "name": "ybazli/faker",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Ybazli/faker.git",
+                "reference": "8ed1b8a5a658e2bb028f62eb6186e534a7972448"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Ybazli/faker/zipball/8ed1b8a5a658e2bb028f62eb6186e534a7972448",
+                "reference": "8ed1b8a5a658e2bb028f62eb6186e534a7972448",
+                "shasum": ""
+            },
+            "type": "laravel",
+            "autoload": {
+                "psr-4": {
+                    "Ybazli\\Faker\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ybazli",
+                    "email": "Yashar.bazli@gmail.com"
+                }
+            ],
+            "description": "Persian fake data package for laravel",
+            "support": {
+                "issues": "https://github.com/Ybazli/faker/issues",
+                "source": "https://github.com/Ybazli/faker/tree/v1.0.1"
+            },
+            "time": "2018-02-22T14:29:51+00:00"
         }
     ],
     "packages-dev": [
@@ -7830,7 +8254,10 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "hatamiarash7/persian-faker": 20,
+        "webpajooh/persian-faker": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

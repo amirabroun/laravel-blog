@@ -17,38 +17,39 @@
             <div class="row">
                 <div class="card shadow-sm single-blog-post card-body text-dark">
                     <div class="text-content text-dark mb-1 mt-2">
-                        <span class="mr-3">
-                            First Name :
-                        </span>
                         <span>
                             {{ $user->first_name }}
                         </span>
+                        <span class="mr-3">
+                            : اسم
+                        </span>
+
 
                         <br class="mb-4">
 
-                        <span class="mr-3">
-                            Last Name :
-                        </span>
                         <span>
                             {{ $user->last_name }}
                         </span>
+                        <span class="mr-3">
+                            : فامیل
+                        </span>
 
                         <br class="mb-4">
-                        <span class="mr-3">
-                            Email :
-                        </span>
                         <span>
                             {{ $user->email }}
+                        </span>
+                        <span class="mr-3">
+                            : ایمیل
                         </span>
 
                         <hr>
 
                         @if (auth()->user()?->isAdmin() || auth()->user()?->id == $user->id)
-                        <a href="{{ route('users.profile.edit', ['id' => $user->id]) }}" style="font-size: 14px;" class="text-dark"> edit</a>
+                        <a href="{{ route('users.profile.edit', ['id' => $user->id]) }}" style="font-size: 14px;" class="text-info"> ویرایش</a>
                         /
                         @endif
 
-                        <a class="text-danger" href="{{ route('posts.index') }}" style="font-size: 14px;">Back to Blog</a>
+                        <a class="text-danger" href="{{ route('posts.index') }}" style="font-size: 14px;">بلاگ</a>
                     </div>
                 </div>
             </div>

@@ -66,7 +66,7 @@
                                                 @if(File::exists(base_path('/public/image/') . $post->image_url) && isset($post->image_url))
                                                 <div class="mt-1 ml-2">
                                                     <a class="action-post-btn text-danger bg-light" style="font-size: 12px;" type="submit" onclick="$('#delete-post-file-form-{{ $post->id }}').submit()">
-                                                        Delete File
+                                                        حذف فایل
                                                     </a>
                                                 </div>
                                                 @endif
@@ -95,7 +95,7 @@
 
                             <div class="row">
                                 <div class="col-md-12 form-group mt-5 mb-1">
-                                    <input type="submit" value="Update" style="border-radius: 5px;" class="btn btn-info shadow py-2  px-4 rounded">
+                                    <input type="submit" value="آپدیت" style="border-radius: 5px;" class="btn btn-info shadow py-2  px-4 rounded">
                                 </div>
                             </div>
                         </form>
@@ -105,9 +105,9 @@
                         </form>
 
                         <hr>
-                        <a href="{{ route('posts.show', ['id' => $post->id]) }}" class="text-dark" style="font-size: 14px;"> show</a>
+                        <a href="{{ route('posts.show', ['id' => $post->id]) }}" class="text-dark" style="font-size: 14px;"> نمایش پست</a>
                         /
-                        <a class="text-danger" href="{{ route('posts.index') }}"  style="font-size: 14px;">Back to Blog</a>
+                        <a class="text-danger" href="{{ route('posts.index') }}"  style="font-size: 14px;">بلاگ</a>
                     </div>
                 </div>
             </div>

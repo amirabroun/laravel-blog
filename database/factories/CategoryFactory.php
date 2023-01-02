@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use PersianFaker\PersianFaker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,8 +18,8 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'title' => fake()->unique()->text(rand(8, 15)),
-            'description' => fake()->paragraph(rand(10, 15))
+            'title' =>  rand(0, 1) ? PersianFaker::get('Job') : PersianFaker::get('City'),
+            'description' => PersianFaker::get('Lorem', ['words' => rand(5, 132)])
         ];
     }
 

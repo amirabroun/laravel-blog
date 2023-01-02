@@ -1,23 +1,22 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <span class="mt-2 mr-2 mb-2">
         <a class="text-dark mr-2" href=" {{ route('posts.index') }} ">
-            blog
+            بلاگ
         </a>
         |
 
         @auth
-        <span class="mb-0 ml-2 mr-2">
-            Welcome
+        <span class="mt-2 mr-1">
             <a class="text-dark" href=" {{ route('users.profile.show', ['id' => auth()->user()->id ]) }} ">
                 {{ Auth::user()->first_name ?? 'friend' }}
-            </a> !
+            </a>
         </span>
         @endauth
 
         @guest
-        <span class="">
-            <a class="text-info ml-2" href="{{ route('register.index') }}">Register</a>
-            <a class="text-success ml-2" href="{{ route('login.index') }}">Login</a>
+        <span class="mr-1">
+            <a class="text-info ml-2" href="{{ route('register.index') }}">ثبت نام</a>
+            <a class="text-success ml-2" href="{{ route('login.index') }}">ورود</a>
         </span>
         @endguest
     </span>
@@ -37,7 +36,7 @@
 
             @if (auth()->user()->isAdmin())
             <li class="nav-item">
-                <a class="mr-3 text-dark" href="{{ route('users.index') }}">Users</a>
+                <a class="text-dark" href="{{ route('users.index') }}">کاربران</a>
             </li>
             @endif
 
@@ -94,7 +93,7 @@
 
                                 <li class="nav-item">
                                     <a href="{{ route('categories.edit', ['title' => $category->title]) }}" class="mr-3 text-info">
-                                        edit
+                                        ویرایش
                                     </a>
                                 </li>
 
@@ -107,7 +106,7 @@
                                         @csrf @method('DELETE')
                                     </form>
                                     <a href="javascript:void(0)" class="mr-3 text-danger" onclick="$('#delete-form-{{ $category->id }}').submit()">
-                                        Delete
+                                        حذف
                                     </a>
                                 </li>
                             </ul>
@@ -123,7 +122,7 @@
                 <h1></h1>
             </li>
             <li class="nav-item">
-                <a class="mr-3 text-dark" href="{{ route('posts.create') }}">New Post</a>
+                <a class="mr-3 text-dark" href="{{ route('posts.create') }}">پست جدید</a>
             </li>
             <li class="nav-item d-block  d-lg-none">
                 <h1></h1>
@@ -135,7 +134,7 @@
                 <h1></h1>
             </li>
             <li class="nav-item">
-                <a class="mr-3 text-danger" href="{{ route('log-out') }}">Exit</a>
+                <a class="mr-3 text-danger" href="{{ route('log-out') }}">خروج</a>
             </li>
             <li class="nav-item d-block  d-lg-none">
                 <h1></h1>

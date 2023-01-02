@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use PersianFaker\PersianFaker;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -18,11 +19,15 @@ class PostFactory extends Factory
      */
     public function definition()
     {
+        $title[] = PersianFaker::get('Lorem', ['words' => 3]);
+        $title[] = PersianFaker::get('Job');
+        $title[] = rand(3, 8) . ' ' . PersianFaker::get('City');
+
         return [
             'user_id' => User::factory(),
             'category_id' => Category::factory(),
-            'title' => fake()->text(rand(8, 15)),
-            'body' => fake()->paragraph(rand(10, 20))
+            'title' => $title[array_rand($title)],
+            'body' => PersianFaker::get('Lorem', ['words' => rand(5, 132)])
         ];
     }
 

@@ -3,7 +3,8 @@
 <style>
     body,
     html {
-        font-family: 'Kanit', sans-serif;
+        direction: rtl;
+        font-family: "Droid Arabic", "Droid Sans", sans-serif;
         height: 100%;
         min-height: 100%;
         overflow-x: hidden;
@@ -16,8 +17,14 @@
         /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     }
 
+    a, p, h1, h2, h3, h4, h5, h6  {
+        direction: rtl;
+    }
+
+
     .footer-section {
         position: fixed;
+        direction: rtl;
         background: #E8CBC0;
         background: linear-gradient(112.1deg, rgb(32, 38, 57) 11.4%, rgb(63, 76, 119) 70.2%);
         padding-top: 25px;
@@ -27,8 +34,8 @@
 
     .action-post-btn {
         display: inline-block;
+        direction: rtl;
         font-weight: 400;
-        text-align: center;
         white-space: nowrap;
         vertical-align: middle;
         -webkit-user-select: none;
@@ -44,6 +51,7 @@
     }
 
     .shadow-post> :hover {
+        direction: rtl;
         cursor: pointer;
         box-shadow: 0 1rem 1rem 1rem rgba(0, 0, 0.1, 0.10);
     }
@@ -55,6 +63,7 @@
         background-clip: padding-box;
         border-radius: 0.25rem;
         font-family: inherit;
+        direction: rtl;
         background-color: #fff;
         width: 100%;
         border: none;
@@ -66,6 +75,7 @@
         padding: 0.375rem 0.75rem;
         line-height: 1.5;
         background-clip: padding-box;
+        direction: rtl;
         border-radius: 0.25rem;
         font-family: inherit;
         background-color: #fff;
@@ -73,5 +83,9 @@
         border: none;
         display: block;
         box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+    }
+
+    span {
+        direction: rtl;
     }
 </style>

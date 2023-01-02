@@ -7,10 +7,15 @@
     "require": {
         "php": "^8.0.2",
         "guzzlehttp/guzzle": "^7.2",
+        "hatamiarash7/persian-faker": "dev-master",
+        "hekmatinasser/verta": "^8.1",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
-        "tucker-eric/eloquentfilter": "^3.1"
+        "pishran/laravel-persian-string": "^1.6",
+        "tucker-eric/eloquentfilter": "^3.1",
+        "webpajooh/persian-faker": "dev-master",
+        "ybazli/faker": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

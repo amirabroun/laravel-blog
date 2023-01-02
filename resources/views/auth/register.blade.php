@@ -28,7 +28,6 @@
         form .form-field::before {
             font-size: 20px;
             position: absolute;
-            left: 15px;
             top: 17px;
             color: #888888;
             content: " ";
@@ -98,13 +97,13 @@
     <form action="{{ route('register') }}" method="POST">
         {{ csrf_field() }}
         <div class="form-field">
-            <input name="email" placeholder="email" required />
+            <input name="email" placeholder="ایمیل" required />
         </div>
         <div class="form-field">
-            <input name="password" type="password" placeholder="Password" required />
+            <input name="password" type="password" placeholder="رمز عبور" required />
         </div>
         <div class="form-field">
-            <input type="password" name="password_confirmation" placeholder="Confirm Password" required />
+            <input type="password" name="password_confirmation" placeholder="تکرار رمز عبور" required />
         </div>
         @if ($errors->any())
         <div class="alert alert-danger">
@@ -116,11 +115,11 @@
         </div>
         @endif
         <div class="form-field">
-            <button class="btn" type="submit">Register</button>
+            <button class="btn" type="submit">ثبت نام</button>
         </div>
         <div class="form-field">
             <h6 style="margin: 0 auto; ">
-                or <a class="text-dark" href=" {{ route('login.index') }} "> Log in?</a>
+                یا <a class="text-dark" href=" {{ route('login.index') }} "> ورود </a> ؟
             </h6>
         </div>
     </form>

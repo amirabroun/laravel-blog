@@ -42,20 +42,17 @@
                                 {{ $post->user->first_name . ' ' . $post->user->last_name }}
                             </a> /
                             <span style="font-size: 13px;">
-                                {{ date('F j, Y, g:i a', strtotime($post->created_at)) }}
+                                {{ $post->created_at }}
                             </span>
                         </div>
 
                         @if($post->labels->count())
-                        <div class="tags-share">
+                        <div class="tags-share mr-0">
                             <br>
                             <div class="row">
                                 <div class="col">
-                                    <span class="text-muted" style="font-size: 13px;">
-                                        Labels :
-                                    </span>
                                     @foreach ($post->labels as $label)
-                                    <a class="bg-dark text-light pr-2 pl-2 rounded mr-2 mt-3" style="font-size: 14px;" href="#"> {{ $label->title }} </a>
+                                    <a class="bg-dasrk text-dark text-muted ml-1 rounded mt-3" style="font-size: 14px;" href="#"> {{ $label->title }} </a>
                                     @endforeach
                                 </div>
                             </div>
@@ -65,11 +62,11 @@
                         <hr>
 
                         @if (auth()->user()?->isAdmin())
-                        <a href="{{ route('posts.edit', ['id' => $post->id]) }}" class="text-dark" style="font-size: 14px;"> edit</a>
+                        <a href="{{ route('posts.edit', ['id' => $post->id]) }}" class="text-dark" style="font-size: 14px;"> ویرایش</a>
                         /
                         @endif
 
-                        <a class="text-danger" href="{{ route('posts.index') }}" style="font-size: 14px;">Back to Blog</a>
+                        <a class="text-danger" href="{{ route('posts.index') }}" style="font-size: 14px;">بلاگ</a>
                     </div>
                 </div>
             </div>
