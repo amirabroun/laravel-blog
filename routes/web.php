@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +15,8 @@ Route::controller(App\Http\Controllers\PostController::class)->group(function ()
         Route::middleware('auth')->group(function () {
             Route::get('/create', 'create')->name('posts.create');
             Route::post('/', 'store')->name('posts.store');
-
+            Route::post('/{id}/like', 'like')->name('posts.like');
+            
             Route::middleware('ownerOrAdmin')->prefix('/{id}')->group(function () {
                 Route::get('/edit', 'edit')->name('posts.edit');
                 Route::put('/', 'update')->name('posts.update');
@@ -40,4 +42,9 @@ Route::prefix('categories')->controller(App\Http\Controllers\CategoryController:
     });
 
     Route::get('/{title}', 'show')->name('categories.show');
+});
+
+Route::post('like', function (Request $request) {
+    logger((request()));
+    dd($request->ajax());
 });

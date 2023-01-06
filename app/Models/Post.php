@@ -11,7 +11,7 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = ['title', 'body', 'user_id', 'image_url', 'category_id'];
-
+    protected $appends = ['count_likes', 'can_auth_user_like_this_post'];
     protected $with = ['user', 'labels'];
 
     protected function createdAt(): Attribute
@@ -20,7 +20,14 @@ class Post extends Model
             get: fn ($created_at) => verta($created_at)->format('Y-n-j , H:i'),
         );
     }
-    
+
+    protected function countLikes(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->likes()->count()
+        );
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -34,5 +41,24 @@ class Post extends Model
     public function labels()
     {
         return $this->belongsToMany(Label::class);
+    }
+
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
+    protected function canAuthUserLikeThisPost(): Attribute
+    {
+        /** @var User */
+        $user = auth()->user();
+
+        return Attribute::make(
+            get: fn () => $user
+                ->likes()
+                ->where('likeable_id', $this->id)
+                ->where('likeable_type', Post::class)
+                ->count() == 0
+        );
     }
 }

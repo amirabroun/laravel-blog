@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Post, Category};
+use App\Models\{Post, Category, Like};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -43,7 +43,7 @@ class PostController extends Controller
         return view('post.editPost')->with('post', $post);
     }
 
-    public function show(int $id)
+    public function show($id)
     {
         if (!$post = Post::query()->find($id)) {
             abort(404);
@@ -100,6 +100,21 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->back();
+    }
+
+    public function like($postId)
+    {
+        if (!$post = Post::find($postId)) {
+            abort(404);
+        }
+
+        $like = new Like();
+
+        $like->likeable()->associate($post);
+        $like->user()->associate(auth()->user());
+        $like->save();
+
+        return redirect()->route('posts.show', ['id' => $post->id]);
     }
 
     public function deletePostFile(int|Post $postOrId)

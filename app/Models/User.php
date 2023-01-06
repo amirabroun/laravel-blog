@@ -51,4 +51,9 @@ class User extends Authenticatable
             get: fn () => $this->first_name . ' ' . $this->last_name,
         );
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 }

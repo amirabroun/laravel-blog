@@ -50,6 +50,13 @@ return new class extends Migration
             $table->foreignId('post_id')->constrained();
             $table->foreignId('label_id')->constrained();
         });
+
+        Schema::create('likes', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->morphs('likeable');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -64,5 +71,7 @@ return new class extends Migration
         Schema::dropIfExists('users');
 
         Schema::dropIfExists('categories');
+
+        Schema::dropIfExists('likes');
     }
 };

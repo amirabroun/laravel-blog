@@ -5,8 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{ $post->title }}</title>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     @include('partials.abstract-css')
+
 </head>
 
 <body>
@@ -39,11 +40,47 @@
                             <br>
                             <br>
                             <a class="text-dark" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
-                                {{ $post->user->first_name . ' ' . $post->user->last_name }}
+                                {{ $post->user->full_name }}
                             </a> /
+
+
                             <span style="font-size: 13px;">
                                 {{ $post->created_at }}
                             </span>
+                            /
+                            @if ($post->canAuthUserLikeThisPost)
+                            <a href="" class="text-secondary">
+                                <i onclick="myFunction(this)" data-post-id="{{ $post->id }}" id="like-post" class="fa fa-thumbs-up" style="font-size:19px">
+                                    @csrf
+                                </i>
+                            </a>
+                            <meta name="_token" content="{{ csrf_token() }}">
+                            <script>
+                                function myFunction(x) {
+                                    fetch("http://0.0.0.0:8000/posts/<? echo $post->id ?>/like", {
+                                        method: 'POST',
+                                        dataType: 'json',
+                                        headers: {
+                                            'Accept': 'application/json',
+                                            'X-CSRF-Token': $('meta[name="_token"]').attr('content'),
+                                            'Content-Type': 'application/json'
+                                        }
+                                    }).then(
+                                        function() {
+                                            window.location.reload();
+                                        }
+                                    )
+                                }
+                            </script>
+
+                            @else
+                            <a href="" class="text-danger">
+                                <i onclick="myFunction(this)" data-post-id="{{ $post->id }}" id="like-post" class="fa fa-thumbs-up" style="font-size:19px">
+                                    @csrf
+                                </i>
+                            </a>
+                            @endif
+                            {{ $post->count_likes }}
                         </div>
 
                         @if($post->labels->count())
