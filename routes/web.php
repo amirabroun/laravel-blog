@@ -12,10 +12,8 @@ use Illuminate\Support\Facades\Route;
 Route::controller(App\Http\Controllers\PostController::class)->group(function () {
     Route::prefix('posts')->group(function () {
         Route::middleware('auth')->group(function () {
-            Route::middleware('admin')->group(function () {
-                Route::get('/create', 'create')->name('posts.create');
-                Route::post('/', 'store')->name('posts.store');
-            });
+            Route::get('/create', 'create')->name('posts.create');
+            Route::post('/', 'store')->name('posts.store');
 
             Route::middleware('ownerOrAdmin')->prefix('/{id}')->group(function () {
                 Route::get('/edit', 'edit')->name('posts.edit');

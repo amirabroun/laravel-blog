@@ -6,9 +6,9 @@
         |
 
         @auth
-        <span class="mt-2 mr-1">
+        <span class="mt-2 ">
             <a class="text-dark" href=" {{ route('users.profile.show', ['id' => auth()->user()->id ]) }} ">
-                {{ Auth::user()->first_name ?? 'friend' }}
+                {{ Auth::user()->full_name }}
             </a>
         </span>
         @endauth
@@ -117,7 +117,7 @@
                 </ul>
             </div>
 
-            @if (auth()->user()?->isAdmin())
+            @auth
             <li class="nav-item d-block  d-lg-none">
                 <h1></h1>
             </li>
@@ -127,9 +127,7 @@
             <li class="nav-item d-block  d-lg-none">
                 <h1></h1>
             </li>
-            @endif
 
-            @auth
             <li class="nav-item d-block  d-lg-none">
                 <h1></h1>
             </li>

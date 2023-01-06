@@ -97,13 +97,17 @@
     <form action="{{ route('register') }}" method="POST">
         {{ csrf_field() }}
         <div class="form-field">
-            <input name="email" placeholder="ایمیل" required />
+            <input name="first_name" placeholder="نام" required value="{{ old('first_name') }}" />
+            <input name="last_name" placeholder="نام خانوادگی" style="margin-right: 2px;"  value="{{ old('last_name') }}" />
         </div>
         <div class="form-field">
-            <input name="password" type="password" placeholder="رمز عبور" required />
+            <input name="email" placeholder="ایمیل"  value="{{ old('email') }}" required />
         </div>
         <div class="form-field">
-            <input type="password" name="password_confirmation" placeholder="تکرار رمز عبور" required />
+            <input name="password" type="password" placeholder="رمز عبور"  value="{{ old('password') }}" required />
+        </div>
+        <div class="form-field">
+            <input type="password" name="password_confirmation" placeholder="تکرار رمز عبور"  value="{{ old('password_confirmation') }}" required />
         </div>
         @if ($errors->any())
         <div class="alert alert-danger">
