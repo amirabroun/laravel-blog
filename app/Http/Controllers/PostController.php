@@ -108,11 +108,9 @@ class PostController extends Controller
             abort(404);
         }
 
-        $like = new Like();
-
-        $like->likeable()->associate($post);
-        $like->user()->associate(auth()->user());
-        $like->save();
+        $post->canAuthUserLikeThisPost ?
+            $post->likePost($this->authUser) :
+            $post->disLikePost($this->authUser);
 
         return redirect()->route('posts.show', ['id' => $post->id]);
     }

@@ -48,38 +48,23 @@
                                 {{ $post->created_at }}
                             </span>
                             /
-                            @if ($post->canAuthUserLikeThisPost)
-                            <a href="" class="text-secondary">
-                                <i onclick="myFunction(this)" data-post-id="{{ $post->id }}" id="like-post" class="fa fa-thumbs-up" style="font-size:19px">
-                                    @csrf
-                                </i>
-                            </a>
-                            <meta name="_token" content="{{ csrf_token() }}">
-                            <script>
-                                function myFunction(x) {
-                                    fetch("http://0.0.0.0:8000/posts/<? echo $post->id ?>/like", {
-                                        method: 'POST',
-                                        dataType: 'json',
-                                        headers: {
-                                            'Accept': 'application/json',
-                                            'X-CSRF-Token': $('meta[name="_token"]').attr('content'),
-                                            'Content-Type': 'application/json'
-                                        }
-                                    }).then(
-                                        function() {
-                                            window.location.reload();
-                                        }
-                                    )
-                                }
-                            </script>
 
+                            @auth
+                            @if ($post->canAuthUserLikeThisPost)
+                            <a href="{{ route('posts.like', ['id' => $post->id]) }}" style="text-decoration: none;" class="text-secondary">
+                                <i id="like-post" class="fa fa-thumbs-up" style="font-size:19px"></i>
+                            </a>
                             @else
-                            <a href="" class="text-danger">
-                                <i onclick="myFunction(this)" data-post-id="{{ $post->id }}" id="like-post" class="fa fa-thumbs-up" style="font-size:19px">
-                                    @csrf
-                                </i>
+                            <a href="{{ route('posts.like', ['id' => $post->id]) }}" style="text-decoration: none;" class="text-danger">
+                                <i class="fa fa-thumbs-up" style="font-size:19px"></i>
                             </a>
                             @endif
+                            @endauth
+
+                            @guest
+                                <i class="fa fa-thumbs-up text-danger" style="font-size:19px"></i>
+                            @endguest
+
                             {{ $post->count_likes }}
                         </div>
 

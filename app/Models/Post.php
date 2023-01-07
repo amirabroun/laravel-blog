@@ -48,10 +48,37 @@ class Post extends Model
         return $this->morphMany(Like::class, 'likeable');
     }
 
+    /**
+     * @param User $user
+     * @return Post
+     */
+    public function likePost($user)
+    {
+        (new Like())
+            ->likeable()->associate($this)
+            ->user()->associate($user)
+            ->save();
+
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     * @return Post
+     */
+    public function disLikePost($user)
+    {
+        $user->likes()->whereMorphedTo('likeable', $this)->delete();
+
+        return $this;
+    }
+
     protected function canAuthUserLikeThisPost(): Attribute
     {
         /** @var User */
-        $user = auth()->user();
+        if (!$user = auth()->user()) {
+            return Attribute::get(fn () => false);  
+        }
 
         return Attribute::make(
             get: fn () => $user
