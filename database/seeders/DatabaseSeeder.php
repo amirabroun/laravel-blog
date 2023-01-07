@@ -27,6 +27,14 @@ class DatabaseSeeder extends Seeder
             'is_admin' => 1,
         ]); // admin user Amir Abroun
 
+        User::factory()->create([
+            'first_name' => 'جواد',
+            'last_name' => 'حسین آبادی',
+            'email' => 'javad123@gmail.com',
+            'password' => 12345678,
+            'is_admin' => 1,
+        ]);
+
         User::factory(rand(4, 10))->create();
 
         return $this;
