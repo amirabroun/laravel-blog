@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +30,14 @@ Route::controller(App\Http\Controllers\PostController::class)->group(function ()
     Route::get('/', 'index')->name('posts.index');
     Route::get('/categories/{title}/posts',  'index')->name('categories.posts.index');
 });
+
+Route::prefix('posts/{post_id}')
+    ->middleware('auth')
+    ->controller(App\Http\Controllers\CommentController::class)
+    ->group(function () {
+        Route::post('comments', 'store')->name('posts.comments.store');
+        Route::delete('comment/{id}', 'destroy')->name('posts.comments.destroy');
+    });
 
 Route::prefix('categories')->controller(App\Http\Controllers\CategoryController::class)->group(function () {
     Route::middleware(['auth', 'admin'])->group(function () {
