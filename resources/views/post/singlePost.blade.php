@@ -8,6 +8,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     @include('partials.abstract-css')
 
+    <style>
+        body,
+        html,
+        div {
+            direction: rtl;
+            text-align: right;
+        }
+    </style>
 </head>
 
 <body>
@@ -62,7 +70,7 @@
                             @endauth
 
                             @guest
-                                <i class="fa fa-thumbs-up text-danger" style="font-size:19px"></i>
+                            <i class="fa fa-thumbs-up text-danger" style="font-size:19px"></i>
                             @endguest
 
                             {{ $post->count_likes }}
@@ -91,6 +99,53 @@
                         <a class="text-danger" href="{{ route('posts.index') }}" style="font-size: 14px;">بلاگ</a>
                     </div>
                 </div>
+
+                @auth
+                <div class="card w-100 mt-1">
+                    <form class="mb-1" method="post" action="{{ route('posts.comments.store', ['post_id' => $post->id]) }}" id="contactForm" name="contactForm" style="text-align: center;" enctype="multipart/form-data">
+                        @csrf
+                        <textarea class="form-text-area mt-1" name="body" id="message" cols="25" rows="3" placeholder="کامنت بزارید ..." required></textarea>
+                        <input type="submit" value="ذخیره" class="btn bg-secondary text-light form-text-area py-2  px-4 rounded">
+                    </form>
+                </div>
+                @endauth
+
+                @foreach ($post->comments as $comment)
+                <div class="col-12" style="padding-right: 0;">
+                    <div class="card mt-2 col-{{ $comment->size }}" style="border-radius: 20px;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="text-muted">
+                                    <p class="card-text">
+                                        {{ $comment->body }}
+                                    </p>
+                                    <span style="font-size: 13px;">
+                                        {{ $comment->created_at }}
+                                    </span>
+                                    /
+                                    <a class="text-dark" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}" style="font-size: 13px;">
+                                        {{ $comment->user->full_name }}
+                                    </a>
+
+                                    @auth
+                                    @if (auth()->user()->id == $comment->user->id || auth()->user()->isAdmin())
+                                    <form action="{{ route('posts.comments.destroy', ['post_id' => $post->id,'id' => $comment->id]) }}" hidden method="Post" id="delete-form-{{ $comment->id }}">
+                                        @csrf @method('DELETE')
+                                    </form>
+                                    /
+                                    <a href="javascript:void(0)" class=" text-danger" onclick="$('#delete-form-{{ $comment->id }}').submit()">
+                                        حذف
+                                    </a>
+                                    @endif
+                                    @endauth
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+
             </div>
         </div>
     </div>

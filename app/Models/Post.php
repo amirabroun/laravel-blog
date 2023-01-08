@@ -12,7 +12,7 @@ class Post extends Model
 
     protected $fillable = ['title', 'body', 'user_id', 'image_url', 'category_id'];
     protected $appends = ['count_likes', 'can_auth_user_like_this_post'];
-    protected $with = ['user', 'labels'];
+    protected $with = ['user', 'labels', 'comments'];
 
     protected function createdAt(): Attribute
     {
@@ -46,6 +46,11 @@ class Post extends Model
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable')->orderBy('updated_at', 'desc');
     }
 
     /**
