@@ -62,7 +62,8 @@
 
                         <span class="text-muted " style="font-size: 13px; direction: rtl;">{{ $post->created_at }} </span>
                         @endisset
-                        @if (auth()->user()?->isAdmin())
+                        @auth
+                        @if (auth()->user()->id == $post->user->id || auth()->user()->isAdmin())
                         <button class="toggler action-post-btn mr-2" style="font-size: 12px;" type="button" data-toggle="collapse" data-target="#SupportedContent-post-{{ $post->id }}" aria-controls="SupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="toggler text-dark">. . .</span>
                         </button>
@@ -95,6 +96,7 @@
                             </ul>
                         </div>
                         @endif
+                        @endauth
                     </div>
                     <a class="text-dark" style="text-decoration: none; direction: rtl;" href="{{ route('posts.show', ['id' => $post->id]) }}">
                         <div class="card-body">
