@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\{Category, Post, User, Label};
+use App\Models\{Category, Comment, Post, User, Label, Like};
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->users()->categories()->posts();
+        $this->users()->categories()->posts()->likes()->comments();
     }
 
     private function users()
@@ -71,14 +71,16 @@ class DatabaseSeeder extends Seeder
 
     private function posts()
     {
-        Post::factory(rand(4, 10))->hasAttached(
-            Label::factory(6)->create()
-        )->sequence(
-            fn () => [
-                'user_id' => User::all()->random(),
-                'category_id' => Category::all()->random(),
-            ]
-        )->create();
+        Post::factory(rand(4, 10))
+            ->hasAttached(
+                Label::factory(6)->create()
+            )
+            ->sequence(
+                fn () => [
+                    'user_id' => User::all()->random(),
+                    'category_id' => Category::all()->random(),
+                ]
+            )->create();
 
         Post::factory(rand(3, 10))->hasAttached(
             Label::factory(rand(3, 9))->create()
@@ -86,6 +88,28 @@ class DatabaseSeeder extends Seeder
             fn () => [
                 'user_id' => User::all()->random(),
                 'category_id' => Category::all()->random(),
+            ]
+        )->create();
+
+        return $this;
+    }
+
+    public function likes()
+    {
+        Like::factory(User::count())->sequence(
+            fn () => [
+                'likeable_id' => Post::all()->random(),
+            ]
+        )->create();
+
+        return $this;
+    }
+
+    public function comments()
+    {
+        Comment::factory(rand(100, 200))->sequence(
+            fn () => [
+                'commentable_id' => Post::all()->random(),
             ]
         )->create();
 
