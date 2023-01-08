@@ -26,6 +26,10 @@ class AuthController extends Controller
     {
         $user = User::query()->find($id);
 
+        if ($this->authUser->id != $id && !$this->authUser->isAdmin()) {
+            abort(404);
+        }
+
         return view('auth.editProfile')->with('user', $user);
     }
 
@@ -36,6 +40,10 @@ class AuthController extends Controller
             'last_name' => 'string',
             'email' => ['email', Rule::unique('users', 'email')->ignore($id)],
         ]);
+
+        if ($this->authUser->id != $id && !$this->authUser->isAdmin()) {
+            abort(404);
+        }
 
         User::query()->where('id', $id)->update($user);
 

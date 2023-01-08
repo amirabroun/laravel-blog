@@ -14,14 +14,11 @@ Route::controller(App\Http\Controllers\PostController::class)->group(function ()
         Route::middleware('auth')->group(function () {
             Route::get('/create', 'create')->name('posts.create');
             Route::post('/', 'store')->name('posts.store');
+            Route::get('/{id}/edit', 'edit')->name('posts.edit');
+            Route::put('/{id}', 'update')->name('posts.update');
+            Route::delete('/{id}', 'destroy')->name('posts.destroy');
             Route::get('/{id}/like', 'like')->name('posts.like');
-
-            Route::middleware('ownerOrAdmin')->prefix('/{id}')->group(function () {
-                Route::get('/edit', 'edit')->name('posts.edit');
-                Route::put('/', 'update')->name('posts.update');
-                Route::delete('/', 'destroy')->name('posts.destroy');
-                Route::put('/delete-file', 'deletePostFile')->name('posts.deleteFile');
-            });
+            Route::put('/{id}/delete-file', 'deletePostFile')->name('posts.deleteFile');
         });
 
         Route::get('/{id}', 'show')->name('posts.show');
