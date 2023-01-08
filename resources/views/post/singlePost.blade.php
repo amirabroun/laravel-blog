@@ -90,10 +90,12 @@
 
                         <hr>
 
+                        @auth                            
                         @if (auth()->user()->id == $post->user->id || auth()->user()->isAdmin())
                         <a href="{{ route('posts.edit', ['id' => $post->id]) }}" class="text-dark" style="font-size: 14px;"> ویرایش</a>
                         /
                         @endif
+                        @endauth
 
                         <a class="text-danger" href="{{ route('posts.index') }}" style="font-size: 14px;">بلاگ</a>
                     </div>
