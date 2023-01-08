@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{ $post->title }}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     @include('partials.abstract-css')
 
     <style>
@@ -112,18 +111,18 @@
 
                 @foreach ($post->comments as $comment)
                 <div class="col-12" style="padding-right: 0;">
-                    <div class="card mt-2 col-{{ $comment->size }}" style="border-radius: 20px;">
+                    <div class="card mt-2 col-{{ $comment->size }}" style="border-radius: 20px; padding-top: 1px; padding-right: 2px; padding-left: 2px;">
                         <div class="card-body">
                             <div class="row">
-                                <div class="text-muted">
-                                    <p class="card-text">
+                                <div class="text-muted" style="font-size: 12.4px;">
+                                    <p class="card-text" style="font-size: 14px;">
                                         {{ $comment->body }}
                                     </p>
-                                    <span style="font-size: 13px;">
+                                    <span style="font-size: 11px;">
                                         {{ $comment->created_at }}
                                     </span>
                                     /
-                                    <a class="text-dark" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}" style="font-size: 13px;">
+                                    <a class="text-dark" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
                                         {{ $comment->user->full_name }}
                                     </a>
 

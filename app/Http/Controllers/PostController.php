@@ -112,7 +112,7 @@ class PostController extends Controller
             $post->likePost($this->authUser) :
             $post->disLikePost($this->authUser);
 
-        return redirect()->route('posts.show', ['id' => $post->id]);
+        return redirect()->back();
     }
 
     public function deletePostFile(int|Post $postOrId)

@@ -31,7 +31,7 @@
 
                         <span style="text-align: left; direction: rtl;">
                             <a style="color: blue;" class="text-dark" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
-                                {{ $post->user->first_name . ' ' . $post->user->last_name }}
+                                {{ $post->user->full_name }}
                             </a>
 
                         </span>
@@ -41,6 +41,25 @@
                         </span>
 
                         @isset($post->created_at)
+
+                        @auth
+                        @if ($post->canAuthUserLikeThisPost)
+                        <a href="{{ route('posts.like', ['id' => $post->id]) }}" style="text-decoration: none;" class="text-secondary">
+                            <i id="like-post" class="fa fa-thumbs-up" style="font-size:19px"></i>
+                        </a>
+                        @else
+                        <a href="{{ route('posts.like', ['id' => $post->id]) }}" style="text-decoration: none;" class="text-danger">
+                            <i class="fa fa-thumbs-up" style="font-size:19px"></i>
+                        </a>
+                        @endif
+                        @endauth
+
+                        @guest
+                        <i class="fa fa-thumbs-up text-danger" style="font-size:19px"></i>
+                        @endguest
+                        {{ $post->count_likes }}
+                        /
+
                         <span class="text-muted " style="font-size: 13px; direction: rtl;">{{ $post->created_at }} </span>
                         @endisset
                         @if (auth()->user()?->isAdmin())
