@@ -45,9 +45,44 @@
                                                 <h6 class="mb-0 text-muted mt-2" style="font-size: 12px;"> {{ $user->email }} </h6>
                                             </span>
                                         </td>
-                                        <td class="col-2"></td>
-                                        <td class="col-6">
+                                        <td class="col-1"></td>
+                                        <td class="col-5">
                                             <span class="text-muted" style="font-size: 12px;">{{ $user->created_at }}</span>
+                                        </td>
+                                        <td class="col-1">
+                                            @if (auth()->user()?->isAdmin())
+                                            <button class="toggler action-post-btn ml-2 p-1 btn-sm btn-light text-success" style="font-size: 12px;" type="button" data-toggle="collapse" data-target="#SupportedContent-user-{{ $user->id }}" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                                <span class="toggler">. . .</span>
+                                            </button>
+                                            <div class="collapse" id="SupportedContent-user-{{ $user->id }}">
+                                                <ul class="navbar-nav">
+                                                    <li class="nav-item">
+                                                        <h1>
+                                                            <hr>
+                                                        </h1>
+                                                    </li>
+
+                                                    <li class="nav-item">
+                                                        <a href="{{ route('users.profile.edit', ['id' => $user->id]) }}" class=" text-info">
+                                                            ویرایش
+                                                        </a>
+                                                    </li>
+
+                                                    <li class="nav-item">
+                                                        <h1></h1>
+                                                    </li>
+
+                                                    <li class="nav-item">
+                                                        <form action="{{ route('users.destroy', ['id' => $user->id]) }}" method="POST" id="delete-form-user-{{ $user->id }}">
+                                                            @csrf @method('DELETE')
+                                                        </form>
+                                                        <a href="javascript:void(0)" class="text-danger" onclick="$('#delete-form-user-{{ $user->id }}').submit()">
+                                                            حذف
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach

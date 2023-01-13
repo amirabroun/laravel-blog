@@ -24,8 +24,8 @@ class PostFactory extends Factory
         $title[] = rand(3, 8) . ' ' . PersianFaker::get('City');
 
         return [
-            'user_id' => User::factory(),
-            'category_id' => Category::factory(),
+            'user_id' => User::all()->random()->id,
+            'category_id' => Category::all()->random()->id,
             'title' => $title[array_rand($title)],
             'body' => PersianFaker::get('Lorem', ['words' => rand(5, 132)])
         ];

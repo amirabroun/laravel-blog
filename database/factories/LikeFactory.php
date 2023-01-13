@@ -20,8 +20,8 @@ class LikeFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory(),
-            'likeable_id' => Post::factory(),
+            'user_id' => User::all()->random()->id,
+            'likeable_id' => Post::all()->random()->id,
             'likeable_type' => Post::class,
         ];
     }

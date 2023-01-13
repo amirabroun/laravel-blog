@@ -50,6 +50,17 @@ class AuthController extends Controller
         return view('auth.profile')->with('user', User::query()->find($id));
     }
 
+    public function destroy(int $id)
+    {
+        if (!$user = User::find($id)) {
+            abort(404);
+        }
+
+        $user->delete();
+
+        return redirect()->intended(route('users.index'));
+    }
+
     public function login(Request $request)
     {
         $user = $request->validate([

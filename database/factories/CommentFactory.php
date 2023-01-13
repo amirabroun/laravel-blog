@@ -20,9 +20,9 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory(),
+            'user_id' => User::all()->random()->id,
             'body' => fake()->text(300),
-            'commentable_id' => Post::factory(),
+            'commentable_id' => Post::all()->random()->id,
             'commentable_type' => Post::class,
         ];
     }

@@ -8,6 +8,7 @@ Route::controller(App\Http\Controllers\AuthController::class)->group(function ()
         Route::get('/{id}', 'show')->name('users.profile.show');
         Route::get('/{id}/edit', 'edit')->name('users.profile.edit');
         Route::put('/{id}', 'update')->name('users.profile.update');
+        Route::delete('/{id}', 'destroy')->name('users.destroy');
     });
 
     Route::prefix('register')->group(function () {

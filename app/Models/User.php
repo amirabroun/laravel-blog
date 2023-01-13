@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 use Pishran\LaravelPersianString\HasPersianString;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasPersianString;
+    use HasApiTokens, HasFactory, Notifiable, HasPersianString, SoftDeletes;
 
     protected $fillable = ['first_name', 'last_name', 'email', 'password', 'is_admin'];
     protected $appends = ['full_name'];

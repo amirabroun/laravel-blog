@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Post, Category, Like};
 use Illuminate\Http\Request;
+use App\Models\{Post, Category};
 use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
@@ -16,7 +16,7 @@ class PostController extends Controller
             session()->forget('activeCategory');
 
             return view('index', compact('categories'))->with([
-                'posts' => Post::query()->with('user')->orderBy('created_at', 'desc')->get()
+                'posts' => Post::query()->with('user', fn ($query) => $query->withTrashed())->orderBy('created_at', 'desc')->get()
             ]);
         }
 
@@ -27,7 +27,7 @@ class PostController extends Controller
         session()->put('activeCategory', $category->id);
 
         return view('index', compact('categories'))->with([
-            'posts' => $category->posts()->with('user')->orderBy('created_at', 'desc')->get()
+            'posts' => $category->posts()->with('user', fn ($query) => $query->withTrashed())->orderBy('created_at', 'desc')->get()
         ]);
     }
 
@@ -47,7 +47,7 @@ class PostController extends Controller
 
     public function show($id)
     {
-        if (!$post = Post::query()->find($id)) {
+        if (!$post = Post::query()->with('user', fn ($query) => $query->withTrashed())->find($id)) {
             abort(404);
         }
 
