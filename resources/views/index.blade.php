@@ -86,10 +86,10 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <form action="{{ route('posts.destroy', ['id' => $post->id]) }}" method="POST" id="delete-form-{{ $post->id }}">
+                                    <form action="{{ route('posts.destroy', ['id' => $post->id]) }}" method="POST" id="delete-form-post-{{ $post->id }}">
                                         @csrf @method('DELETE')
                                     </form>
-                                    <a href="javascript:void(0)" class=" text-danger" onclick="$('#delete-form-{{ $post->id }}').submit()">
+                                    <a href="javascript:void(0)" class=" text-danger" onclick="$('#delete-form-post-{{ $post->id }}').submit()">
                                         حذف
                                     </a>
                                 </li>
@@ -161,10 +161,10 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <form action="{{ route('categories.destroy', ['id' => $category->id]) }}" method="POST" id="delete-form-{{ $category->id }}">
+                                        <form action="{{ route('categories.destroy', ['id' => $category->id]) }}" method="POST" id="delete-form-category{{ $category->id }}">
                                             @csrf @method('DELETE')
                                         </form>
-                                        <a href="javascript:void(0)" class="text-danger" onclick="$('#delete-form-{{ $category->id }}').submit()">
+                                        <a href="javascript:void(0)" class="text-danger" onclick="$('#delete-form-category{{ $category->id }}').submit()">
                                             حذف
                                         </a>
                                     </li>
