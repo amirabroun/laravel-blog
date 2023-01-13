@@ -60,6 +60,19 @@
                         {{ $post->count_likes }}
                         /
 
+                        @if (isset($post->category))
+                        <span style="text-align: left; direction: rtl;">
+                            <a style="color: blue;" class="text-dark" href="{{ route('categories.posts.index', ['title' => $post->category->title]) }}">
+                                {{ $post->category->title }}
+                            </a>
+
+                        </span>
+
+                        <span class="text-muted">
+                            /
+                        </span>
+                        @endif
+
                         <span class="text-muted " style="font-size: 13px; direction: rtl;">{{ $post->created_at }} </span>
                         @endisset
                         @auth
@@ -128,8 +141,6 @@
                                 </span>
                             </li>
                         </a>
-
-                        @php $categories = \App\Models\Category::all() @endphp
 
                         @if(count($categories))
                         @foreach ($categories as $category)

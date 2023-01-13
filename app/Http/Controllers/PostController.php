@@ -10,10 +10,12 @@ class PostController extends Controller
 {
     public function index(string $categoryTitle = null)
     {
+        $categories = Category::all();
+
         if (url()->current() == route('posts.index')) {
             session()->forget('activeCategory');
 
-            return view('index')->with([
+            return view('index', compact('categories'))->with([
                 'posts' => Post::query()->with('user')->orderBy('created_at', 'desc')->get()
             ]);
         }
@@ -24,7 +26,7 @@ class PostController extends Controller
 
         session()->put('activeCategory', $category->id);
 
-        return view('index')->with([
+        return view('index', compact('categories'))->with([
             'posts' => $category->posts()->with('user')->orderBy('created_at', 'desc')->get()
         ]);
     }
