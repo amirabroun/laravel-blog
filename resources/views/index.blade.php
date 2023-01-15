@@ -130,13 +130,13 @@
 
                     @auth
                     <button class="toggler action-post-btn mr-2" style="font-size: 12px;" type="button" data-toggle="collapse" data-target="#SupportedContent-post-comment-{{ $post->id }}" aria-controls="SupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="toggler text-dark">کامنت ها</span>
+                        <span class="toggler text-dark">ثبت نظر</span>
                     </button>
                     <div class="collapse" id="SupportedContent-post-comment-{{ $post->id }}">
                         <div class="card w-100 mt-1">
                             <form class="mb-1 " method="post" action="{{ route('posts.comments.store', ['post_id' => $post->id]) }}" id="contactForm" name="contactForm" style="text-align: left;" enctype="multipart/form-data">
                                 @csrf
-                                <textarea class="form-text-area mt-1" name="body" id="message" cols="25" rows="3" placeholder="متن کامنت  ..." required></textarea>
+                                <textarea class="form-text-area mt-1" name="body" id="message" cols="25" rows="3" placeholder="متن دیدگاه  ..." required></textarea>
                                 <input type="submit" value="ذخیره" class="form-text-area btn bg-info btn-info text-light py-2  px-4 rounded">
                             </form>
                         </div>

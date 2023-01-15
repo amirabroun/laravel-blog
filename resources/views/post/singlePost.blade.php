@@ -105,8 +105,8 @@
                 <div class="card w-100 mt-1">
                     <form class="mb-1" method="post" action="{{ route('posts.comments.store', ['post_id' => $post->id]) }}" id="contactForm" name="contactForm" style="text-align: center;" enctype="multipart/form-data">
                         @csrf
-                        <textarea class="form-text-area mt-1" name="body" id="message" cols="25" rows="3" placeholder="کامنت بزارید ..." required></textarea>
-                        <input type="submit" value="ذخیره" class="btn bg-secondary text-light form-text-area py-2  px-4 rounded">
+                        <textarea class="form-text-area mt-1" name="body" id="message" cols="25" rows="3" placeholder="دیدگاه ..." required></textarea>
+                        <input type="submit" value="ثبت نظر" class="btn bg-secondary text-light form-text-area py-2  px-4 rounded">
                     </form>
                 </div>
                 @endauth
