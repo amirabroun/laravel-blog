@@ -105,6 +105,6 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->back();
+        return redirect()->route('posts.index');
     }
 }
