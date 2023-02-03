@@ -98,10 +98,10 @@
     <form action="{{ route('register') }}" method="POST">
         {{ csrf_field() }}
         <div class="form-field">
-            <input name="email" placeholder="email" required />
+            <input name="email" placeholder="email" value="{{ old('email') }}" required />
         </div>
         <div class="form-field">
-            <input name="password" type="password" placeholder="Password" required />
+            <input name="password" type="password" placeholder="Password" value="{{ old('password') }}" required />
         </div>
         <div class="form-field">
             <input type="password" name="password_confirmation" placeholder="Confirm Password" required />

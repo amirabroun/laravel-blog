@@ -98,10 +98,10 @@
     <form action="{{ route('login') }}" method="POST">
         {{ csrf_field() }}
         <div class="form-field">
-            <input name="email" placeholder="Email" required />
+            <input name="email" placeholder="Email" value="{{ old('email') }}" required />
         </div>
         <div class="form-field">
-            <input name="password" type="password" placeholder="Password" required />
+            <input name="password" type="password" placeholder="Password" value="{{ old('password') }}" required />
         </div>
         @if ($errors->any())
         <div class="alert alert-danger">
