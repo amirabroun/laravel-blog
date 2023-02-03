@@ -1,24 +1,30 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
-Route::controller(App\Http\Controllers\AuthController::class)->group(function () {
-    Route::prefix('users')->middleware('auth')->group(function () {
-        Route::get('/', 'index')->name('users.index')->middleware('admin');
+Route::prefix('users')
+    ->controller(AuthController::class)
+    ->middleware('auth')
+    ->group(function () {
+        Route::get('/', 'index')->middleware('admin')->name('users.index');
         Route::get('/{id}', 'show')->name('users.profile.show');
         Route::get('/{id}/edit', 'edit')->name('users.profile.edit');
         Route::put('/{id}', 'update')->name('users.profile.update');
     });
 
-    Route::prefix('register')->group(function () {
+Route::prefix('register')
+    ->controller(AuthController::class)
+    ->group(function () {
         Route::view('/', 'auth.register')->name('register.index');
         Route::post('/', 'register')->name('register');
     });
 
-    Route::get('log-out', 'logout')->name('log-out');
-
-    Route::prefix('login')->group(function () {
+Route::prefix('login')
+    ->controller(AuthController::class)
+    ->group(function () {
         Route::view('/', 'auth.login')->name('login.index');
         Route::post('/', 'login')->name('login');
     });
-});
+
+Route::get('log-out', [AuthController::class, 'logout'])->middleware('auth')->name('log-out');
