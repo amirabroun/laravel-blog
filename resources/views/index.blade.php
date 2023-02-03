@@ -54,10 +54,10 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <form action="{{ route('posts.destroy', ['uuid' => $post->uuid]) }}" method="POST" id="delete-form-{{ $post->id }}">
+                                    <form action="{{ route('posts.destroy', ['uuid' => $post->uuid]) }}" method="POST" id="delete-post-form-{{ $post->id }}">
                                         @csrf @method('DELETE')
                                     </form>
-                                    <a href="javascript:void(0)" class="mr-3 text-danger" onclick="$('#delete-form-{{ $post->id }}').submit()">
+                                    <a href="javascript:void(0)" class="mr-3 text-danger" onclick="$('#delete-post-form-{{ $post->id }}').submit()">
                                         Delete
                                     </a>
                                 </li>
@@ -132,10 +132,10 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <form action="{{ route('categories.destroy', ['uuid' => $category->uuid]) }}" method="POST" id="delete-form-{{ $category->id }}">
+                                        <form action="{{ route('categories.destroy', ['uuid' => $category->uuid]) }}" method="POST" id="delete-category-form-{{ $category->id }}">
                                             @csrf @method('DELETE')
                                         </form>
-                                        <a href="javascript:void(0)" class="mr-3 text-danger" onclick="$('#delete-form-{{ $category->id }}').submit()">
+                                        <a href="javascript:void(0)" class="mr-3 text-danger" onclick="$('#delete-category-form-{{ $category->id }}').submit()">
                                             Delete
                                         </a>
                                     </li>
