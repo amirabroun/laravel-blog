@@ -21,12 +21,13 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('is_admin')->default(false);
             $table->timestamps();
+
+            $table->softDeletes();
         });
 
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('title')->unique();
-            $table->text('description')->nullable();
             $table->timestamps();
         });
 
@@ -49,6 +50,21 @@ return new class extends Migration
         Schema::create('label_post', function (Blueprint $table) {
             $table->foreignId('post_id')->constrained();
             $table->foreignId('label_id')->constrained();
+        });
+
+        Schema::create('likes', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->morphs('likeable');
+            $table->timestamps();
+        });
+
+        Schema::create('comments', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->morphs('commentable');
+            $table->text('body');
+            $table->timestamps();
         });
     }
 
