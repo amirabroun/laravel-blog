@@ -24,7 +24,7 @@
                     <div class="text-content text-dark">
                         <p>
                             @isset($post->category)
-                            <a class="text-muted" href="{{ route('categories.show', ['title' => $post->category->title]) }}">
+                            <a class="text-muted" href="{{ route('categories.show', ['category' => $post->category]) }}">
                                 {{ $post->category->title }}
                             </a>/
                             @endisset

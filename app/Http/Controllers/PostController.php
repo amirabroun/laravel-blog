@@ -8,25 +8,13 @@ use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
-    public function index(string $categoryTitle = null)
+    public function index()
     {
-        if (url()->current() == route('posts.index')) {
-            session()->forget('activeCategory');
+        session()->forget('activeCategory');
 
-            return view('index')->with([
-                'posts' => Post::query()->with('user')->orderBy('created_at', 'desc')->get()
-            ]);
-        }
+        $posts = Post::query()->with('user')->orderBy('created_at', 'desc')->get();
 
-        if (!$category = Category::query()->where('title', $categoryTitle)->first()) {
-            abort(404);
-        }
-
-        session()->put('activeCategory', $category->id);
-
-        return view('index')->with([
-            'posts' => $category->posts()->with('user')->orderBy('created_at', 'desc')->get()
-        ]);
+        return view('index', compact('posts'));
     }
 
     public function create()

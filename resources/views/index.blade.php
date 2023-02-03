@@ -91,10 +91,10 @@
                         <li class="list-group-item {{ !session('activeCategory') ? 'bg-light' : '' }}">
                             <a style="font-size: 23px;" href="{{ route('posts.index') }}" class="{{ !session('activeCategory') ? 'text-danger' : 'text-dark' }}">
                                 #
+                                <span class="text-dark" href="{{ route('posts.index') }}" style="font-size: 17.8px;">
+                                    All
+                                </span>
                             </a>
-                            <span class="text-dark" href="{{ route('posts.index') }}">
-                                All
-                            </span>
                         </li>
 
                         @php $categories = \App\Models\Category::all() @endphp
@@ -102,10 +102,10 @@
                         @if(count($categories))
                         @foreach ($categories as $category)
                         <li class="list-group-item {{ session('activeCategory') == $category->id ? 'bg-light' : '' }}">
-                            <a style="font-size: 23px;" class="mr-2 {{ session('activeCategory') == $category->id ? 'text-danger' : 'text-dark' }}" href="{{ route('categories.posts.index', ['title' => $category->title]) }}">
+                            <a style="font-size: 23px;" class="mr-2 {{ session('activeCategory') == $category->id ? 'text-danger' : 'text-dark' }}" href="{{ route('categories.posts.index', ['category' => $category]) }}">
                                 #
                             </a>
-                            <a class="text-dark" href="{{ route('categories.show', ['title' => $category->title]) }}">
+                            <a class="text-dark" href="{{ route('categories.show', ['category' => $category]) }}">
                                 {{ $category->title }}
                             </a>
 
@@ -122,7 +122,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="{{ route('categories.edit', ['title' => $category->title]) }}" class="mr-3 text-info">
+                                        <a href="{{ route('categories.edit', ['category' => $category]) }}" class="mr-3 text-info">
                                             edit
                                         </a>
                                     </li>
@@ -132,7 +132,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <form action="{{ route('categories.destroy', ['id' => $category->id]) }}" method="POST" id="delete-form-{{ $category->id }}">
+                                        <form action="{{ route('categories.destroy', ['category' => $category]) }}" method="POST" id="delete-form-{{ $category->id }}">
                                             @csrf @method('DELETE')
                                         </form>
                                         <a href="javascript:void(0)" class="mr-3 text-danger" onclick="$('#delete-form-{{ $category->id }}').submit()">

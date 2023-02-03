@@ -17,20 +17,18 @@
             <div class="row">
                 <div class="card shadow single-blog-post card-body text-dark">
                     <div class="text-content text-dark">
-                        <form class="mb-1" method="post" action="{{ route('categories.update', ['id' => $category->id]) }}" id="contactForm" name="contactForm">
+                        <form class="mb-1" method="post" action="{{ route('categories.update', ['category' => $category]) }}" id="contactForm" name="contactForm">
                             @csrf
                             @method('PUT')
                             <div class="row">
-                                <div class="col-6 col-lg-9 mt-2">
+                                <div class="col-lg-3 col-md-4 col-sm-12 mt-3">
+                                    <span class="text bg-light p-1">Category title  </span>
+                                </div>
+                                <div class="col-lg-6 col-md-8 col-sm-12 mt-2">
                                     <input type="text" class="form-input" name="title" id="name" placeholder="Title" value="{{ $category->title }}">
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-12 mb-3 mt-3">
-                                    <textarea class="form-text-area" name="description" id="message" cols="30" rows="6">{{ $category->description }}</textarea>
-                                </div>
-                            </div>
 
                             @if ($errors->any())
                             <div class="alert alert-danger">
@@ -50,14 +48,14 @@
                             @endisset
 
                             <div class="row">
-                                <div class="col-md-12 form-group mt-4 mb-1">
+                                <div class="col-md-12 form-group mt-5 mb-1">
                                     <input type="submit" value="Update" style="border-radius: 5px;" class="btn btn-info shadow py-2  px-4 rounded">
                                 </div>
                             </div>
                         </form>
 
                         <hr>
-                        <a href="{{ route('categories.show', ['title' => $category->title]) }}" class="text-dark" style="font-size: 14px;"> show</a>
+                        <a href="{{ route('categories.show', ['category' => $category]) }}" class="text-dark" style="font-size: 14px;"> show</a>
                         /
                         <a class="text-danger" href="{{ route('posts.index') }}" style="font-size: 14px;">Back to Blog</a>
                     </div>

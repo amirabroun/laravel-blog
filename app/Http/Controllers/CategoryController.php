@@ -8,13 +8,13 @@ use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
-    public function show($title)
+    public function show(Category $category)
     {
-        if (!$category = Category::query()->where('title', $title)->first()) {
-            abort(404);
-        }
+        session()->put('activeCategory', $category->id);
 
-        return view('category.singleCategory')->with('category', $category);
+        $posts = $category->posts()->with('user')->orderBy('created_at', 'desc')->get();
+
+        return view('index', compact('posts'));
     }
 
     public function create()
@@ -35,7 +35,6 @@ class CategoryController extends Controller
     {
         $newCategoryData = $request->validate([
             'title' => ['required', Rule::unique('categories', 'title')->ignore($id)],
-            'description' => 'required|string'
         ]);
 
         Category::query()->find($id)->update($newCategoryData);
@@ -50,7 +49,6 @@ class CategoryController extends Controller
     {
         $category = $request->validate([
             'title' => 'required|string|unique:categories,title',
-            'description' => 'string'
         ]);
 
         Category::create($category);
