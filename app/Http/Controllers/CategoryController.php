@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
-    public function show($uuid)
+    public function index($uuid)
     {
         if (!$category = Category::query()->where('uuid', $uuid)->first()) {
             abort(404);

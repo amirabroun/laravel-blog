@@ -55,7 +55,7 @@
                         </form>
 
                         <hr>
-                        <a href="{{ route('categories.show', ['uuid' => $category->uuid, 'title' => $category->title]) }}" class="text-dark" style="font-size: 14px;"> show</a>
+                        <a href="{{ route('categories.posts', ['uuid' => $category->uuid, 'title' => $category->title]) }}" class="text-dark" style="font-size: 14px;"> show</a>
                         /
                         <a class="text-danger" href="{{ route('posts.index') }}" style="font-size: 14px;">Back to Blog</a>
                     </div>

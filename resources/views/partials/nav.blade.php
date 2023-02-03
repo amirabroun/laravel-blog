@@ -77,7 +77,7 @@
                         <a style="font-size: 18px;" class="mr-2 {{ session('activeCategory') == $category->id ? 'text-danger' : 'text-dark' }}" href="{{ route('categories.posts', ['uuid' => $category->uuid, 'title' => $category->uuid]) }}">
                             #
                         </a>
-                        <a class="text-dark" style="font-size: 15px;" href="{{ route('categories.show', ['uuid' => $category->uuid, 'title' => $category->title]) }}">
+                        <a class="text-dark" style="font-size: 15px;" href="{{ route('categories.posts', ['uuid' => $category->uuid, 'title' => $category->title]) }}">
                             {{ $category->title }}
                         </a>
 

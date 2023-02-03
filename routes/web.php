@@ -31,7 +31,6 @@ Route::prefix('categories')
     ->middleware('auth')
     ->group(function () {
         Route::get('{uuid}/{title}/posts',  'index')->withoutMiddleware('auth')->name('categories.posts');
-        Route::get('{uuid}/{title}', 'show')->withoutMiddleware('auth')->name('categories.show');
 
         Route::get('create', 'create')->name('categories.create');
         Route::get('{uuid}/{title}/edit', 'edit')->name('categories.edit');
