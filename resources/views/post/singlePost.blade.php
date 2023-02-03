@@ -64,9 +64,11 @@
 
                         <hr>
 
-                        @if (auth()->user()?->isAdmin())
+                        @if (auth()->user())
+                        @if (auth()->user()->id == $post->user->id || auth()->user()->isAdmin())
                         <a href="{{ route('posts.edit', ['uuid' => $post->uuid, 'title' => $post->title]) }}" class="text-dark" style="font-size: 14px;"> edit</a>
                         /
+                        @endif
                         @endif
 
                         <a class="text-danger" href="{{ route('posts.index') }}" style="font-size: 14px;">Back to Blog</a>
