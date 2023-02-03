@@ -19,7 +19,9 @@ class AuthController extends Controller
 
     public function index()
     {
-        return view('usersList')->with('users', User::all());
+        $users = User::query()->select(['id', 'first_name', 'last_name', 'email', 'created_at'])->get();
+
+        return view('usersList')->with(compact('users'));
     }
 
     public function edit(int $id)
