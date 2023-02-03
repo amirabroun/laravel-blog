@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\{
     Model,
     Casts\Attribute,
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\{
 
 class Post extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuid;
 
     protected $fillable = ['title', 'body', 'user_id', 'image_url', 'category_id'];
 

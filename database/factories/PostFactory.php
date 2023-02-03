@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,7 @@ class PostFactory extends Factory
     public function definition()
     {
         return [
+            'uuid' => Str::uuid()->toString(),
             'user_id' => User::factory(),
             'category_id' => Category::factory(),
             'title' => fake()->text(rand(8, 15)),
