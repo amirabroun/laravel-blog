@@ -8,8 +8,12 @@ use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
-    public function show(Category $category)
+    public function show($uuid)
     {
+        if (!$category = Category::query()->where('uuid', $uuid)->first()) {
+            abort(404);
+        }
+
         session()->put('activeCategory', $category->id);
 
         $posts = $category->posts()->with('user')->orderBy('created_at', 'desc')->get();
@@ -22,25 +26,28 @@ class CategoryController extends Controller
         return view('category.createCategory');
     }
 
-    public function edit($title)
+    public function edit($uuid)
     {
-        if (!$category = Category::query()->where('title', $title)->first()) {
+        if (!$category = Category::query()->where('uuid', $uuid)->first()) {
             abort(404);
         }
 
-        return view('category.editCategory')->with('category', $category);
+        return view('category.editCategory', compact('category'));
     }
 
-    public function update(Request $request, int $id)
+    public function update(Request $request, $uuid)
     {
-        $newCategoryData = $request->validate([
-            'title' => ['required', Rule::unique('categories', 'title')->ignore($id)],
+        if (!$category = Category::query()->where('uuid', $uuid)->first()) {
+            abort(404);
+        }
+
+        $newCategory = $request->validate([
+            'title' => ['required', Rule::unique('categories', 'title')->ignore($category->id)],
         ]);
 
-        Category::query()->find($id)->update($newCategoryData);
+        $category->update($newCategory);
 
-        return view('category.editCategory', [
-            'category' => Category::query()->find($id),
+        return view('category.editCategory', compact('category'))->with([
             'updateMessage' => 'Category updated successfully'
         ]);
     }
@@ -56,9 +63,11 @@ class CategoryController extends Controller
         return redirect()->route('posts.index');
     }
 
-    public function destroy(int $id)
+    public function destroy($uuid)
     {
-        $category = Category::query()->find($id);
+        if (!$category = Category::query()->where('uuid', $uuid)->first()) {
+            abort(404);
+        }
 
         $category->delete();
 

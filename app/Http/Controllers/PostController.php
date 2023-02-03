@@ -22,18 +22,18 @@ class PostController extends Controller
         return view('post.newPost');
     }
 
-    public function edit(int $id)
+    public function edit($uuid)
     {
-        if (!$post = Post::query()->find($id)) {
+        if (!$post = Post::query()->where('uuid', $uuid)->first()) {
             abort(404);
         }
 
         return view('post.editPost')->with('post', $post);
     }
 
-    public function show(int $id)
+    public function show($uuid)
     {
-        if (!$post = Post::query()->find($id)) {
+        if (!$post = Post::query()->where('uuid', $uuid)->first()) {
             abort(404);
         }
 
@@ -57,7 +57,7 @@ class PostController extends Controller
         return redirect()->route('posts.index');
     }
 
-    public function update(Request $request, int $id)
+    public function update(Request $request, $uuid)
     {
         $newPostData = $request->validate([
             'title' => 'required|string',
@@ -65,21 +65,27 @@ class PostController extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
 
+        if (!$post = Post::query()->where('uuid', $uuid)->first()) {
+            abort(404);
+        }
+
         if ($file = $request->file('image')) {
             $newPostData['image_url'] = $this->saveFile($file);
         }
 
-        Post::query()->find($id)->update($newPostData);
+        $post->update($newPostData);
 
         return view('post.editPost', [
-            'post' => Post::query()->find($id),
+            'post' => Post::query()->where('uuid', $uuid)->first(),
             'updateMessage' => 'Post updated successfully'
         ]);
     }
 
-    public function destroy(int $id)
+    public function destroy($uuid)
     {
-        $post = Post::query()->find($id);
+        if (!$post = Post::query()->where('uuid', $uuid)->first()) {
+            abort(404);
+        }
 
         $this->deleteFile($post->image_url ?? null);
 
@@ -90,10 +96,10 @@ class PostController extends Controller
         return redirect()->back();
     }
 
-    public function deletePostFile(int|Post $postOrId)
+    public function deletePostFile($uuid)
     {
-        if (!($postOrId instanceof Post)) {
-            $post = Post::query()->find($postOrId);
+        if (!$post = Post::query()->where('uuid', $uuid)->first()) {
+            abort(404);
         }
 
         if (!isset($post->image_url)) {

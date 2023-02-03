@@ -74,10 +74,10 @@
 
                     @foreach ($categories as $category)
                     <li class="{{ session('activeCategory') == $category->id ? 'bg-light' : '' }} mb-2 ml-4">
-                        <a style="font-size: 18px;" class="mr-2 {{ session('activeCategory') == $category->id ? 'text-danger' : 'text-dark' }}" href="{{ route('categories.posts.index', ['category' => $category]) }}">
+                        <a style="font-size: 18px;" class="mr-2 {{ session('activeCategory') == $category->id ? 'text-danger' : 'text-dark' }}" href="{{ route('categories.posts', ['uuid' => $category->uuid, 'title' => $category->uuid]) }}">
                             #
                         </a>
-                        <a class="text-dark" style="font-size: 15px;" href="{{ route('categories.show', ['category' => $category]) }}">
+                        <a class="text-dark" style="font-size: 15px;" href="{{ route('categories.show', ['uuid' => $category->uuid, 'title' => $category->title]) }}">
                             {{ $category->title }}
                         </a>
 
@@ -93,7 +93,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ route('categories.edit', ['category' => $category]) }}" class="mr-3 text-info">
+                                    <a href="{{ route('categories.edit', ['uuid' => $category->uuid, 'title' => $category->title]) }}" class="mr-3 text-info">
                                         edit
                                     </a>
                                 </li>
@@ -103,7 +103,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <form action="{{ route('categories.destroy', ['category' => $category]) }}" method="POST" id="delete-form-{{ $category->id }}">
+                                    <form action="{{ route('categories.destroy', ['uuid' => $category->uuid]) }}" method="POST" id="delete-form-{{ $category->id }}">
                                         @csrf @method('DELETE')
                                     </form>
                                     <a href="javascript:void(0)" class="mr-3 text-danger" onclick="$('#delete-form-{{ $category->id }}').submit()">
@@ -118,7 +118,7 @@
                 </ul>
             </div>
 
-            @if (auth()->user()?->isAdmin())
+            @if (auth()->user())
             <li class="nav-item d-block  d-lg-none">
                 <h1></h1>
             </li>

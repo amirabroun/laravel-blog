@@ -24,7 +24,7 @@
                     <div class="text-content text-dark">
                         <p>
                             @isset($post->category)
-                            <a class="text-muted" href="{{ route('categories.show', ['category' => $post->category]) }}">
+                            <a class="text-muted" href="{{ route('categories.show', ['uuid' => $post->category->uuid, 'title' => $post->category->title]) }}">
                                 {{ $post->category->title }}
                             </a>/
                             @endisset
@@ -65,7 +65,7 @@
                         <hr>
 
                         @if (auth()->user()?->isAdmin())
-                        <a href="{{ route('posts.edit', ['id' => $post->id]) }}" class="text-dark" style="font-size: 14px;"> edit</a>
+                        <a href="{{ route('posts.edit', ['uuid' => $post->uuid, 'title' => $post->title]) }}" class="text-dark" style="font-size: 14px;"> edit</a>
                         /
                         @endif
 

@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="card shadow single-blog-post card-body text-dark">
                     <div class="text-content text-dark">
-                        <form class="mb-1" method="post" action="{{ route('posts.update', ['id' => $post->id]) }}" id="contactForm" name="contactForm" enctype="multipart/form-data">
+                        <form class="mb-1" method="post" action="{{ route('posts.update', ['uuid' => $post->uuid]) }}" id="contactForm" name="contactForm" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="row">
@@ -100,14 +100,14 @@
                             </div>
                         </form>
 
-                        <form action="{{ route('posts.deleteFile', ['id' => $post->id]) }}" method="POST" id="delete-post-file-form-{{ $post->id }}">
+                        <form action="{{ route('posts.file.delete', ['uuid' => $post->uuid]) }}" method="POST" id="delete-post-file-form-{{ $post->id }}">
                             @csrf @method('PUT')
                         </form>
 
                         <hr>
-                        <a href="{{ route('posts.show', ['id' => $post->id]) }}" class="text-dark" style="font-size: 14px;"> show</a>
+                        <a href="{{ route('posts.show', ['uuid' => $post->uuid, 'title' => $post->title]) }}" class="text-dark" style="font-size: 14px;"> show</a>
                         /
-                        <a class="text-danger" href="{{ route('posts.index') }}"  style="font-size: 14px;">Back to Blog</a>
+                        <a class="text-danger" href="{{ route('posts.index') }}" style="font-size: 14px;">Back to Blog</a>
                     </div>
                 </div>
             </div>

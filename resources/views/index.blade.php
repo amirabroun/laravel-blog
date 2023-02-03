@@ -44,7 +44,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ route('posts.edit', ['id' => $post->id]) }}" class="mr-3 text-info">
+                                    <a href="{{ route('posts.edit', ['uuid' => $post->uuid, 'title' => $post->title]) }}" class="mr-3 text-info">
                                         edit
                                     </a>
                                 </li>
@@ -54,7 +54,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <form action="{{ route('posts.destroy', ['id' => $post->id]) }}" method="POST" id="delete-form-{{ $post->id }}">
+                                    <form action="{{ route('posts.destroy', ['uuid' => $post->uuid]) }}" method="POST" id="delete-form-{{ $post->id }}">
                                         @csrf @method('DELETE')
                                     </form>
                                     <a href="javascript:void(0)" class="mr-3 text-danger" onclick="$('#delete-form-{{ $post->id }}').submit()">
@@ -65,7 +65,7 @@
                         </div>
                         @endif
                     </div>
-                    <a class="text-dark" style="text-decoration: none;" href="{{ route('posts.show', ['id' => $post->id]) }}">
+                    <a class="text-dark" style="text-decoration: none;" href="{{ route('posts.show', ['uuid' => $post->uuid, 'title' => $post->title]) }}">
                         <div class="card-body">
                             <h2 class="card-title">
                                 {{ $post->title }}
@@ -102,10 +102,10 @@
                         @if(count($categories))
                         @foreach ($categories as $category)
                         <li class="list-group-item {{ session('activeCategory') == $category->id ? 'bg-light' : '' }}">
-                            <a style="font-size: 23px;" class="mr-2 {{ session('activeCategory') == $category->id ? 'text-danger' : 'text-dark' }}" href="{{ route('categories.posts.index', ['category' => $category]) }}">
+                            <a style="font-size: 23px;" class="mr-2 {{ session('activeCategory') == $category->id ? 'text-danger' : 'text-dark' }}" href="{{ route('categories.posts', ['uuid' => $category->uuid, 'title' => $category->title]) }}">
                                 #
                             </a>
-                            <a class="text-dark" href="{{ route('categories.show', ['category' => $category]) }}">
+                            <a class="text-dark" href="{{ route('categories.show', ['uuid' => $category->uuid, 'title' => $category->title]) }}">
                                 {{ $category->title }}
                             </a>
 
@@ -122,7 +122,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <a href="{{ route('categories.edit', ['category' => $category]) }}" class="mr-3 text-info">
+                                        <a href="{{ route('categories.edit', ['uuid' => $category->uuid, 'title' => $category->title]) }}" class="mr-3 text-info">
                                             edit
                                         </a>
                                     </li>
@@ -132,7 +132,7 @@
                                     </li>
 
                                     <li class="nav-item">
-                                        <form action="{{ route('categories.destroy', ['category' => $category]) }}" method="POST" id="delete-form-{{ $category->id }}">
+                                        <form action="{{ route('categories.destroy', ['uuid' => $category->uuid]) }}" method="POST" id="delete-form-{{ $category->id }}">
                                             @csrf @method('DELETE')
                                         </form>
                                         <a href="javascript:void(0)" class="mr-3 text-danger" onclick="$('#delete-form-{{ $category->id }}').submit()">

@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="card shadow single-blog-post card-body text-dark">
                     <div class="text-content text-dark">
-                        <form class="mb-1" method="post" action="{{ route('categories.update', ['category' => $category]) }}" id="contactForm" name="contactForm">
+                        <form class="mb-1" method="post" action="{{ route('categories.update', ['uuid' => $category->uuid]) }}" id="contactForm" name="contactForm">
                             @csrf
                             @method('PUT')
                             <div class="row">
@@ -55,7 +55,7 @@
                         </form>
 
                         <hr>
-                        <a href="{{ route('categories.show', ['category' => $category]) }}" class="text-dark" style="font-size: 14px;"> show</a>
+                        <a href="{{ route('categories.show', ['uuid' => $category->uuid, 'title' => $category->title]) }}" class="text-dark" style="font-size: 14px;"> show</a>
                         /
                         <a class="text-danger" href="{{ route('posts.index') }}" style="font-size: 14px;">Back to Blog</a>
                     </div>
