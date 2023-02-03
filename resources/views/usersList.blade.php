@@ -40,14 +40,14 @@
                                         <td class="col-4 mt-4">
                                             <span class="" style="font-size: 14px;">
                                                 <a href="{{ route('users.profile.show', ['id' => $user->id]) }}" class="text-info">
-                                                    {{ $user->first_name . ' ' . $user->last_name }}
+                                                    {{ $user->full_name }}
                                                 </a>
                                                 <h6 class="mb-0 text-muted mt-2" style="font-size: 12px;"> {{ $user->email }} </h6>
                                             </span>
                                         </td>
                                         <td class="col-2"></td>
                                         <td class="col-6">
-                                            <span class="text-muted" style="font-size: 12px;">{{ date('F j, Y', strtotime($user->created_at)) }}</span>
+                                            <span class="text-muted" style="font-size: 12px;">{{ $user->created_at }}</span>
                                         </td>
                                     </tr>
                                     @endforeach
