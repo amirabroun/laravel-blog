@@ -9,7 +9,7 @@
         <span class="mb-0 ml-2 mr-2">
             Welcome
             <a class="text-dark" href=" {{ route('users.profile.show', ['id' => auth()->user()->id ]) }} ">
-                {{ Auth::user()->first_name ?? 'friend' }}
+                {{ auth()->user()->full_name ?? 'friend' }}
             </a> !
         </span>
         @endauth
