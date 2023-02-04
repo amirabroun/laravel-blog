@@ -17,7 +17,6 @@ Route::prefix('posts')
     ->middleware('auth')
     ->group(function () {
         Route::get('{uuid}/{title}', 'show')->withoutMiddleware('auth')->name('posts.show');
-
         Route::get('create', 'create')->name('posts.create');
         Route::get('{uuid}/{title}/edit', 'edit')->name('posts.edit');
         Route::post('/', 'store')->name('posts.store');
@@ -31,7 +30,6 @@ Route::prefix('categories')
     ->middleware('auth')
     ->group(function () {
         Route::get('{uuid}/{title}/posts',  'index')->withoutMiddleware('auth')->name('categories.posts');
-
         Route::get('create', 'create')->name('categories.create');
         Route::get('{uuid}/{title}/edit', 'edit')->name('categories.edit');
         Route::put('{uuid}', 'update')->name('categories.update');

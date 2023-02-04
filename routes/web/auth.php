@@ -15,6 +15,7 @@ Route::prefix('users')
 
 Route::prefix('register')
     ->controller(AuthController::class)
+    ->middleware('guest')
     ->group(function () {
         Route::view('/', 'auth.register')->name('register.index');
         Route::post('/', 'register')->name('register');
@@ -22,6 +23,7 @@ Route::prefix('register')
 
 Route::prefix('login')
     ->controller(AuthController::class)
+    ->middleware('guest')
     ->group(function () {
         Route::view('/', 'auth.login')->name('login.index');
         Route::post('/', 'login')->name('login');
