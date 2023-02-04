@@ -29,6 +29,10 @@ class User extends Authenticatable
     {
         $fullName = $this?->first_name . ' ' . $this?->last_name;
 
+        if ($fullName == ' ') {
+            $fullName = $this->email;
+        }
+
         return Attribute::get(fn () => $fullName);
     }
 
