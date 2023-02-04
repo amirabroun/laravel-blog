@@ -14,7 +14,7 @@ class AuthController extends Controller
             abort(404);
         }
 
-        return view('auth.profile')->with('user', $user);
+        return view('auth.profile', compact('user'));
     }
 
     public function index()
@@ -32,7 +32,7 @@ class AuthController extends Controller
             abort(404);
         }
 
-        return view('auth.editProfile')->with('user', $user);
+        return view('auth.editProfile', compact('user'));
     }
 
     public function update(Request $request, int $id)
@@ -53,7 +53,9 @@ class AuthController extends Controller
 
         User::query()->where('id', $id)->update($newUserData);
 
-        return view('auth.profile')->with('user', User::query()->find($id));
+        $user = User::query()->find($id);
+
+        return view('auth.profile', compact('user'));
     }
 
     public function login(Request $request)
@@ -71,7 +73,7 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route('posts.index');
+        return redirect()->to(session('previous_url'));
     }
 
     public function register(Request $request)
@@ -87,7 +89,7 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route('posts.index');
+        return redirect()->to(session('previous_url'));
     }
 
     public function logout(Request $request)
@@ -98,6 +100,6 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('posts.index');
+        return redirect()->intended(session('previous_url'));
     }
 }
