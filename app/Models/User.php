@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\{
     Factories\HasFactory,
     Casts\Attribute,
@@ -32,18 +31,6 @@ class User extends Authenticatable
         return Attribute::get(fn () => $fullName);
     }
 
-    public function isAdmin()
-    {
-        return $this->is_admin == 1;
-    }
-
-    public function setPasswordAttribute($value)
-    {
-        $this->attributes['password'] = Hash::make($value);
-
-        return $this;
-    }
-
     public function posts()
     {
         return $this->hasMany(Post::class);
@@ -52,5 +39,36 @@ class User extends Authenticatable
     public function likes()
     {
         return $this->hasMany(Like::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->is_admin == 1;
+    }
+
+    public function ownerOrAdmin($object)
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        if ($object->user->id == $this->id) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function profileOwnerOrAdmin($user)
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        if ($user->id == $this->id) {
+            return true;
+        }
+
+        return false;
     }
 }

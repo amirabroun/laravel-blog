@@ -28,18 +28,30 @@ class AuthController extends Controller
     {
         $user = User::query()->find($id);
 
+        if (!$this->authUser->profileOwnerOrAdmin($user)) {
+            abort(404);
+        }
+
         return view('auth.editProfile')->with('user', $user);
     }
 
     public function update(Request $request, int $id)
     {
-        $user = $request->validate([
+        $newUserData = $request->validate([
             'first_name' => 'string',
             'last_name' => 'string',
             'email' => ['email', Rule::unique('users', 'email')->ignore($id)],
         ]);
 
-        User::query()->where('id', $id)->update($user);
+        if (!$user = User::query()->find($id)) {
+            abort(404);
+        }
+
+        if (!$this->authUser->profileOwnerOrAdmin($user)) {
+            abort(404);
+        }
+
+        User::query()->where('id', $id)->update($newUserData);
 
         return view('auth.profile')->with('user', User::query()->find($id));
     }

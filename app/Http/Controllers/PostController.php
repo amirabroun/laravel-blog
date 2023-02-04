@@ -28,6 +28,10 @@ class PostController extends Controller
             abort(404);
         }
 
+        if (!$this->authUser->ownerOrAdmin($post)) {
+            abort(404);
+        }
+
         return view('post.editPost')->with('post', $post);
     }
 
@@ -69,6 +73,10 @@ class PostController extends Controller
             abort(404);
         }
 
+        if (!$this->authUser->ownerOrAdmin($post)) {
+            abort(404);
+        }
+
         if ($file = $request->file('image')) {
             $newPostData['image_url'] = $this->saveFile($file);
         }
@@ -87,6 +95,10 @@ class PostController extends Controller
             abort(404);
         }
 
+        if (!$this->authUser->ownerOrAdmin($post)) {
+            abort(404);
+        }
+
         $this->deleteFile($post->image_url ?? null);
 
         !isset($post->labels) ?: $post->labels()->detach($post->labels);
@@ -99,6 +111,10 @@ class PostController extends Controller
     public function deletePostFile($uuid)
     {
         if (!$post = Post::query()->where('uuid', $uuid)->first()) {
+            abort(404);
+        }
+
+        if (!$this->authUser->ownerOrAdmin($post)) {
             abort(404);
         }
 
