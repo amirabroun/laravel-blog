@@ -21,7 +21,7 @@
                     <div class="card-header text-muted" style="font-size: 13.5px;">
                         <span>
                             <a style="color: blue;" class="text-dark" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
-                                {{ $post->user->first_name . ' ' . $post->user->last_name }}
+                                {{ $post->user->full_name  }}
                             </a>
                         </span>
                         <span class="text-muted">
@@ -31,7 +31,7 @@
                         <span class="text-muted mr-2" style="font-size: 13px;">{{ date('D F j, Y, G:i', strtotime($post->created_at)) }} </span>
                         @endisset
 
-                        @if (auth()->user()?->isAdmin())
+                        @if (auth()->user()?->ownerOrAdmin($post))
                         <button class="toggler action-post-btn" style="font-size: 12px;" type="button" data-toggle="collapse" data-target="#SupportedContent-post-{{ $post->id }}" aria-controls="SupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="toggler text-dark">act</span>
                         </button>
