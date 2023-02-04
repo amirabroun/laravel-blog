@@ -24,8 +24,8 @@
                                 <div class="col-6 col-lg-3 mt-2">
                                     <div class="form-group">
                                         <select class="form-input" id="exampleFormControlSelect1" name="category_id">
-                                            <option value="{{ $post->category->id }}"> {{ $post->category->title }} </option>
-                                            @foreach (App\Models\Category::all()->except($post->category->id) as $category)
+                                            <option value="{{ $post->category?->id }}"> {{ $post->category?->title }} </option>
+                                            @foreach (App\Models\Category::all()->except($post->category?->id) as $category)
                                             <option value="{{ $category->id }}"> {{ $category->title }} </option>
                                             @endforeach
                                         </select>
