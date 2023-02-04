@@ -10,8 +10,9 @@
             Welcome
             <a class="text-dark ml-1" href=" {{ route('users.profile.show', ['id' => auth()->user()->id ]) }} ">
                 {{ auth()->user()->full_name ?? 'friend' }}
-            </a> !
+            </a>
         </span>
+        |
         @endauth
 
         @guest
