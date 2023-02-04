@@ -8,7 +8,7 @@
         @auth
         <span class="mb-0 ml-2 mr-2">
             Welcome
-            <a class="text-dark" href=" {{ route('users.profile.show', ['id' => auth()->user()->id ]) }} ">
+            <a class="text-dark ml-1" href=" {{ route('users.profile.show', ['id' => auth()->user()->id ]) }} ">
                 {{ auth()->user()->full_name ?? 'friend' }}
             </a> !
         </span>
