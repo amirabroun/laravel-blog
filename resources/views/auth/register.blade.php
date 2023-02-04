@@ -16,8 +16,6 @@
             overflow: hidden;
             margin: 0;
             padding: 0;
-            background-color: #FFDEE9;
-            background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 100%);
         }
 
         form {
