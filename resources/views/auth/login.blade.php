@@ -93,7 +93,10 @@
 </head>
 
 <body>
-    <form action="{{ route('login') }}" method="POST">
+    @php
+        $loginRoute = config('blog.can_users_register') ? route('login') : route('login', ['key' => request('key')]);
+    @endphp
+    <form action="{{ $loginRoute }}" method="POST">
         {{ csrf_field() }}
         <div class="form-field">
             <input name="email" placeholder="Email" value="{{ old('email') }}" required />
@@ -115,7 +118,7 @@
         </div>
         <div class="form-field">
             <h6 style="margin: 0 auto; ">
-                or <a class="text-dark" href=" {{ route('register.index') }} "> register?</a>
+                or <a class="text-dark" href=" {{ route('posts.index') }} "> Back to blog?</a>
             </h6>
         </div>
     </form>

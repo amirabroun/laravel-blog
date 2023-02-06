@@ -1,19 +1,30 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+
     <span class="mt-2 mr-2 mb-2">
         <a class="text-dark mr-2" href=" {{ route('posts.index') }} ">
             blog
         </a>
+        |
+
+        @auth
+        <span class="mb-0 ml-2 mr-2">
+            Welcome
+            <a class="text-dark ml-1" href=" {{ route('users.profile.show', ['id' => auth()->user()->id ]) }} ">
+                {{ auth()->user()->full_name ?? 'friend' }}
+            </a>
+        </span>
+        |
+        @endauth
 
         @guest
-        |
         <span class="">
-            <a class="text-success ml-2" href="{{ route('users.profile.show', ['id' => \Illuminate\Support\Str::slug(\App\Models\User::first()->full_name)]) }}">Amir Abroun</a>
+            <a class="text-info ml-2" href="{{ route('register.index') }}">Register</a>
+            <a class="text-success ml-2" href="{{ route('login.index') }}">Login</a>
         </span>
         @endguest
     </span>
 
     @auth
-
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -24,6 +35,12 @@
                     <hr>
                 </h1>
             </li>
+
+            @if (auth()->user()->isAdmin())
+            <li class="nav-item">
+                <a class="mr-3 text-dark" href="{{ route('users.index') }}">Users</a>
+            </li>
+            @endif
 
             <li class="nav-item d-block  d-lg-none">
                 <h1></h1>

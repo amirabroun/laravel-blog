@@ -38,7 +38,10 @@
                             <p class="text-dark"> {{ $post->body }}</p>
                             <br>
                             <br>
-                            <a class="text-dark" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
+                            @php
+                                $profileParamRoute = config('blog.can_users_register') ? ['id' => $post->user->id] : ['id' => Str::slug($post->user->full_name)]
+                            @endphp
+                            <a class="text-dark" href="{{ route('users.profile.show', $profileParamRoute) }}">
                                 {{ $post->user->first_name . ' ' . $post->user->last_name }}
                             </a> /
                             <span style="font-size: 13px;">

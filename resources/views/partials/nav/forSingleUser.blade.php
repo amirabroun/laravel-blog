@@ -3,22 +3,11 @@
         <a class="text-dark mr-2" href=" {{ route('posts.index') }} ">
             blog
         </a>
-        |
-
-        @auth
-        <span class="mb-0 ml-2 mr-2">
-            Welcome
-            <a class="text-dark ml-1" href=" {{ route('users.profile.show', ['id' => auth()->user()->id ]) }} ">
-                {{ auth()->user()->full_name ?? 'friend' }}
-            </a>
-        </span>
-        |
-        @endauth
 
         @guest
+        |
         <span class="">
-            <a class="text-info ml-2" href="{{ route('register.index') }}">Register</a>
-            <a class="text-success ml-2" href="{{ route('login.index') }}">Login</a>
+            <a class="text-success ml-2" href="{{ route('users.profile.show', ['id' => Str::slug(\App\Models\User::first()->full_name)]) }}">Amir Abroun</a>
         </span>
         @endguest
     </span>
@@ -35,12 +24,6 @@
                     <hr>
                 </h1>
             </li>
-
-            @if (auth()->user()->isAdmin())
-            <li class="nav-item">
-                <a class="mr-3 text-dark" href="{{ route('users.index') }}">Users</a>
-            </li>
-            @endif
 
             <li class="nav-item d-block  d-lg-none">
                 <h1></h1>
