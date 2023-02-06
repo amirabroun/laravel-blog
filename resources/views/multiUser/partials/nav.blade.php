@@ -136,7 +136,7 @@
                 <h1></h1>
             </li>
             <li class="nav-item">
-                <a class="mr-3 text-danger" href="{{ route('log-out') }}">Exit</a>
+                <a class="mr-3 text-danger" href="{{ route('logout') }}">Exit</a>
             </li>
             <li class="nav-item d-block  d-lg-none">
                 <h1></h1>
