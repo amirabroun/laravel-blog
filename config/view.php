@@ -14,7 +14,7 @@ return [
     */
 
     'paths' => [
-        resource_path('views'),
+        config('blog.can_users_register') ? resource_path('views/multiUser') : resource_path('views/singleUser')
     ],
 
     /*
