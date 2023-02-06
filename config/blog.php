@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'can_users_register' => false,
+    'can_users_register' => env('CAN_USERS_REGISTER', false),
 
     'admin_keys' => env('SECRET_LOGIN', 'amirabroun'),
 
