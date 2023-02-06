@@ -24,8 +24,9 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
 
-            Route::middleware('web')
-                ->group(base_path('routes/web/auth.php'));
+            config('blog.can_users_register')
+                ? Route::middleware('web')->group(base_path('routes/web/auth.php'))
+                : Route::middleware('web')->group(base_path('routes/web/secretDoor.php'));
 
             Route::middleware('web')
                 ->group(base_path('routes/web/blog.php'));
