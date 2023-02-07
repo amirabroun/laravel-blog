@@ -47,6 +47,10 @@ class AuthAdminController extends AuthController
             'password' => 'required'
         ]);
 
+        if (User::query()->where('email', $user['email'])->where('is_admin', 1)->count() == 0) {
+            abort(404);
+        }
+
         if (!auth()->attempt($user)) {
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',
