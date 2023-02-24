@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Mail\RegisterUser;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -84,6 +86,8 @@ class AuthController extends Controller
         ]);
 
         User::create($user);
+
+        Mail::to($request->user())->queue(new RegisterUser());
 
         auth()->attempt($user);
 
