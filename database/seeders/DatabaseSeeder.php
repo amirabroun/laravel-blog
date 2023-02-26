@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use ReflectionClass, ReflectionProperty;
 use App\Models\{Category, Post, User, Label, Skill};
 
 class DatabaseSeeder extends Seeder
@@ -37,7 +38,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->admin()->users()->categories()->posts();
+        $reflection = new ReflectionClass($this);
+
+        collect(
+            $reflection->getMethods(ReflectionProperty::IS_PRIVATE)
+        )->pluck('name')->map(
+            fn ($method) => call_user_func([$this, $method])
+        );
     }
 
     private function admin()
