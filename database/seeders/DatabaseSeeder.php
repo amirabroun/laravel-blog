@@ -19,15 +19,19 @@ class DatabaseSeeder extends Seeder
 
     private function users()
     {
-        User::factory()->create([
-            'first_name' => 'Amir',
-            'last_name' => 'Abroun',
-            'email' => 'abroon234@gmail.com',
-            'password' => 12345678,
-            'is_admin' => 1,
-        ]); // admin user Amir Abroun
+        User::factory()
+            ->hasSkills(rand(1, 10))
+            ->create([
+                'first_name' => 'Amir',
+                'last_name' => 'Abroun',
+                'email' => 'abroon234@gmail.com',
+                'password' => 12345678,
+                'is_admin' => 1,
+            ]); // admin user Amir Abroun
 
-        User::factory(rand(4, 10))->create();
+        User::factory(rand(4, 10))
+            ->hasSkills(rand(1, 10))
+            ->create();
 
         return $this;
     }
