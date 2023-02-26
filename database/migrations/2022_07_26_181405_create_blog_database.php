@@ -68,6 +68,14 @@ return new class extends Migration
             $table->text('body');
             $table->timestamps();
         });
+
+        Schema::create('skills', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->string('title');
+            $table->tinyInteger('percent');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -82,5 +90,7 @@ return new class extends Migration
         Schema::dropIfExists('users');
 
         Schema::dropIfExists('categories');
+
+        Schema::dropIfExists('skills');
     }
 };
