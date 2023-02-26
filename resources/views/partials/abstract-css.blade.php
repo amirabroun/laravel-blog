@@ -74,4 +74,45 @@
         display: block;
         box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
     }
+    .skill-box {
+        width: 100%;
+        margin: 25px 0;
+    }
+
+    .skill-box .title {
+        display: block;
+        font-size: 12px;    
+        font-weight: 600;
+        color: #333;
+    }
+
+    .skill-box .skill-bar {
+        height: 8px;
+        width: 100%;
+        border-radius: 6px;
+        margin-top: 6px;
+        background: rgba(0, 0, 0, 0.1);
+    }
+
+    .skill-bar .skill-per {
+        position: relative;
+        display: block;
+        height: 100%;
+        width: 0%;
+        border-radius: 6px;
+        background: #4070f4;
+        animation: progress 1.5s ease-in-out forwards;
+    }
+
+    @keyframes progress {
+        0% {
+            width: 0;
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
 </style>

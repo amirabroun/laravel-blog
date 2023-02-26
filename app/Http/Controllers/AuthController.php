@@ -12,7 +12,7 @@ class AuthController extends Controller
 {
     public function show(int $id)
     {
-        if (!$user = User::query()->find($id)) {
+        if (!$user = User::query()->with('skills')->find($id)) {
             abort(404);
         }
 

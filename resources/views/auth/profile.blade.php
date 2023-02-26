@@ -17,32 +17,32 @@
             <div class="row">
                 <div class="card shadow-sm single-blog-post card-body text-dark">
                     <div class="text-content text-dark mb-1 mt-2">
-                        <span class="mr-3">
-                            First Name :
-                        </span>
                         <span>
-                            {{ $user->first_name }}
+                            <h3>
+                                {{ $user->full_name }}
+                            </h3>
+
+                            <h6 class="text-muted">
+                                {{ $user->email }}
+                            </h6>
                         </span>
 
-                        <br class="mb-3">
-                        <br class="mb-4">
+                        @if (count($user->skills))
+                        <div class="row">
+                            @foreach ($user->skills as $skill)
+                            <div class="skill-box col-4">
+                                <span class="title">{{ $skill->title }}</span>
 
-                        <span class="mr-3">
-                            Last Name :
-                        </span>
-                        <span class=" mt-2">
-                            {{ $user->last_name }}
-                        </span>
+                                <div class="skill-bar">
+                                    <span class="skill-per" style="width: <? echo "$skill?->percent%" ?>">
+                                        <span class="tooltip"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            @endforeach
 
-                        <br class="mb-3">
-                        <br class="mb-4">
-
-                        <span class="mr-3">
-                            Email :
-                        </span>
-                        <span>
-                            {{ $user->email }}
-                        </span>
+                        </div>
+                        @endif
 
                         <hr>
 
