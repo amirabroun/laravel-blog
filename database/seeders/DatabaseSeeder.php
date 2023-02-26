@@ -3,10 +3,33 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\{Category, Post, User, Label};
+use App\Models\{Category, Post, User, Label, Skill};
 
 class DatabaseSeeder extends Seeder
 {
+    private $adminSkill = [
+        [
+            'title' => 'Laravel',
+            'percent' => 75,
+        ],
+        [
+            'title' => 'Php',
+            'percent' => 80,
+        ],
+        [
+            'title' => 'Linux',
+            'percent' => 30,
+        ],
+        [
+            'title' => 'Mysql',
+            'percent' => 60,
+        ],
+        [
+            'title' => 'Scrum',
+            'percent' => 50,
+        ]
+    ];
+
     /**
      * Seed the application's database.
      *
@@ -14,21 +37,29 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->users()->categories()->posts();
+        $this->admin()->users()->categories()->posts();
     }
 
-    private function users()
+    private function admin()
     {
-        User::factory()
-            ->hasSkills(rand(1, 10))
+        $user = User::factory()
             ->create([
                 'first_name' => 'Amir',
                 'last_name' => 'Abroun',
                 'email' => 'abroon234@gmail.com',
                 'password' => 12345678,
                 'is_admin' => 1,
-            ]); // admin user Amir Abroun
+            ]);
 
+        collect($this->adminSkill)->map(
+            fn ($skills) => Skill::factory()->for($user)->create($skills)
+        );
+
+        return $this;
+    }
+
+    private function users()
+    {
         User::factory(rand(4, 10))
             ->hasSkills(rand(1, 10))
             ->create();
