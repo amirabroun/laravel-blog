@@ -8,9 +8,9 @@ Route::prefix('users')
     ->middleware('auth')
     ->group(function () {
         Route::get('/', 'index')->name('users.index');
-        Route::get('/{id}', 'show')->withoutMiddleware('auth')->name('users.profile.show');
-        Route::get('/{id}/edit', 'edit')->name('users.profile.edit');
-        Route::put('/{id}', 'update')->name('users.profile.update');
+        Route::get('/{uuid}', 'show')->withoutMiddleware('auth')->name('users.profile.show');
+        Route::get('/{uuid}/edit', 'edit')->name('users.profile.edit');
+        Route::put('/{uuid}', 'update')->name('users.profile.update');
     });
 
 Route::prefix('register')

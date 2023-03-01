@@ -7,7 +7,7 @@
         @guest
         |
         <span class="">
-            <a class="text-success ml-2" href="{{ route('users.profile.show', ['id' => Str::slug(\App\Models\User::first()->full_name)]) }}">Amir Abroun</a>
+            <a class="text-success ml-2" href="{{ route('users.profile.show', ['uuid' => Str::slug(\App\Models\User::first()->full_name)]) }}">Amir Abroun</a>
         </span>
         @endguest
     </span>

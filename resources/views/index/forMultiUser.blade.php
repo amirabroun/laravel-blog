@@ -7,7 +7,7 @@
             <div class="card mb-4">
                 <div class="card-header text-muted" style="font-size: 13.5px;">
                     <span>
-                        <a style="color: blue;" class="text-dark" href="{{ route('users.profile.show', ['id' => $post->user->id]) }}">
+                        <a style="color: blue;" class="text-dark" href="{{ route('users.profile.show', ['uuid' => $post->user->uuid]) }}">
                             {{ $post->user->full_name  }}
                         </a>
                     </span>

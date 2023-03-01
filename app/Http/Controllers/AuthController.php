@@ -10,25 +10,23 @@ use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
-    public function show(int $id)
+    public function show(string $uuid)
     {
-        if (!$user = User::query()->with('skills')->find($id)) {
-            abort(404);
-        }
+        $user = User::query()->with('skills')->where('uuid', $uuid)->firstOrFail();
 
         return view('auth.profile', compact('user'));
     }
 
     public function index()
     {
-        $users = User::query()->select(['id', 'first_name', 'last_name', 'email', 'created_at'])->get();
+        $users = User::query()->select(['uuid', 'first_name', 'last_name', 'email', 'created_at'])->get()->keyBy('uuid');
 
         return view('usersList')->with(compact('users'));
     }
 
-    public function edit(int $id)
+    public function edit(string $uuid)
     {
-        $user = User::query()->find($id);
+        $user = User::query()->where('uuid', $uuid)->firstOrFail();
 
         if (!$this->authUser->profileOwnerOrAdmin($user)) {
             abort(404);
@@ -37,25 +35,23 @@ class AuthController extends Controller
         return view('auth.editProfile', compact('user'));
     }
 
-    public function update(Request $request, int $id)
+    public function update(Request $request, string $uuid)
     {
+        $user = User::query()->where('uuid', $uuid)->firstOrFail();
+
         $newUserData = $request->validate([
             'first_name' => 'string',
             'last_name' => 'string',
-            'email' => ['email', Rule::unique('users', 'email')->ignore($id)],
+            'email' => ['email', Rule::unique('users', 'email')->ignoreModel($user)],
         ]);
-
-        if (!$user = User::query()->find($id)) {
-            abort(404);
-        }
 
         if (!$this->authUser->profileOwnerOrAdmin($user)) {
             abort(404);
         }
 
-        User::query()->where('id', $id)->update($newUserData);
+        User::query()->where('uuid', $uuid)->update($newUserData);
 
-        $user = User::query()->find($id);
+        $user = User::query()->where('uuid', $uuid)->firstOrFail();
 
         return view('auth.profile', compact('user'));
     }
@@ -69,7 +65,7 @@ class AuthController extends Controller
 
         if (!auth()->attempt($user)) {
             return back()->withErrors([
-                'email' => 'The provided credentials do not match our records.',
+                'email' => 'The provuuided credentials do not match our records.',
             ])->onlyInput('email');
         }
 

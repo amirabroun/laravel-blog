@@ -35,11 +35,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($users as $key => $user)
+                                    @foreach ($users as $uuid => $user)
                                     <tr>
                                         <td class="col-4 mt-4">
                                             <span class="" style="font-size: 14px;">
-                                                <a href="{{ route('users.profile.show', ['id' => $user->id]) }}" class="text-info">
+                                                <a href="{{ route('users.profile.show', compact('uuid')) }}" class="text-info">
                                                     {{ $user->full_name }}
                                                 </a>
                                                 <h6 class="mb-0 text-muted mt-2" style="font-size: 12px;"> {{ $user->email }} </h6>

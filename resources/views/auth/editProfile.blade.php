@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="card shadow-sm single-blog-post card-body text-dark">
                     <div class="text-content text-dark mb-1">
-                        <form action="{{ route('users.profile.update', ['id' => $user->id]) }}" method="post">
+                        <form action="{{ route('users.profile.update', ['uuid' => $user->uuid]) }}" method="post">
                             <input type="hidden" name="_method" value="PUT">
                             @csrf
 
@@ -64,7 +64,7 @@
 
                         <hr>
                         @if (auth()->user()?->isAdmin())
-                        <a href="{{ route('users.profile.show', ['id' => $user->id]) }}" style="font-size: 14px;" class="text-dark"> show</a>
+                        <a href="{{ route('users.profile.show', ['uuid' => $user->uuid]) }}" style="font-size: 14px;" class="text-dark"> show</a>
                         /
                         @endif
 

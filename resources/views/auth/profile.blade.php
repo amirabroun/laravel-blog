@@ -48,7 +48,7 @@
 
                         @auth
                         @if (auth()->user()->profileOwnerOrAdmin($user))
-                        <a href="{{ route('users.profile.edit', ['id' => $user->id]) }}" style="font-size: 14px;" class="text-dark"> edit</a>
+                        <a href="{{ route('users.profile.edit', ['uuid' => $user->uuid]) }}" style="font-size: 14px;" class="text-dark"> edit</a>
                         /
                         @endif
                         @endauth
