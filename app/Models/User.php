@@ -11,10 +11,11 @@ use Illuminate\Database\Eloquent\{
     SoftDeletes
 };
 use Laravel\Sanctum\HasApiTokens;
+use App\Traits\HasUuid;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasUuid;
 
     protected $fillable = ['first_name', 'last_name', 'email', 'password', 'is_admin'];
 
