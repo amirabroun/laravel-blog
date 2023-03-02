@@ -39,7 +39,7 @@
                             <br>
                             <br>
                             @php
-                                $profileParamRoute = config('blog.can_users_register') ? ['uuid' => $post->user->id] : ['uuid' => Str::slug($post->user->full_name)]
+                                $profileParamRoute = config('blog.can_users_register') ? ['uuid' => $post->user->uuid] : ['uuid' => Str::slug($post->user->full_name)]
                             @endphp
                             <a class="text-dark" href="{{ route('users.profile.show', $profileParamRoute) }}">
                                 {{ $post->user->first_name . ' ' . $post->user->last_name }}
