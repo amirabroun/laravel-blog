@@ -18,23 +18,37 @@
                 <div class="card shadow-sm single-blog-post card-body text-dark">
                     <div class="text-content text-dark mb-1 mt-2">
                         <span>
-                            <h3>
+                            <h4 class="text-blue">
                                 {{ $user->full_name }}
-                            </h3>
-
-                            <h6 class="text-muted">
-                                {{ $user->email }}
-                            </h6>
+                                @isset($user->resume->experiences)
+                                <span>
+                                    |
+                                </span>
+                                <span class="text-dark">
+                                    {{ $user->resume->experiences{0}->position }}
+                                    at
+                                    {{ $user->resume->experiences{0}->company }}
+                                </span>
+                                @endisset
+                            </h4>
                         </span>
 
-                        @if (count($user->skills))
+                        <br>
+                        <span>
+                            {{ $user->resume->summary }}
+                        </span>
+
+                        @if (count($user->resume->skills))
                         <div class="row">
-                            @foreach ($user->skills as $skill)
+                            @foreach ($user->resume->skills as $skill)
                             <div class="skill-box col-4">
                                 <span class="title">{{ $skill->title }}</span>
 
                                 <div class="skill-bar">
-                                    <span class="skill-per" style="width: <? echo "$skill?->percent%" ?>">
+                                    @php
+                                    $percent = isset($skill->percent) ? $skill->percent : 0;
+                                    @endphp
+                                    <span class="skill-per" style="width: <? echo $percent . "%" ?>">
                                         <span class="tooltip"></span>
                                     </span>
                                 </div>

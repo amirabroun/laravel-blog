@@ -49,9 +49,9 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
-    public function skills()
+    public function resume()
     {
-        return $this->hasMany(Skill::class);
+        return $this->hasOne(Resume::class);
     }
 
     public function likes()

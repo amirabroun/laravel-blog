@@ -12,7 +12,7 @@ class AuthController extends Controller
 {
     public function show(string $uuid)
     {
-        $user = User::query()->with('skills')->where('uuid', $uuid)->firstOrFail();
+        $user = User::query()->with('resume')->where('uuid', $uuid)->firstOrFail();
 
         return view('auth.profile', compact('user'));
     }

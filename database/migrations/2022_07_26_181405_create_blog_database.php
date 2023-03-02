@@ -70,11 +70,13 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('skills', function (Blueprint $table) {
+        Schema::create('resumes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('title');
-            $table->tinyInteger('percent');
+            $table->text('summary')->nullable();
+            $table->json('experiences')->nullable();
+            $table->json('education')->nullable();
+            $table->json('skills')->nullable();
             $table->timestamps();
         });
     }
@@ -92,6 +94,6 @@ return new class extends Migration
 
         Schema::dropIfExists('categories');
 
-        Schema::dropIfExists('skills');
+        Schema::dropIfExists('resumes');
     }
 };
