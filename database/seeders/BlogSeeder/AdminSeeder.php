@@ -51,20 +51,72 @@ class AdminSeeder extends Seeder
             ],
             [
                 'title' => 'Php',
-                'percent' => 80,
+                'percent' => 95,
+            ],
+            [
+                'title' => 'Object-Oriented',
+                'percent' => 90,
             ],
             [
                 'title' => 'Linux',
-                'percent' => 30,
+                'percent' => 40,
+            ],
+            [
+                'title' => 'Docker',
+                'percent' => 60,
+            ],
+            [
+                'title' => 'Nginx',
+                'percent' => 40,
+            ],
+            [
+                'title' => 'Git',
+                'percent' => 80,
+            ],
+            [
+                'title' => 'Github',
+                'percent' => 20,
+            ],
+            [
+                'title' => 'Bash',
+                'percent' => 70,
             ],
             [
                 'title' => 'Mysql',
                 'percent' => 60,
             ],
             [
+                'title' => 'Redis',
+                'percent' => 30,
+            ],
+            [
+                'title' => 'Project Management',
+                'percent' => 60,
+            ],
+            [
+                'title' => 'JavaScript',
+                'percent' => 55,
+            ],
+            [
+                'title' => 'JQuery',
+                'percent' => 40,
+            ],
+            [
+                'title' => 'Ajax',
+                'percent' => 35,
+            ],
+            [
+                'title' => 'Debuging',
+                'percent' => 80,
+            ],
+            [
                 'title' => 'Scrum',
-                'percent' => 50,
-            ]
+                'percent' => 60,
+            ],
+            [
+                'title' => 'Agile',
+                'percent' => 30,
+            ],
         ];
     }
 }
