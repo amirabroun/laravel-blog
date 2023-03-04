@@ -20,7 +20,7 @@ class PostFactory extends Factory
     public function definition()
     {
         return [
-            'uuid' => Str::uuid()->toString(),
+            'uuid' => fake()->uuid(),
             'user_id' => User::factory(),
             'category_id' => Category::factory(),
             'title' => fake()->text(rand(8, 15)),
