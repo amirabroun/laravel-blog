@@ -1,4 +1,4 @@
-FROM php:8-fpm
+FROM php:8.2.2-fpm
 
 RUN apt-get update --fix-missing \
     && apt-get install -y curl wget zip unzip git g++ \
