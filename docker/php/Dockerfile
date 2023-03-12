@@ -15,8 +15,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN pecl install xdebug \ docker-php-ext-enable xdebug 
 
-COPY xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
 
