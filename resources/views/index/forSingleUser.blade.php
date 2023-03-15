@@ -4,7 +4,7 @@
         @isset($posts)
         <div class="col-sm-12 col-md-12 col-lg-7 mb-4  {{ !count($posts) ?: 'bg-light' }}">
             @foreach ($posts as $key => $post)
-            <a class="text-dark" style="text-decoration: none;" href="{{ route('posts.show', ['uuid' => $post->uuid, 'title' => $post->title]) }}">
+            <a class="text-dark" style="text-decoration: none;" href="{{ route('posts.show', ['uuid' => $post->uuid]) }}">
                 <div class="card-body">
                     @if(File::exists(base_path('/public/image/') . $post->image_url) && isset($post->image_url))
                     <img class="card-img-top w-100" src="{{ URL::asset('/public/image/' . $post->image_url) }}" alt="#">
@@ -39,7 +39,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('posts.edit', ['uuid' => $post->uuid, 'title' => $post->title]) }}" class="mr-3 text-info">
+                            <a href="{{ route('posts.edit', ['uuid' => $post->uuid]) }}" class="mr-3 text-info">
                                 edit
                             </a>
                         </li>
@@ -82,7 +82,7 @@
                     @if(count($categories))
                     @foreach ($categories as $category)
                     <li class="list-group-item {{ session('activeCategory') == $category->id ? 'bg-light' : '' }}">
-                        <a class="text-dark" href="{{ route('categories.posts', ['uuid' => $category->uuid, 'title' => $category->title]) }}">
+                        <a class="text-dark" href="{{ route('categories.posts', ['uuid' => $category->uuid]) }}">
                             {{ $category->title }}
                         </a>
 
@@ -99,7 +99,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ route('categories.edit', ['uuid' => $category->uuid, 'title' => $category->title]) }}" class="mr-3 text-info">
+                                    <a href="{{ route('categories.edit', ['uuid' => $category->uuid]) }}" class="mr-3 text-info">
                                         edit
                                     </a>
                                 </li>

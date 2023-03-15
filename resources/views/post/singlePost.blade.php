@@ -16,15 +16,15 @@
         <div class="col-md-10">
             <div class="row">
                 <div class="card shadow-sm single-blog-post card-body text-dark">
-                    @if(File::exists(base_path('/public/image/') . $post->image_url) && isset($post->image_url))
-                    <img src="{{ URL::asset('/public/image/' . $post->image_url) }}" alt="#">
+                    @if(File::exists($post->media?->first()?->getPath()))
+                    <img src="{{ $post->media?->first()->getUrl() }}" alt="#">
                     <hr>
-                    @endisset
+                    @endif
 
                     <div class="text-content text-dark">
                         <p>
                             @isset($post->category)
-                            <a class="text-muted" href="{{ route('categories.posts', ['uuid' => $post->category->uuid, 'title' => $post->category->title]) }}">
+                            <a class="text-muted" href="{{ route('categories.posts', ['uuid' => $post->category->uuid]) }}">
                                 {{ $post->category->title }}
                             </a>/
                             @endisset
@@ -39,7 +39,7 @@
                             <br>
                             <br>
                             @php
-                                $profileParamRoute = config('blog.can_users_register') ? ['uuid' => $post->user->uuid] : ['uuid' => Str::slug($post->user->full_name)]
+                            $profileParamRoute = config('blog.can_users_register') ? ['uuid' => $post->user->uuid] : ['uuid' => Str::slug($post->user->full_name)]
                             @endphp
                             <a class="text-dark" href="{{ route('users.profile.show', $profileParamRoute) }}">
                                 {{ $post->user->first_name . ' ' . $post->user->last_name }}
@@ -69,7 +69,7 @@
 
                         @if (auth()->user())
                         @if (auth()->user()->id == $post->user->id || auth()->user()->isAdmin())
-                        <a href="{{ route('posts.edit', ['uuid' => $post->uuid, 'title' => $post->title]) }}" class="text-dark" style="font-size: 14px;"> edit</a>
+                        <a href="{{ route('posts.edit', ['uuid' => $post->uuid]) }}" class="text-dark" style="font-size: 14px;"> edit</a>
                         /
                         @endif
                         @endif

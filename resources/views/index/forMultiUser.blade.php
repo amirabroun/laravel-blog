@@ -31,7 +31,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="{{ route('posts.edit', ['uuid' => $post->uuid, 'title' => $post->title]) }}" class="mr-3 text-info">
+                                <a href="{{ route('posts.edit', ['uuid' => $post->uuid]) }}" class="mr-3 text-info">
                                     edit
                                 </a>
                             </li>
@@ -52,7 +52,7 @@
                     </div>
                     @endif
                 </div>
-                <a class="text-dark" style="text-decoration: none;" href="{{ route('posts.show', ['uuid' => $post->uuid, 'title' => $post->title]) }}">
+                <a class="text-dark" style="text-decoration: none;" href="{{ route('posts.show', ['uuid' => $post->uuid]) }}">
                     <div class="card-body">
                         <h2 class="card-title">
                             {{ $post->title }}
@@ -89,10 +89,10 @@
                     @if(count($categories))
                     @foreach ($categories as $category)
                     <li class="list-group-item {{ session('activeCategory') == $category->id ? 'bg-light' : '' }}">
-                        <a style="font-size: 23px;" class="mr-2 {{ session('activeCategory') == $category->id ? 'text-danger' : 'text-dark' }}" href="{{ route('categories.posts', ['uuid' => $category->uuid, 'title' => $category->title]) }}">
+                        <a style="font-size: 23px;" class="mr-2 {{ session('activeCategory') == $category->id ? 'text-danger' : 'text-dark' }}" href="{{ route('categories.posts', ['uuid' => $category->uuid]) }}">
                             #
                         </a>
-                        <a class="text-dark" href="{{ route('categories.posts', ['uuid' => $category->uuid, 'title' => $category->title]) }}">
+                        <a class="text-dark" href="{{ route('categories.posts', ['uuid' => $category->uuid]) }}">
                             {{ $category->title }}
                         </a>
 
@@ -109,7 +109,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ route('categories.edit', ['uuid' => $category->uuid, 'title' => $category->title]) }}" class="mr-3 text-info">
+                                    <a href="{{ route('categories.edit', ['uuid' => $category->uuid]) }}" class="mr-3 text-info">
                                         edit
                                     </a>
                                 </li>

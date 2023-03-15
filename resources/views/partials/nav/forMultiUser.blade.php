@@ -75,10 +75,10 @@
 
                     @foreach ($categories as $category)
                     <li class="{{ session('activeCategory') == $category->id ? 'bg-light' : '' }} mb-2 ml-4">
-                        <a style="font-size: 18px;" class="mr-2 {{ session('activeCategory') == $category->id ? 'text-danger' : 'text-dark' }}" href="{{ route('categories.posts', ['uuid' => $category->uuid, 'title' => $category->uuid]) }}">
+                        <a style="font-size: 18px;" class="mr-2 {{ session('activeCategory') == $category->id ? 'text-danger' : 'text-dark' }}" href="{{ route('categories.posts', ['uuid' => $category->uuid]) }}">
                             #
                         </a>
-                        <a class="text-dark" style="font-size: 15px;" href="{{ route('categories.posts', ['uuid' => $category->uuid, 'title' => $category->title]) }}">
+                        <a class="text-dark" style="font-size: 15px;" href="{{ route('categories.posts', ['uuid' => $category->uuid]) }}">
                             {{ $category->title }}
                         </a>
 
@@ -94,7 +94,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ route('categories.edit', ['uuid' => $category->uuid, 'title' => $category->title]) }}" class="mr-3 text-info">
+                                    <a href="{{ route('categories.edit', ['uuid' => $category->uuid]) }}" class="mr-3 text-info">
                                         edit
                                     </a>
                                 </li>

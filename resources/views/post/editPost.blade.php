@@ -105,7 +105,7 @@
                         </form>
 
                         <hr>
-                        <a href="{{ route('posts.show', ['uuid' => $post->uuid, 'title' => $post->title]) }}" class="text-dark" style="font-size: 14px;"> show</a>
+                        <a href="{{ route('posts.show', ['uuid' => $post->uuid]) }}" class="text-dark" style="font-size: 14px;"> show</a>
                         /
                         <a class="text-danger" href="{{ route('posts.index') }}" style="font-size: 14px;">Back to Blog</a>
                     </div>
