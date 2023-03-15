@@ -22,7 +22,7 @@ Route::prefix('posts')
         Route::post('/', 'store')->name('posts.store');
         Route::put('{uuid}', 'update')->name('posts.update');
         Route::delete('{uuid}', 'destroy')->name('posts.destroy');
-        Route::put('{uuid}/delete-file', 'deletePostFile')->name('posts.file.delete');
+        Route::delete('{uuid}/delete-file', 'deletePostFile')->name('posts.files.delete');
     });
 
 Route::prefix('categories')

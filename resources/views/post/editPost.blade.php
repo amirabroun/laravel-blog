@@ -100,8 +100,8 @@
                             </div>
                         </form>
 
-                        <form action="{{ route('posts.file.delete', ['uuid' => $post->uuid]) }}" method="POST" id="delete-post-file-form-{{ $post->id }}">
-                            @csrf @method('PUT')
+                        <form action="{{ route('posts.files.delete', ['uuid' => $post->uuid]) }}" method="POST" id="delete-post-file-form-{{ $post->id }}">
+                            @csrf @method('DELETE')
                         </form>
 
                         <hr>
