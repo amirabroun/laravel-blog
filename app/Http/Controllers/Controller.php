@@ -16,6 +16,6 @@ class Controller extends BaseController
 
     public function __construct()
     {
-        $this->authUser = auth()->guest() ?: auth()->user();
+        auth()->guest() ?: $this->authUser = auth()->user();
     }
 }
