@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\{Post, Category};
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
+use App\Models\{Post, Category};
 
 class PostController extends Controller
 {
@@ -17,16 +16,9 @@ class PostController extends Controller
         return view('index', compact('posts'));
     }
 
-    public function create()
-    {
-        return view('post.newPost');
-    }
-
     public function edit($uuid)
     {
-        if (!$post = Post::query()->where('uuid', $uuid)->first()) {
-            abort(404);
-        }
+        $post = Post::query()->where('uuid', $uuid)->with('media')->firstOrFail();
 
         if (!$this->authUser->ownerOrAdmin($post)) {
             abort(404);
@@ -39,9 +31,7 @@ class PostController extends Controller
 
     public function show($uuid)
     {
-        if (!$post = Post::query()->where('uuid', $uuid)->with(['category', 'media'])->first()) {
-            abort(404);
-        }
+        $post = Post::query()->where('uuid', $uuid)->with(['category', 'media'])->firstOrFail();
 
         $categories = Category::all(['id', 'title'])->except(['id' => $post->category_id]);
 
@@ -75,9 +65,7 @@ class PostController extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        if (!$post = Post::query()->where('uuid', $uuid)->first()) {
-            abort(404);
-        }
+        $post = Post::query()->where('uuid', $uuid)->with('media')->firstOrFail();
 
         if (!$this->authUser->ownerOrAdmin($post)) {
             abort(404);
@@ -100,9 +88,7 @@ class PostController extends Controller
 
     public function destroy($uuid)
     {
-        if (!$post = Post::query()->where('uuid', $uuid)->first()) {
-            abort(404);
-        }
+        $post = Post::query()->where('uuid', $uuid)->with('media')->firstOrFail();
 
         if (!$this->authUser->ownerOrAdmin($post)) {
             abort(404);
@@ -119,9 +105,7 @@ class PostController extends Controller
 
     public function deletePostFile($uuid)
     {
-        if (!$post = Post::query()->where('uuid', $uuid)->with('media')->first()) {
-            abort(404);
-        }
+        $post = Post::query()->where('uuid', $uuid)->with('media')->firstOrFail();
 
         if (!$this->authUser->ownerOrAdmin($post)) {
             abort(404);

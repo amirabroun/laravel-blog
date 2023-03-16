@@ -12,16 +12,10 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected User $authUser;
+    protected ?User $authUser;
 
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
-            if (auth()->check()) {
-                $this->authUser = auth()->user();
-            }
-
-            return $next($request);
-        });
+        $this->authUser = auth()->guest() ?: auth()->user();
     }
 }

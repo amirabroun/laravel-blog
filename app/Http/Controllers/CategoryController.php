@@ -10,9 +10,7 @@ class CategoryController extends Controller
 {
     public function index($uuid)
     {
-        if (!$category = Category::query()->where('uuid', $uuid)->first()) {
-            abort(404);
-        }
+        $category = Category::query()->where('uuid', $uuid)->firstOrFail();
 
         session()->put('activeCategory', $category->id);
 
@@ -21,25 +19,16 @@ class CategoryController extends Controller
         return view('index', compact('posts'));
     }
 
-    public function create()
-    {
-        return view('category.createCategory');
-    }
-
     public function edit($uuid)
     {
-        if (!$category = Category::query()->where('uuid', $uuid)->first()) {
-            abort(404);
-        }
+        $category = Category::query()->where('uuid', $uuid)->firstOrFail();
 
         return view('category.editCategory', compact('category'));
     }
 
     public function update(Request $request, $uuid)
     {
-        if (!$category = Category::query()->where('uuid', $uuid)->first()) {
-            abort(404);
-        }
+        $category = Category::query()->where('uuid', $uuid)->firstOrFail();
 
         $newCategory = $request->validate([
             'title' => ['required', Rule::unique('categories', 'title')->ignore($category->id)],
@@ -65,9 +54,7 @@ class CategoryController extends Controller
 
     public function destroy($uuid)
     {
-        if (!$category = Category::query()->where('uuid', $uuid)->first()) {
-            abort(404);
-        }
+        $category = Category::query()->where('uuid', $uuid)->firstOrFail();
 
         $category->delete();
 
