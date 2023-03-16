@@ -3,19 +3,25 @@
 namespace App\Models;
 
 use App\Traits\HasUuid;
+use Spatie\MediaLibrary\{HasMedia, InteractsWithMedia};
 use Illuminate\Database\Eloquent\{
     Model,
     Casts\Attribute,
     Factories\HasFactory,
 };
 
-class Post extends Model
+class Post extends Model implements HasMedia
 {
-    use HasFactory, HasUuid;
+    use HasFactory, HasUuid, InteractsWithMedia;
 
     protected $fillable = ['title', 'body', 'user_id', 'image_url', 'category_id'];
 
     protected $appends = ['count_likes', 'can_auth_user_like_this_post'];
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('image')->useDisk('media');
+    }
 
     protected function countLikes(): Attribute
     {

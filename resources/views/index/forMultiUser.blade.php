@@ -57,9 +57,9 @@
                         <h2 class="card-title">
                             {{ $post->title }}
                         </h2>
-                        @if(File::exists(base_path('/public/image/') . $post->image_url) && isset($post->image_url))
+                        @if(File::exists($post->media?->first()?->getPath()))
                         <hr>
-                        <img class="card-img-top w-100" src="{{ URL::asset('/public/image/' . $post->image_url) }}" alt="#">
+                        <img class="card-img-top w-100 mb-4" src="{{ $post->media?->first()->getUrl() }}" alt="#">
                         <br>
                         <br>
                         @endif

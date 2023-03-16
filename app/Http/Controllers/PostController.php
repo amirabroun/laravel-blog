@@ -12,7 +12,7 @@ class PostController extends Controller
     {
         session()->forget('activeCategory');
 
-        $posts = Post::query()->with('user')->orderBy('created_at', 'desc')->get();
+        $posts = Post::query()->with(['user', 'media'])->orderBy('created_at', 'desc')->get();
 
         return view('index', compact('posts'));
     }
@@ -32,31 +32,37 @@ class PostController extends Controller
             abort(404);
         }
 
-        return view('post.editPost')->with('post', $post);
+        $categories = Category::all(['id', 'title'])->except(['id' => $post->category_id]);
+
+        return view('post.editPost', compact('post', 'categories'));
     }
 
     public function show($uuid)
     {
-        if (!$post = Post::query()->where('uuid', $uuid)->first()) {
+        if (!$post = Post::query()->where('uuid', $uuid)->with(['category', 'media'])->first()) {
             abort(404);
         }
 
-        return view('post.singlePost')->with('post', $post);
+        $categories = Category::all(['id', 'title'])->except(['id' => $post->category_id]);
+
+        return view('post.singlePost')->with(compact('post', 'categories'));
     }
 
     public function store(Request $request)
     {
-        $post = $request->validate([
+        $postData = $request->validate([
             'title' => 'required|string',
             'body' => 'required|string',
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        if ($file = $request->file('image')) {
-            $post['image_url'] = $this->saveFile($file);
-        }
+        $this->authUser->posts()->save($post = new Post($postData));
 
-        $this->authUser->posts()->save(new Post($post));
+        if ($request->file('image', false)) {
+            $post->addMediaFromRequest('image')->usingFileName(
+                $request->file('image')->hashName()
+            )->toMediaCollection('image');
+        }
 
         return redirect()->route('posts.index');
     }
@@ -77,16 +83,19 @@ class PostController extends Controller
             abort(404);
         }
 
-        if ($file = $request->file('image')) {
-            $newPostData['image_url'] = $this->saveFile($file);
+        if ($request->file('image', false)) {
+            $post->addMediaFromRequest('image')->usingFileName(
+                $request->file('image')->hashName()
+            )->toMediaCollection('image');
         }
 
         $post->update($newPostData);
 
-        return view('post.editPost', [
-            'post' => Post::query()->where('uuid', $uuid)->first(),
-            'updateMessage' => 'Post updated successfully'
-        ]);
+        $post = Post::query()->where('uuid', $uuid)->first();
+        $categories = Category::all(['id', 'title'])->except(['id' => $post->category_id]);
+
+        return view('post.editPost', compact('post', 'categories'))
+            ->with(['updateMessage' => 'Post updated successfully']);
     }
 
     public function destroy($uuid)
@@ -99,7 +108,7 @@ class PostController extends Controller
             abort(404);
         }
 
-        $this->deleteFile($post->image_url ?? null);
+        $post->media->map(fn ($image) => $image->forceDelete());
 
         !isset($post->labels) ?: $post->labels()->detach($post->labels);
 
@@ -110,7 +119,7 @@ class PostController extends Controller
 
     public function deletePostFile($uuid)
     {
-        if (!$post = Post::query()->where('uuid', $uuid)->first()) {
+        if (!$post = Post::query()->where('uuid', $uuid)->with('media')->first()) {
             abort(404);
         }
 
@@ -118,32 +127,12 @@ class PostController extends Controller
             abort(404);
         }
 
-        if (!isset($post->image_url)) {
+        if ($post->media->count() == 0) {
             return back()->withErrors(['file' => 'post does not have file']);
         }
 
-        $this->deleteFile($post->image_url);
-
-        $post->update(['image_url' => null]);
+        $post->media->map(fn ($image) => $image->forceDelete());
 
         return redirect()->back();
-    }
-
-    private function saveFile($file)
-    {
-        $fileName = $file->hashName();
-
-        $file->store('image', 'public');
-
-        return $fileName;
-    }
-
-    private function deleteFile($path)
-    {
-        if (!File::exists(base_path('/public/image/') . $path)) {
-            return false;
-        }
-
-        return File::delete(public_path('image/' . $path));
     }
 }
