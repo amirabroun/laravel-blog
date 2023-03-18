@@ -33,12 +33,16 @@
                             </h4>
                         </span>
 
+                        <h6 class="text-muted">
+                            {{ $user->email }}
+                        </h6>
+
                         <br>
                         <span>
-                            {{ $user->resume->summary }}
+                            {{ $user?->resume?->summary }}
                         </span>
 
-                        @if (count($user->resume->skills))
+                        @if (count($user?->resume?->skills ?? []))
                         <div class="row">
                             @foreach ($user->resume->skills as $skill)
                             <div class="skill-box col-4">

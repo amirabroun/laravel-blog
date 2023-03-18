@@ -30,7 +30,6 @@ class DatabaseSeeder extends Seeder
     private function users()
     {
         User::factory(rand(4, 10))
-            ->hasResume()
             ->create();
 
         return $this;
