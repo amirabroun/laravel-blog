@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\MediaLibrary\{InteractsWithMedia, HasMedia};
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\{
@@ -13,9 +14,9 @@ use Illuminate\Database\Eloquent\{
 use Laravel\Sanctum\HasApiTokens;
 use App\Traits\HasUuid;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasUuid;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasUuid, InteractsWithMedia;
 
     protected $fillable = ['first_name', 'last_name', 'email', 'password', 'is_admin'];
 
@@ -25,6 +26,11 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('image')->useDisk('media');
+    }
 
     protected function fullName(): Attribute
     {

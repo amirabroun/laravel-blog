@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="card shadow-sm single-blog-post card-body text-dark">
                     <div class="text-content text-dark mb-1">
-                        <form action="{{ route('users.profile.update', ['uuid' => $user->uuid]) }}" method="post">
+                        <form action="{{ route('users.profile.update', ['uuid' => $user->uuid]) }}" method="post"  enctype="multipart/form-data">
                             <input type="hidden" name="_method" value="PUT">
                             @csrf
 
@@ -55,6 +55,24 @@
                                 </ul>
                             </div>
                             @endisset
+
+                            <hr class="mt-4">
+                            <div class="container mt-2">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6" id="one">
+                                        <h5>Upload image</h5>
+                                        <div id="uploader form-input">
+                                            <div class="row uploadDoc mt-4 ">
+                                                <div class="col-sm-3 ">
+                                                    <div class="fileUpload btn btn-orange ">
+                                                        <input name="image" type="file" class="upload up " />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="form-field mt-4">
                                 <button class="btn btn-info" type="submit">update</button>

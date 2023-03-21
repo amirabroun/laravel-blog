@@ -51,6 +51,12 @@ class AuthController extends Controller
 
         User::query()->where('uuid', $uuid)->update($newUserData);
 
+        if ($request->file('image', false)) {
+            $user->addMediaFromRequest('image')->usingFileName(
+                $request->file('image')->hashName()
+            )->toMediaCollection('image');
+        }
+
         $user = User::query()->where('uuid', $uuid)->firstOrFail();
 
         return view('auth.profile', compact('user'));

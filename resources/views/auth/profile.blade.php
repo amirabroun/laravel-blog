@@ -17,51 +17,59 @@
             <div class="row">
                 <div class="card shadow-sm single-blog-post card-body text-dark">
                     <div class="text-content text-dark mb-1 mt-2">
-                        <span>
-                            <h4 class="text-blue">
-                                {{ $user->full_name }}
-                                @isset($user->resume->experiences)
-                                <span>
-                                    |
-                                </span>
-                                <span class="text-dark">
-                                    {{ $user->resume->experiences{0}->position }}
-                                    at
-                                    {{ $user->resume->experiences{0}->company }}
-                                </span>
-                                @endisset
-                            </h4>
-                        </span>
+                        <div style="text-align: center;">
 
-                        <h6 class="text-muted">
-                            {{ $user->email }}
-                        </h6>
+                            @if(File::exists($user->media?->first()?->getPath()))
+                            <img src="{{ $user->media?->first()->getUrl() }}" style=" border-radius: 100px;" class="w-25" alt="#">
+                            <hr>
+                            @endif
 
-                        <br>
-                        <span>
-                            {{ $user?->resume?->summary }}
-                        </span>
-
-                        @if (count($user?->resume?->skills ?? []))
-                        <div class="row">
-                            @foreach ($user->resume->skills as $skill)
-                            <div class="skill-box col-4">
-                                <span class="title">{{ $skill->title }}</span>
-
-                                <div class="skill-bar">
-                                    @php
-                                    $percent = isset($skill->percent) ? $skill->percent : 0;
-                                    @endphp
-                                    <span class="skill-per" style="width: <? echo $percent . "%" ?>">
-                                        <span class="tooltip"></span>
+                            <span>
+                                <h4 class="text-blue">
+                                    {{ $user->full_name }}
+                                    @isset($user->resume->experiences)
+                                    <span>
+                                        |
                                     </span>
+                                    <span class="text-dark">
+                                        {{ $user->resume->experiences{0}->position }}
+                                        at
+                                        {{ $user->resume->experiences{0}->company }}
+                                    </span>
+                                    @endisset
+                                </h4>
+                            </span>
+
+                            <h6 class="text-muted">
+                                {{ $user->email }}
+                            </h6>
+
+                            <br>
+                            <span>
+                                {{ $user?->resume?->summary }}
+                            </span>
+
+                            @if (count($user?->resume?->skills ?? []))
+                            <div class="row">
+                                @foreach ($user->resume->skills as $skill)
+                                <div class="skill-box col-4">
+                                    <span class="title">{{ $skill->title }}</span>
+
+                                    <div class="skill-bar">
+                                        @php
+                                        $percent = isset($skill->percent) ? $skill->percent : 0;
+                                        @endphp
+                                        <span class="skill-per" style="width: <? echo $percent . "%" ?>">
+                                            <span class="tooltip"></span>
+                                        </span>
+                                    </div>
                                 </div>
+                                @endforeach
+
                             </div>
-                            @endforeach
+                            @endif
 
                         </div>
-                        @endif
-
                         <hr>
 
                         @auth
