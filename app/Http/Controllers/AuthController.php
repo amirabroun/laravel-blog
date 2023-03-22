@@ -12,7 +12,7 @@ class AuthController extends Controller
 {
     public function show(string $uuid)
     {
-        $user = User::query()->with('resume')->where('uuid', $uuid)->firstOrFail();
+        $user = User::query()->with(['resume', 'media'])->where('uuid', $uuid)->firstOrFail();
 
         return view('auth.profile', compact('user'));
     }
@@ -51,10 +51,10 @@ class AuthController extends Controller
 
         User::query()->where('uuid', $uuid)->update($newUserData);
 
-        if ($request->file('image', false)) {
-            $user->addMediaFromRequest('image')->usingFileName(
-                $request->file('image')->hashName()
-            )->toMediaCollection('image');
+        if ($request->file('avatar', false)) {
+            $user->addMediaFromRequest('avatar')->usingFileName(
+                $request->file('avatar')->hashName()
+            )->toMediaCollection('avatar');
         }
 
         $user = User::query()->where('uuid', $uuid)->firstOrFail();

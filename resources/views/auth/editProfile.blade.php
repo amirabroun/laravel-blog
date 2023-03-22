@@ -60,12 +60,12 @@
                             <div class="container mt-2">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6" id="one">
-                                        <h5>Upload image</h5>
+                                        <h5>Upload avatar</h5>
                                         <div id="uploader form-input">
                                             <div class="row uploadDoc mt-4 ">
                                                 <div class="col-sm-3 ">
                                                     <div class="fileUpload btn btn-orange ">
-                                                        <input name="image" type="file" class="upload up " />
+                                                        <input name="avatar" type="file" class="upload up " />
                                                     </div>
                                                 </div>
                                             </div>

@@ -20,7 +20,7 @@ class User extends Authenticatable implements HasMedia
 
     protected $fillable = ['first_name', 'last_name', 'email', 'password', 'is_admin'];
 
-    protected $appends = ['full_name'];
+    protected $appends = ['full_name', 'avatar'];
 
     protected $hidden = [
         'password',
@@ -29,7 +29,22 @@ class User extends Authenticatable implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('image')->useDisk('media');
+        $this->addMediaCollection('avatar')
+            ->singleFile()
+            ->useDisk('media');
+    }
+
+    protected function avatar(): Attribute
+    {
+        if (!$this->relationLoaded('media')) {
+            $this->load('media');
+        }
+
+        $avatar = $this->media->where('collection_name', 'avatar')->last();
+
+        $url = $avatar == null ? false : $avatar->getUrl();
+
+        return Attribute::get(fn () => $url);
     }
 
     protected function fullName(): Attribute

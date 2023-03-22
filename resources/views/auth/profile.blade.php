@@ -19,8 +19,8 @@
                     <div class="text-content text-dark mb-1 mt-2">
                         <div style="text-align: center;">
 
-                            @if(File::exists($user->media?->first()?->getPath()))
-                            <img src="{{ $user->media?->first()->getUrl() }}" style=" border-radius: 100px;" class="w-25" alt="#">
+                            @if($user->avatar)
+                            <img src="{{ $user->avatar }}" style=" border-radius: 50px;" class="w-25" alt="#">
                             <hr>
                             @endif
 
