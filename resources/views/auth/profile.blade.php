@@ -17,15 +17,13 @@
             <div class="row">
                 <div class="card shadow-sm single-blog-post card-body text-dark">
                     <div class="text-content text-dark mb-1 mt-2">
-                        <div style="text-align: center;">
+                        <div style="text-align: left;">
+                            <div class="row">
+                                @if($user->avatar)
+                                <img src="{{ $user->avatar }}" style=" border-radius: 50px; margin-left: 25px;" class="w-25" alt="#">
+                                @endif
 
-                            @if($user->avatar)
-                            <img src="{{ $user->avatar }}" style=" border-radius: 50px;" class="w-25" alt="#">
-                            <hr>
-                            @endif
-
-                            <span>
-                                <h4 class="text-blue">
+                                <span class="mt-4 ml-4" style="font-size: large;">
                                     {{ $user->full_name }}
                                     @isset($user->resume->experiences)
                                     <span>
@@ -37,12 +35,13 @@
                                         {{ $user->resume->experiences{0}->company }}
                                     </span>
                                     @endisset
-                                </h4>
-                            </span>
 
-                            <h6 class="text-muted">
-                                {{ $user->email }}
-                            </h6>
+                                    <br>
+                                    <span class="text-muted">
+                                        {{ $user->email }}
+                                    </span>
+                                </span>
+                            </div>
 
                             <br>
                             <span>
@@ -50,7 +49,8 @@
                             </span>
 
                             @if (count($user?->resume?->skills ?? []))
-                            <div class="row">
+                            <hr>
+                            <div class="row" style="text-align: center;">
                                 @foreach ($user->resume->skills as $skill)
                                 <div class="skill-box col-4">
                                     <span class="title">{{ $skill->title }}</span>
