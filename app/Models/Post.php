@@ -16,11 +16,24 @@ class Post extends Model implements HasMedia
 
     protected $fillable = ['title', 'body', 'user_id', 'image_url', 'category_id'];
 
-    protected $appends = ['count_likes', 'can_auth_user_like_this_post'];
+    protected $appends = ['image', 'count_likes', 'can_auth_user_like_this_post'];
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('image')->useDisk('media');
+        $this->addMediaCollection('image')
+            ->singleFile()
+            ->useDisk('media');
+    }
+
+    protected function image(): Attribute
+    {
+        $this->relationLoaded('media') ?: $this->load('media');
+
+        $image = $this->media->where('collection_name', 'image')->last();
+
+        $url = $image == null ? false : $image->getUrl();
+
+        return Attribute::get(fn () => $url);
     }
 
     protected function countLikes(): Attribute
