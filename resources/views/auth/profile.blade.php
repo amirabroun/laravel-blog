@@ -48,8 +48,37 @@
                                 {{ $user?->resume?->summary }}
                             </span>
 
+                            @isset($user->resume->experiences)
+                            <hr>
+                            <h2 class="mb-4">Experience</h2>
+                            @foreach ($user->resume->experiences as $key => $experience)
+
+                            <!-- Line -->
+                            <div style="width: 9px;height: 9px;border-radius: 50%;background-color: #00416A;margin-top: 10px;position: absolute; z-index: 1;"></div>
+                            <!-- Point -->
+                            <div style=" width: 1px; height: <? echo count($user->resume->experiences) == $key + 1 ? '0px' : '104px' ?>; background-color: #a8a8a8;margin-left: 4.5px;position: absolute; margin-top: 10px;"></div>
+
+                            <div class="col-xs-10 col-sm-11 item ml-3">
+                                <h5 style="text-align: left;">
+                                    {{ $experience->company }}
+                                </h5>
+
+                                <span>
+                                    {{ $experience->position }}
+                                </span>
+
+                                <br>
+                                <span class="text-muted">
+                                    {{ $experience->started_at }} - {{ $experience->finished_at == null ? 'present' : $experience->finished_at }}
+                                </span>
+                            </div>
+                            <br>
+                            @endforeach
+                            @endisset
+
                             @if (count($user?->resume?->skills ?? []))
                             <hr>
+                            <h2 class="mb-2">Skills</h2>
                             <div class="row" style="text-align: center;">
                                 @foreach ($user->resume->skills as $skill)
                                 <div class="skill-box col-4">
