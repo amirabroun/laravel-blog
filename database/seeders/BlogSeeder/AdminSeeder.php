@@ -37,6 +37,12 @@ class AdminSeeder extends Seeder
                 'company' => 'Sanjeman',
                 'position' => 'Backend developer',
                 'started_at' => '22-10-5',
+                'finished_at' => '23-10-3',
+            ],
+            [
+                'company' => 'Sanjeman',
+                'position' => 'Team lead',
+                'started_at' => '22-10-5',
                 'finished_at' => null,
             ],
         ];
