@@ -57,7 +57,7 @@
                         <h2 class="card-title">
                             {{ $post->title }}
                         </h2>
-                        @if(File::exists($post->media?->first()?->getPath()))
+                        @if($post->image)
                         <hr>
                         <img class="card-img-top w-100 mb-4" src="{{ $post->media?->first()->getUrl() }}" alt="#">
                         <br>

@@ -16,7 +16,7 @@
         <div class="col-md-10">
             <div class="row">
                 <div class="card shadow-sm single-blog-post card-body text-dark">
-                    @if(File::exists($post->media?->first()?->getPath()))
+                    @if($post->image)
                     <img src="{{ $post->media?->first()->getUrl() }}" alt="#">
                     <hr>
                     @endif

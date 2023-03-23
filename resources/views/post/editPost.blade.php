@@ -48,7 +48,7 @@
                                     <div class="col">
                                         <div id="uploader">
                                             <div class="row uploadDoc mt-4">
-                                                @if(File::exists($post->media?->first()?->getPath()))
+                                                @if($post->image)
                                                 <br>
                                                 <hr>
                                                 <img class="card-img-top w-100 mb-4"  src="{{ $post->media?->first()->getUrl() }}" alt="#">
@@ -63,7 +63,7 @@
                                                     <h1></h1>
                                                 </div>
 
-                                                @if(File::exists($post->media?->first()?->getPath()))
+                                                @if($post->image)
                                                 <div class="mt-1 ml-2">
                                                     <a class="action-post-btn text-danger bg-light" style="font-size: 12px;" type="submit" onclick="$('#delete-post-file-form-{{ $post->id }}').submit()">
                                                         Delete File

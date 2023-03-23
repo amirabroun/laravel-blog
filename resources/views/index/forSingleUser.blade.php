@@ -6,7 +6,7 @@
             @foreach ($posts as $key => $post)
             <a class="text-dark" style="text-decoration: none;" href="{{ route('posts.show', ['uuid' => $post->uuid]) }}">
                 <div class="card-body">
-                    @if(File::exists($post->media?->first()?->getPath()))
+                    @if($post->image)
                     <img class="card-img-top w-100 mb-4" src="{{ $post->media?->first()->getUrl() }}" alt="#">
                     <br>
                     <br>
