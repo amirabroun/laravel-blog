@@ -89,7 +89,7 @@ class AuthController extends Controller
 
         User::create($user);
 
-        Mail::to($request->user())->queue(new RegisterUser());
+        Mail::to($request->email)->queue(new RegisterUser());
 
         auth()->attempt($user);
 
