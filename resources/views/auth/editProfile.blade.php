@@ -7,6 +7,7 @@
     <title> {{ $user->full_name }} </title>
 
     @include('partials.abstract-css')
+    <!-- i'm so fucking tired to create html page -->
 </head>
 
 <body>
