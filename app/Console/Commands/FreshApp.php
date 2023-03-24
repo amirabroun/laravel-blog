@@ -32,11 +32,11 @@ class FreshApp extends Command
 
         $this->freshDatabase();
 
-        $this->seedDatabase();
-
         $this->deleteMedia();
 
         $this->callSilent('optimize:clear');
+
+        $this->seedDatabase();
     }
 
     private function production()
