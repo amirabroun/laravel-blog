@@ -15,11 +15,11 @@ class FreshApp extends Command
     protected $signature = 'app:fresh';
 
     /**
-     * The console command description.
+     * Indicates whether the command should be shown in the Artisan command list.
      *
-     * @var string
+     * @var bool
      */
-    protected $description = 'Restart the app';
+    protected $hidden = false;
 
     /**
      * Execute the console command.
