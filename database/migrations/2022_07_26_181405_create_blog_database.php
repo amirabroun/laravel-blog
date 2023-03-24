@@ -107,7 +107,15 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('likes');
+
+        Schema::dropIfExists('comments');
+
         Schema::dropIfExists('posts');
+
+        Schema::dropIfExists('labels');
+
+        Schema::dropIfExists('label_post');
 
         Schema::dropIfExists('users');
 
