@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title> {{ $user->first_name . ' ' . $user->last_name }} </title>
+    <title> {{ $user->full_name }} </title>
 
     @include('partials.abstract-css')
 </head>
@@ -17,27 +17,46 @@
             <div class="row">
                 <div class="card shadow-sm single-blog-post card-body text-dark">
                     <div class="text-content text-dark mb-1">
-                        <form action="{{ route('users.profile.update', ['uuid' => $user->uuid]) }}" method="post"  enctype="multipart/form-data">
+                        <form action="{{ route('users.profile.update', ['uuid' => $user->uuid]) }}" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="_method" value="PUT">
                             @csrf
 
                             <div class="row">
-                                <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
-                                    <span class="text bg-light p-1">First Name</span>
-                                    <input type="text" name="first_name" value="{{ $user->first_name }}" class="form-input text-muted mt-2" />
+                                <div class="col-sm-12 col-md-6 col-lg-6">
+                                    <div class="uploadDoc mt-2">
+                                        @if($user->avatar)
+                                        <img class="card-img-top" style="border-radius: 50px;" src="{{ $user->avatar }}" alt="#">
+                                        @else
+                                        <input name="avatar" type="file" class="upload up form-input  action-post-btn text-dark" />
+                                        @endif
+
+                                        @if($user->avatar)
+                                        <div class="mt-4 ml-2">
+                                            <a class="action-post-btn text-danger bg-light" style="font-size: 12px;" type="submit" onclick="$('#delete-user-avatar-form-{{ $user->id }}').submit()">
+                                                Delete File
+                                            </a>
+                                        </div>
+                                        @endif
+                                    </div>
                                 </div>
 
                                 <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
-                                    <span class="text bg-light p-1">Last Name</span>
-                                    <input type="text" name="last_name" value="{{ $user->last_name }}" class="form-input text-muted mt-2" />
-                                </div>
+                                    <div class="col">
+                                        <span class="text bg-light p-1">First Name</span>
+                                        <input type="text" name="first_name" value="{{ $user->first_name }}" class="form-input text-muted mt-2" />
+                                    </div>
 
-                                <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
-                                    <span class="text bg-light p-1">Email</span>
-                                    <input type="email" name="email" value="{{ $user->email }}" class="form-input mt-2 text-muted" />
+                                    <div class="col mt-3">
+                                        <span class="text bg-light p-1">Last Name</span>
+                                        <input type="text" name="last_name" value="{{ $user->last_name }}" class="form-input text-muted mt-2" />
+                                    </div>
+
+                                    <div class="col mt-3">
+                                        <span class="text bg-light p-1">Email</span>
+                                        <input type="email" name="email" value="{{ $user->email }}" class="form-input mt-2 text-muted" />
+                                    </div>
                                 </div>
                             </div>
-
                             @if ($errors->any())
                             <div class="alert alert-danger mt-4">
                                 <ul>
@@ -56,29 +75,14 @@
                             </div>
                             @endisset
 
-                            <hr class="mt-4">
-                            <div class="container mt-2">
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-6" id="one">
-                                        <h5>Upload avatar</h5>
-                                        <div id="uploader form-input">
-                                            <div class="row uploadDoc mt-4 ">
-                                                <div class="col-sm-3 ">
-                                                    <div class="fileUpload btn btn-orange ">
-                                                        <input name="avatar" type="file" class="upload up " />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="form-field mt-4">
                                 <button class="btn btn-info" type="submit">update</button>
                             </div>
                         </form>
 
+                        <form action="{{ route('users.files.avatar.delete', ['uuid' => $user->uuid]) }}" method="POST" id="delete-user-avatar-form-{{ $user->id }}">
+                            @csrf @method('DELETE')
+                        </form>
 
                         <hr>
                         @if (auth()->user()?->isAdmin())

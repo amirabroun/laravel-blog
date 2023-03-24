@@ -108,4 +108,22 @@ class AuthController extends Controller
 
         return redirect()->intended(session('previous_url'));
     }
+
+    public function deleteUserAvatar($uuid)
+    {
+        $user = User::query()->where('uuid', $uuid)->with('media')->firstOrFail();
+
+        if (!$this->authUser->profileOwnerOrAdmin($user)) {
+            abort(404);
+        }
+
+        if ($user->media->count() == 0) {
+            return back()->withErrors(['file' => 'user does not have file']);
+        }
+
+        $user->media->where('collection_name', 'avatar')
+            ->map(fn ($image) => $image->forceDelete());
+
+        return redirect()->back();
+    }
 }
