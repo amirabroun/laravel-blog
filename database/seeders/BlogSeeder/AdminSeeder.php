@@ -18,11 +18,20 @@ class AdminSeeder extends Seeder
                 'is_admin' => 1,
             ]);
 
+        $user->addMediaFromUrl($this->avatarUrl())->usingFileName(
+            fake()->uuid() . '.png'
+        )->toMediaCollection('avatar');
+
         Resume::factory()->for($user)->create([
             'summary' => $this->summary(),
             'experiences' => $this->experiences(),
             'skills' => $this->skills(),
         ]);
+    }
+
+    private function avatarUrl()
+    {
+        return "https://github.com/amirabroun.png";
     }
 
     private function summary()
