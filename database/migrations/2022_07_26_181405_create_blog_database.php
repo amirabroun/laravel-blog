@@ -40,7 +40,6 @@ return new class extends Migration
             $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
             $table->string('title');
             $table->text('body');
-            $table->string('image_url')->nullable();
             $table->timestamps();
         });
 

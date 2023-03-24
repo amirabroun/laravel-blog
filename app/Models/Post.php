@@ -14,7 +14,7 @@ class Post extends Model implements HasMedia
 {
     use HasFactory, HasUuid, InteractsWithMedia;
 
-    protected $fillable = ['title', 'body', 'user_id', 'image_url', 'category_id'];
+    protected $fillable = ['title', 'body', 'user_id', 'category_id'];
 
     protected $appends = ['image', 'count_likes', 'can_auth_user_like_this_post'];
 
