@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+
+    nginx:
+        container_name: nginx-blog
+        ports:
+            - "${APP_PORT-80}:80"
+        build: ./docker/nginx
+        links:
+            - php
+        volumes:
+            - ./:/usr/share/nginx/www
+
+    php:
+        container_name: php-blog
+        build: .
+        volumes:
+            - ./:/usr/share/nginx/www
+
+networks:
+    default:
+        external: true
+        name: production
