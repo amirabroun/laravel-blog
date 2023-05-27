@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{ URL::asset('/resources/css/bootstrap.css') }}">
+<link rel="stylesheet"  href="{{ url('/public/css/bootstrap.css') }}">
 
 <style>
     body,
@@ -116,3 +116,4 @@
     }
 
 </style>
+
