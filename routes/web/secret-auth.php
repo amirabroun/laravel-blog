@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthAdminController;
+use App\Http\Controllers\Web\AuthAdminController;
 
 Route::controller(AuthAdminController::class)
     ->group(function () {
