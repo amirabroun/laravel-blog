@@ -17,6 +17,8 @@ class Resume extends Model
         'skills' => Json::class,
     ];
 
+    protected $hidden = ['id', 'user_id'];
+
     public function user()
     {
         return $this->belongsTo(User::class);
