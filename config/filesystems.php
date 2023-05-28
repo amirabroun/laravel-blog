@@ -59,7 +59,7 @@ return [
         'media' => [
             'driver' => 'local',
             'root' => public_path('media'),
-            'url' => '/public/media',
+            'url' => url('') . '/public/media',
             'visibility' => 'public',
             'throw' => false,
         ],
