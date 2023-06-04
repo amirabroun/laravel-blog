@@ -33,9 +33,7 @@ class AuthController extends Controller
         $user = User::query()->where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return back()->withErrors([
-                'email' => 'The provuuided credentials do not match our records.',
-            ])->onlyInput('email');
+            return ['message' => __('auth.password')];
         }
 
         $token = $user->createToken($user->email);
