@@ -14,15 +14,6 @@ class AuthController extends Controller
         return new UserResource($this->authUser);
     }
 
-    public function show(string $uuid)
-    {
-        $user = User::query()->with(['resume', 'media'])->where('uuid', $uuid)->first();
-
-        $user->setHidden(['id'])->media->setVisible(['uuid', 'collection_name', 'name', 'original_url', 'created_at']);
-
-        return response($user);
-    }
-
     public function login(Request $request)
     {
         $request->validate([
@@ -42,5 +33,29 @@ class AuthController extends Controller
             'user' => new UserResource($user),
             'token' => $token->plainTextToken
         ];
+    }
+
+    public function register(Request $request)
+    {
+        $user = $request->validate([
+            'email' => 'required|unique:users,email',
+            'password' => 'required|confirmed',
+        ]);
+
+        auth()->login($user = new User($user));
+
+        $user->save();
+
+        return [
+            'user' => new UserResource($user),
+            'token' => $user->createToken($user->email)->plainTextToken
+        ];
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return ['message' =>  __('auth.logout')];
     }
 }
