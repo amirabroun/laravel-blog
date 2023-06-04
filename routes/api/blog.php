@@ -15,7 +15,6 @@ use App\Http\Controllers\Api\AuthController;
 */
 
 Route::get('users/{uuid}', [AuthController::class, 'show'])
-    ->middleware('auth:sanctum')
     ->name('users.profile');
 
 Route::get('auth/account', [AuthController::class, 'account'])
