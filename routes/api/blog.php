@@ -14,4 +14,13 @@ use App\Http\Controllers\Api\AuthController;
 |
 */
 
-Route::get('users/{uuid}', [AuthController::class, 'show']);
+Route::get('users/{uuid}', [AuthController::class, 'show'])
+    ->middleware('auth:sanctum')
+    ->name('users.profile');
+
+Route::get('auth/account', [AuthController::class, 'account'])
+    ->middleware('auth:sanctum')
+    ->name('auth.profile');
+
+Route::post('auth/login', [AuthController::class, 'login'])
+    ->name('auth.login');

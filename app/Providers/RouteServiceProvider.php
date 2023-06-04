@@ -22,7 +22,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')
-                ->group(base_path('routes/api.php'));
+                ->group(base_path('routes/api/blog.php'));
 
             config('blog.can_users_register')
                 ? Route::middleware('web')->group(base_path('routes/web/auth.php'))
