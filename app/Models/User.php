@@ -42,7 +42,7 @@ class User extends Authenticatable implements HasMedia
 
         $avatar = $this->media->where('collection_name', 'avatar')->last();
 
-        $url = $avatar == null ? false : $avatar->getUrl();
+        $url = !$avatar ? null : $avatar->getUrl();
 
         return Attribute::get(fn () => $url);
     }
