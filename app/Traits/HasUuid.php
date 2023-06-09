@@ -12,4 +12,12 @@ trait HasUuid
             fn (Model $model) => $model->uuid = fake()->uuid()
         );
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public static function uuid($uuid)
+    {
+        return (new static)->where('uuid', $uuid);
+    }
 }
