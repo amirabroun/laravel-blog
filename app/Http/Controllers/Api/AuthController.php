@@ -14,7 +14,7 @@ class AuthController extends Controller
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('auth.successfully_auth'),
-            'data' => new UserResource($this->authUser)
+            'data' => ['user' => new UserResource($this->authUser)],
         ];
     }
 
@@ -44,7 +44,7 @@ class AuthController extends Controller
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('auth.login'),
-            'data' => new UserResource($user),
+            'data' => ['user' => new UserResource($user)],
         ];
     }
 
@@ -69,7 +69,7 @@ class AuthController extends Controller
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('auth.register'),
-            'data' => new UserResource($user),
+            'data' => ['user' => new UserResource($user)],
         ];
     }
 
