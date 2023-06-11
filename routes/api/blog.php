@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,12 +14,21 @@ use App\Http\Controllers\Api\AuthController;
 |
 */
 
-Route::get('users/{uuid}', [AuthController::class, 'show'])
-    ->name('users.profile');
+Route::prefix('users')
+    ->controller(UserController::class)
+    ->whereUuid('uuid')
+    ->group(function () {
+        Route::get('/', 'index')
+            ->name('users.index');
 
-Route::get('auth/account', [AuthController::class, 'account'])
-    ->middleware('auth:sanctum')
-    ->name('auth.profile');
+        Route::get('{uuid}', 'show')
+            ->name('users.profile');
 
-Route::post('auth/login', [AuthController::class, 'login'])
-    ->name('auth.login');
+        Route::put('{uuid}/update-profile', 'updateUserProfile')
+            ->middleware('auth:sanctum')
+            ->name('auth.profile.update');
+
+        Route::put('{uuid}/update-resume', 'updateUserResume')
+            ->middleware('auth:sanctum')
+            ->name('auth.profile.update');
+    });

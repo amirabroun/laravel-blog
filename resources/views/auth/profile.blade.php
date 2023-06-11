@@ -69,7 +69,7 @@
 
                                 <br>
                                 <span class="text-muted">
-                                    {{ $experience->started_at }} - {{ $experience->finished_at == null ? 'present' : $experience->finished_at }}
+                                    {{ $experience->started_at }} - {{ ($experience->finished_at ?? null) == null ? 'present' : $experience->finished_at }}
                                 </span>
                             </div>
                             <br>
