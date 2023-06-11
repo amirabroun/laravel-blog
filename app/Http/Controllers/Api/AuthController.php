@@ -11,7 +11,11 @@ class AuthController extends Controller
 {
     public function account()
     {
-        return new UserResource($this->authUser);
+        return [
+            'status' => self::HTTP_STATUS_CODE['success'],
+            'message' => __('auth.successfully_auth'),
+            'data' => new UserResource($this->authUser)
+        ];
     }
 
     public function login(Request $request)
@@ -22,16 +26,25 @@ class AuthController extends Controller
         ]);
 
         $user = User::query()->where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return ['message' => __('auth.password')];
+        if (!$user) {
+            return [
+                'status' => self::HTTP_STATUS_CODE['not_found'],
+                'message' => __('auth.user_not_found.email'),
+            ];
         }
 
-        $token = $user->createToken($user->email);
+        if (!Hash::check($request->password, $user->password)) {
+            return [
+                'status' => self::HTTP_STATUS_CODE['unauthorized'],
+                'message' => __('auth.password'),
+            ];
+        }
 
+        $user->token = $user->createToken($user->email)->plainTextToken;
         return [
-            'user' => new UserResource($user),
-            'token' => $token->plainTextToken
+            'status' => self::HTTP_STATUS_CODE['success'],
+            'message' => __('auth.login'),
+            'data' => new UserResource($user),
         ];
     }
 
@@ -44,18 +57,34 @@ class AuthController extends Controller
 
         auth()->login($user = new User($user));
 
-        $user->save();
+        if (!$user->save()) {
+            return [
+                'status' => self::HTTP_STATUS_CODE['server_error'],
+                'message' => __('app.server_error'),
+            ];
+        };
+
+        $user->token = $user->createToken($user->email)->plainTextToken;
 
         return [
-            'user' => new UserResource($user),
-            'token' => $user->createToken($user->email)->plainTextToken
+            'status' => self::HTTP_STATUS_CODE['success'],
+            'message' => __('auth.register'),
+            'data' => new UserResource($user),
         ];
     }
 
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        if (!$request->user()->currentAccessToken()->delete()) {
+            return [
+                'status' => self::HTTP_STATUS_CODE['server_error'],
+                'message' => __('app.server_error'),
+            ];
+        };
 
-        return ['message' =>  __('auth.logout')];
+        return [
+            'status' => self::HTTP_STATUS_CODE['success'],
+            'message' =>  __('auth.logout')
+        ];
     }
 }

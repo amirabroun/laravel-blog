@@ -14,7 +14,9 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        !$this->token ?: $data['token'] = $this->token;
+
+        $data['user'] = [
             'uuid' => $this->uuid,
             'full_name' => $this->full_name,
             'email' => $this->email,
@@ -23,5 +25,7 @@ class UserResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
+
+        return ($data);
     }
 }

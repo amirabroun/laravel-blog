@@ -16,9 +16,16 @@ return [
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'logout' => 'User logged out successfully',
+    'logout' => 'You have successfully logged out',
+    'login' => 'You have successfully logged in',
+    'register' => 'You have successfully register.',
 
     'unauthorized' => 'You are not logged in.',
     'no_access' => 'You do not have access.',
     'no_update_access' => 'You do not have update access',
+    'successfully_auth' => 'You are logged in',
+
+    'user_not_found' => [
+        'email' => 'User with this email was not found',
+    ]
 ];
