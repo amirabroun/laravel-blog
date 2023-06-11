@@ -18,4 +18,7 @@ return [
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'logout' => 'User logged out successfully',
 
+    'unauthorized' => 'You are not logged in.',
+    'no_access' => 'You do not have access.',
+    'no_update_access' => 'You do not have update access',
 ];
