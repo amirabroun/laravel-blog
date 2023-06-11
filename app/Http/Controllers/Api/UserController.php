@@ -11,29 +11,29 @@ class UserController extends Controller
 {
     public function index()
     {
-        if (!$this->authUser->isAdmin()) {
-            return $this->apiResource(null, [
-                'status' => self::HTTP_STATUS_CODE['unprocessable_entity'],
-                'message' => __('auth.no_access'),
-            ]);
-        }
+        $users = User::query()->paginate($perPage = 20);
+        $countOfUsers = User::query()->count();
+        $lastPage = ceil($countOfUsers / $perPage);
 
-        $users = new UserCollection(User::paginate(20));
-
-        return $this->apiResource($users, [
+        return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('user.users'),
-        ]);
+            'data' => [
+                'lastPage' => $lastPage,
+                'users' => new UserCollection($users)
+            ],
+        ];
     }
 
     public function show(string $uuid)
     {
         $user = User::uuid($uuid)->with(['resume', 'media'])->first();
 
-        return $this->apiResource(new UserProfileResource($user), [
+        return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('user.profile'),
-        ]);
+            'data' => new UserProfileResource($user),
+        ];
     }
 
     public function updateUserProfile(Request $request, string $uuid)
@@ -45,20 +45,24 @@ class UserController extends Controller
         ]);
 
         if ($this->authUser->uuid != $uuid) {
-            return $this->apiResource(null, [
+            return [
                 'status' => self::HTTP_STATUS_CODE['unauthorized'],
                 'message' => __('auth.no_update_access')
-            ]);
+            ];
         }
 
         if (!$this->authUser->update($data)) {
-            return $this->apiResource(null,  [
+            return [
                 'status' => self::HTTP_STATUS_CODE['server_error'],
                 'message' => __('app.server_error'),
-            ]);
+            ];
         }
 
-        return $this->apiResource(null,  ['status' => self::HTTP_STATUS_CODE['success'], 'message' => 'update user profile']);
+        return  [
+            'status' => self::HTTP_STATUS_CODE['success'],
+            'message' => 'update user profile',
+            'data' => ['user' => new UserResource($this->authUser)],
+        ];
     }
 
     public function updateUserResume(UpdateUserResumeRequest $request, $uuid)
@@ -66,10 +70,10 @@ class UserController extends Controller
         $data = $request->validated();
 
         if ($this->authUser->uuid != $uuid) {
-            return $this->apiResource(null, [
+            return [
                 'status' => self::HTTP_STATUS_CODE['unauthorized'],
                 'message' => __('auth.no_update_access')
-            ]);
+            ];
         }
 
         $status = $this->authUser->resume()->update([
@@ -80,15 +84,16 @@ class UserController extends Controller
         ]);
 
         if (!$status) {
-            return $this->apiResource(null,  [
+            return  [
                 'status' => self::HTTP_STATUS_CODE['server_error'],
                 'message' => __('app.server_error'),
-            ]);
+            ];
         };
 
-        return $this->apiResource(new UserResource($this->authUser), [
+        return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('user.profile_update_successfully'),
-        ]);
+            'data' => ['user' => new UserResource($this->authUser)],
+        ];
     }
 }

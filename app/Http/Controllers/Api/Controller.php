@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\ApiResource;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
@@ -35,10 +33,5 @@ class Controller extends BaseController
 
             return $next($request);
         });
-    }
-
-    protected function apiResource(JsonResource $jsonResource = null, ...$additional)
-    {
-        return (new ApiResource($jsonResource))->additional(...$additional);
     }
 }

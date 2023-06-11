@@ -19,6 +19,7 @@ Route::prefix('users')
     ->whereUuid('uuid')
     ->group(function () {
         Route::get('/', 'index')
+            ->middleware('auth:sanctum')
             ->name('users.index');
 
         Route::get('{uuid}', 'show')

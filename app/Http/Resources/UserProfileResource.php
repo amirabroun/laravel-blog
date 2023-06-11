@@ -14,7 +14,7 @@ class UserProfileResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $data = [
             'uuid' => $this->uuid,
             'full_name' => $this->full_name,
             'email' => $this->email,
@@ -25,5 +25,9 @@ class UserProfileResource extends JsonResource
             'resume' => $this->resume,
             'media' => $this->media,
         ];
+
+        !$this->token ?: $data['token'] = $this->token;
+
+        return $data;
     }
 }
