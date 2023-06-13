@@ -65,10 +65,12 @@ class UserController extends Controller
             ];
         }
 
+        $user = User::uuid($uuid)->with(['resume', 'media'])->first();
+
         return  [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => 'update user profile',
-            'data' => ['user' => new UserResource($this->authUser)],
+            'data' => ['user' => new UserProfileResource($user)],
         ];
     }
 
@@ -97,10 +99,12 @@ class UserController extends Controller
             ];
         };
 
+        $user = User::uuid($uuid)->with(['resume', 'media'])->first();
+
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('user.profile_update_successfully'),
-            'data' => ['user' => new UserResource($this->authUser)],
+            'data' => ['user' => new UserProfileResource($user)],
         ];
     }
 }
