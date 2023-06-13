@@ -50,7 +50,7 @@ class UserController extends Controller
         $data = $request->validate([
             'first_name' => 'string',
             'last_name' => 'string',
-            'username' => 'required|string',
+            'username' => ['required', 'string', Rule::unique('users')->ignore($uuid, 'uuid')],
         ]);
 
         if ($this->authUser->uuid != $uuid) {
