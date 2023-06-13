@@ -21,13 +21,13 @@ class UserFactory extends Factory
             'uuid' => fake()->uuid(),
             'first_name' => fake()->name(),
             'last_name' => fake()->lastName(),
-            'email' => fake()->safeEmail(),
+            'username' => fake()->userName(),
             'password' => fake()->password(),
         ];
     }
 
     /**
-     * Indicate that the model's email address should be unverified.
+     * Indicate that the model's username address should be unverified.
      *
      * @return static
      */

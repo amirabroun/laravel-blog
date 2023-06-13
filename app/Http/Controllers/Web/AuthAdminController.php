@@ -43,18 +43,18 @@ class AuthAdminController extends AuthController
     public function login(Request $request)
     {
         $user = $request->validate([
-            'email' => 'required|email',
+            'username' => 'required|string',
             'password' => 'required'
         ]);
 
-        if (User::query()->where('email', $user['email'])->where('is_admin', 1)->count() == 0) {
+        if (User::query()->where('username', $user['username'])->where('is_admin', 1)->count() == 0) {
             abort(404);
         }
 
         if (!auth()->attempt($user)) {
             return back()->withErrors([
-                'email' => 'The provided credentials do not match our records.',
-            ])->onlyInput('email');
+                'username' => 'The provided credentials do not match our records.',
+            ])->onlyInput('username');
         }
 
         $request->session()->regenerate();

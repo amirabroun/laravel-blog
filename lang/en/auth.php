@@ -26,7 +26,7 @@ return [
     'successfully_auth' => 'You are logged in',
 
     'user_not_found' => [
-        'email' => 'User with this email was not found',
+        'username' => 'User with this username was not found',
         'uuid' => 'User not found',
     ]
 ];

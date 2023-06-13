@@ -38,7 +38,7 @@
 
                                     <br>
                                     <span class="text-muted">
-                                        {{ $user->email }}
+                                        {{ $user->username }}
                                     </span>
                                 </span>
                             </div>

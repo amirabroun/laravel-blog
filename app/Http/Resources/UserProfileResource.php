@@ -17,7 +17,7 @@ class UserProfileResource extends JsonResource
         $data = [
             'uuid' => $this->uuid,
             'full_name' => $this->full_name,
-            'email' => $this->email,
+            'username' => $this->username,
             'avatar' => $this->avatar,
             'is_admin' => $this->is_admin,
             'created_at' => $this->created_at,

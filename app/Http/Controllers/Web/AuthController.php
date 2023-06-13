@@ -19,7 +19,7 @@ class AuthController extends Controller
 
     public function index()
     {
-        $users = User::query()->select(['uuid', 'first_name', 'last_name', 'email', 'created_at'])->get()->keyBy('uuid');
+        $users = User::query()->select(['uuid', 'first_name', 'last_name', 'username', 'created_at'])->get()->keyBy('uuid');
 
         return view('usersList')->with(compact('users'));
     }
@@ -42,7 +42,7 @@ class AuthController extends Controller
         $newUserData = $request->validate([
             'first_name' => 'string',
             'last_name' => 'string',
-            'email' => ['email', Rule::unique('users', 'email')->ignoreModel($user)],
+            'username' => ['string', Rule::unique('users', 'username')->ignoreModel($user)],
         ]);
 
         if (!$this->authUser->profileOwnerOrAdmin($user)) {
@@ -65,14 +65,14 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $user = $request->validate([
-            'email' => 'required|email',
+            'username' => 'required|string',
             'password' => 'required'
         ]);
 
         if (!auth()->attempt($user)) {
             return back()->withErrors([
-                'email' => 'The provuuided credentials do not match our records.',
-            ])->onlyInput('email');
+                'username' => 'The provuuided credentials do not match our records.',
+            ])->onlyInput('username');
         }
 
         $request->session()->regenerate();
@@ -83,13 +83,13 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $user = $request->validate([
-            'email' => 'required|unique:users,email',
+            'username' => 'required|unique:users,username',
             'password' => 'required|confirmed',
         ]);
 
         User::create($user);
 
-        Mail::to($request->email)->queue(new RegisterUser());
+        Mail::to($request->username)->queue(new RegisterUser());
 
         auth()->attempt($user);
 

@@ -42,7 +42,7 @@
                                                 <a href="{{ route('users.profile.show', compact('uuid')) }}" class="text-info">
                                                     {{ $user->full_name }}
                                                 </a>
-                                                <h6 class="mb-0 text-muted mt-2" style="font-size: 12px;"> {{ $user->email }} </h6>
+                                                <h6 class="mb-0 text-muted mt-2" style="font-size: 12px;"> {{ $user->username }} </h6>
                                             </span>
                                         </td>
                                         <td class="col-2"></td>

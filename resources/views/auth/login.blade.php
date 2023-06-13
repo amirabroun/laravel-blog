@@ -99,7 +99,7 @@
     <form action="{{ $loginRoute }}" method="POST">
         {{ csrf_field() }}
         <div class="form-field">
-            <input name="email" placeholder="Email" value="{{ old('email') }}" required />
+            <input name="username" placeholder="Username" value="{{ old('username') }}" required />
         </div>
         <div class="form-field">
             <input name="password" type="password" placeholder="Password" value="{{ old('password') }}" required />

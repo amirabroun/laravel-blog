@@ -53,8 +53,8 @@
                                     </div>
 
                                     <div class="col mt-3">
-                                        <span class="text bg-light p-1">Email</span>
-                                        <input type="email" name="email" value="{{ $user->email }}" class="form-input mt-2 text-muted" />
+                                        <span class="text bg-light p-1">Username</span>
+                                        <input type="username" name="username" value="{{ $user->username }}" class="form-input mt-2 text-muted" />
                                     </div>
                                 </div>
                             </div>

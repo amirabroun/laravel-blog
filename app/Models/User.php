@@ -18,7 +18,7 @@ class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasUuid, InteractsWithMedia;
 
-    protected $fillable = ['first_name', 'last_name', 'email', 'password', 'is_admin'];
+    protected $fillable = ['first_name', 'last_name', 'username', 'password', 'is_admin'];
 
     protected $appends = ['full_name', 'avatar'];
 
@@ -52,7 +52,7 @@ class User extends Authenticatable implements HasMedia
         $fullName = $this?->first_name . ' ' . $this?->last_name;
 
         if ($fullName == ' ') {
-            $fullName = $this->email;
+            $fullName = $this->username;
         }
 
         return Attribute::get(fn () => $fullName);

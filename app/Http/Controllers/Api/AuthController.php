@@ -21,15 +21,15 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'username' => 'required|string',
             'password' => 'required'
         ]);
 
-        $user = User::query()->where('email', $request->email)->first();
+        $user = User::query()->where('username', $request->username)->first();
         if (!$user) {
             return [
                 'status' => self::HTTP_STATUS_CODE['not_found'],
-                'message' => __('auth.user_not_found.email'),
+                'message' => __('auth.user_not_found.username'),
             ];
         }
 
@@ -40,7 +40,7 @@ class AuthController extends Controller
             ];
         }
 
-        $user->token = $user->createToken($user->email)->plainTextToken;
+        $user->token = $user->createToken($user->username)->plainTextToken;
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('auth.login'),
@@ -51,7 +51,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $user = $request->validate([
-            'email' => 'required|unique:users,email',
+            'username' => 'required|unique:users,username',
             'password' => 'required|confirmed',
         ]);
 
@@ -64,7 +64,7 @@ class AuthController extends Controller
             ];
         };
 
-        $user->token = $user->createToken($user->email)->plainTextToken;
+        $user->token = $user->createToken($user->username)->plainTextToken;
 
         return [
             'status' => self::HTTP_STATUS_CODE['success'],

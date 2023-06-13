@@ -24,7 +24,7 @@ class CategoryFactory extends Factory
     }
 
     /**
-     * Indicate that the model's email address should be unverified.
+     * Indicate that the model's username address should be unverified.
      *
      * @return static
      */

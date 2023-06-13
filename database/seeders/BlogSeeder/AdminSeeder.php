@@ -13,7 +13,7 @@ class AdminSeeder extends Seeder
             ->create([
                 'first_name' => 'Amir',
                 'last_name' => 'Abroun',
-                'email' => 'abroon234@gmail.com',
+                'username' => 'amirabroun',
                 'password' => 12345678,
                 'is_admin' => 1,
             ]);
