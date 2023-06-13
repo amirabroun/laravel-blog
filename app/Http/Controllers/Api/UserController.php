@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Requests\UpdateUserResumeRequest;
 use App\Http\Resources\{UserProfileResource, UserCollection, UserResource};
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -78,6 +80,8 @@ class UserController extends Controller
     {
         $data = $request->validated();
 
+        $request::validateContact($data);
+
         if ($this->authUser->uuid != $uuid) {
             return [
                 'status' => self::HTTP_STATUS_CODE['unauthorized'],
@@ -90,6 +94,7 @@ class UserController extends Controller
             'experiences' => $data['experiences'] ?? null,
             'skills' => $data['skills'] ?? null,
             'education' => $data['education'] ?? null,
+            'contact' => $data['contact'] ?? null,
         ]);
 
         if (!$status) {
@@ -106,5 +111,39 @@ class UserController extends Controller
             'message' => __('user.profile_update_successfully'),
             'data' => ['user' => new UserProfileResource($user)],
         ];
+
+
+        foreach ($data['contact'] as $contact) {
+            if ($contact['title'] == 'email') {
+                Validator::make(['email' => $contact['link']], [
+                    'email' => 'email',
+                ])->validate();
+            }
+
+            if ($contact['title'] == 'github') {
+                Validator::make(['github' => $contact['link']], [
+                    'github' => 'url',
+                ])->validate();
+            }
+
+            if ($contact['title'] == 'linkedin') {
+                Validator::make(['linkedin' => $contact['link']], [
+                    'linkedin' => 'url',
+                ])->validate();
+            }
+
+            if ($contact['title'] == 'phone') {
+                Validator::make(['phone' => $contact['link']], [
+                    'phone' => 'numeric',
+                ])->validate();
+            }
+
+
+            if ($contact['title'] == 'address') {
+                Validator::make(['address' => $contact['link']], [
+                    'address' => 'string',
+                ])->validate();
+            }
+        }
     }
 }
