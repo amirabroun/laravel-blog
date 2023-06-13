@@ -25,7 +25,9 @@ class AdminSeeder extends Seeder
         Resume::factory()->for($user)->create([
             'summary' => $this->summary(),
             'experiences' => $this->experiences(),
+            'education' => $this->education(),
             'skills' => $this->skills(),
+            'contact' => $this->contact(),
         ]);
     }
 
@@ -54,6 +56,36 @@ class AdminSeeder extends Seeder
                 'started_at' => '22-10-5',
                 'finished_at' => null,
             ],
+        ];
+    }
+
+    private function education()
+    {
+        return [
+            [
+                'field' => 'IT',
+                'university' => 'Hakim Sabzevari',
+                'location' => 'Sabzevar',
+                'started_at' => '22-10-5',
+                'finished_at' => '23-10-3',
+            ],
+            [
+                'field' => 'SoftWare Engineer',
+                'university' => 'Sharif',
+                'location' => 'Tehran',
+                'started_at' => '22-10-5',
+                'finished_at' => null,
+            ],
+        ];
+    }
+
+    private function contact()
+    {
+        return [
+            'github' => 'https://github.com/amirabroun',
+            'linkedin' => 'https://linkedin.com/in/amir-abroun-4a7ab321a',
+            'phone' => '09398720306',
+            'address' => 'Razavi Khorasan, Sabzevar.',
         ];
     }
 
