@@ -82,10 +82,26 @@ class AdminSeeder extends Seeder
     private function contact()
     {
         return [
-            'github' => 'https://github.com/amirabroun',
-            'linkedin' => 'https://linkedin.com/in/amir-abroun-4a7ab321a',
-            'phone' => '09398720306',
-            'address' => 'Razavi Khorasan, Sabzevar.',
+            [
+                'title' => 'email',
+                'link' => 'abroon234@gmail.com',
+            ],
+            [
+                'title' => 'github',
+                'link' => 'https://github.com/amirabroun',
+            ],
+            [
+                'title' => 'linkedin',
+                'link' => 'https://linkedin.com/in/amir-abroun-4a7ab321a',
+            ],
+            [
+                'title' => 'phone',
+                'link' => '09398720306',
+            ],
+            [
+                'title' => 'address',
+                'link' => 'Razavi Khorasan, Sabzevar.',
+            ]
         ];
     }
 
