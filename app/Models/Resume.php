@@ -15,6 +15,7 @@ class Resume extends Model
         'experiences' => Json::class,
         'education' => Json::class,
         'skills' => Json::class,
+        'contact' => Json::class,
     ];
 
     protected $hidden = ['id', 'user_id'];
