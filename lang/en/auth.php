@@ -27,5 +27,6 @@ return [
 
     'user_not_found' => [
         'email' => 'User with this email was not found',
+        'uuid' => 'User not found',
     ]
 ];

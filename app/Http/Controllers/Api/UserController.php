@@ -29,6 +29,13 @@ class UserController extends Controller
     {
         $user = User::uuid($uuid)->with(['resume', 'media'])->first();
 
+        if (!$user) {
+            return [
+                'status' => self::HTTP_STATUS_CODE['not_found'],
+                'message' => __('auth.user_not_found.uuid'),
+            ];
+        }
+
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('user.profile'),
