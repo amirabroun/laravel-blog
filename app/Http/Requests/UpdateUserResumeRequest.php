@@ -27,8 +27,8 @@ class UpdateUserResumeRequest extends FormRequest
             'experiences' => 'array',
             'experiences.*.company' => 'required|string',
             'experiences.*.position' => 'required|string',
-            'experiences.*.started_at' => 'required|date',
-            'experiences.*.finished_at' => 'date',
+            'experiences.*.started_at' => 'required|date|date_format:Y-m',
+            'experiences.*.finished_at' => 'date|date_format:Y-m',
             
             'skills' => 'array',
             'skills.*.title' => 'required|string',
@@ -37,8 +37,9 @@ class UpdateUserResumeRequest extends FormRequest
             'education' => 'array',
             'education.*.field' => 'required|string|max:150',
             'education.*.university' => 'required|string|max:200',
-            'education.*.started_at' => 'required|date',
-            'education.*.finished_at' => 'date',
+            'education.*.location' => 'string|max:200',
+            'education.*.started_at' => 'required|date|date_format:Y-m',
+            'education.*.finished_at' => 'date|date_format:Y-m',
         ];
     }
 }
