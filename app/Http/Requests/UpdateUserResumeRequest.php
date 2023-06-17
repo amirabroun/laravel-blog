@@ -51,13 +51,16 @@ class UpdateUserResumeRequest extends FormRequest
     public static function validateContact($data)
     {
         foreach ($data['contact'] as $contact) {
-            match ($contact['title']) {
-                'email' => static::validate($contact['title'], $contact['link'], 'email'),
-                'github' => static::validate($contact['title'], $contact['link'], 'url'),
-                'linkedin' => static::validate($contact['title'], $contact['link'], 'url'),
-                'phone' => static::validate($contact['title'], $contact['link'], 'numeric'),
-                'address' => static::validate($contact['title'], $contact['link'], 'string'),
+            $rule = match ($contact['title']) {
+                'email' => 'email',
+                'github' => 'url',
+                'linkedin' => 'url',
+                'phone' => 'numeric',
+                'address' => 'string',
+                default => '',
             };
+
+            static::validate($contact['title'], $contact['link'], $rule);
         }
     }
 
