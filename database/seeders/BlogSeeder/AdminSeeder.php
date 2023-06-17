@@ -47,12 +47,14 @@ class AdminSeeder extends Seeder
             [
                 'company' => 'Sanjeman',
                 'position' => 'Backend developer',
+                'desciption' => 'The first string generated will always start with the traditional "Lorem ipsum dolor sit amet, consectetur adipiscing elit". Subsequent strings may contain those words but will not explicitly start with them.',
                 'started_at' => '22-10-5',
                 'finished_at' => '23-10-3',
             ],
             [
                 'company' => 'Sanjeman',
                 'position' => 'Team lead',
+                'desciption' => null,
                 'started_at' => '22-10-5',
                 'finished_at' => null,
             ],
