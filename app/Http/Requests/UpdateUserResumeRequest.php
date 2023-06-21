@@ -28,7 +28,7 @@ class UpdateUserResumeRequest extends FormRequest
             'experiences' => 'array',
             'experiences.*.company' => 'required|string',
             'experiences.*.position' => 'required|string',
-            'experiences.*.desciption' => 'string',
+            'experiences.*.description' => 'string',
             'experiences.*.started_at' => 'required|date|date_format:Y-m',
             'experiences.*.finished_at' => 'date|date_format:Y-m',
 
