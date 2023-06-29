@@ -24,13 +24,14 @@ class UpdateUserResumeRequest extends FormRequest
     {
         return [
             'summary' => 'string',
+            'position' => 'string',
 
             'experiences' => 'array',
             'experiences.*.company' => 'required|string',
             'experiences.*.position' => 'required|string',
             'experiences.*.description' => 'string',
-            'experiences.*.started_at' => 'required|date|date_format:Y-m',
-            'experiences.*.finished_at' => 'date|date_format:Y-m',
+            'experiences.*.started_at' => 'required|string',
+            'experiences.*.finished_at' => 'string',
 
             'skills' => 'array',
             'skills.*.title' => 'required|string',
@@ -40,8 +41,8 @@ class UpdateUserResumeRequest extends FormRequest
             'education.*.field' => 'required|string|max:150',
             'education.*.university' => 'required|string|max:200',
             'education.*.location' => 'string|max:200',
-            'education.*.started_at' => 'required|date|date_format:Y-m',
-            'education.*.finished_at' => 'date|date_format:Y-m',
+            'education.*.started_at' => 'required|string',
+            'education.*.finished_at' => 'string',
 
             'contact' => 'array',
             'contact.*.title' => 'required|string|max:50',
