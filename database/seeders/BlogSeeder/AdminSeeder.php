@@ -24,6 +24,7 @@ class AdminSeeder extends Seeder
 
         Resume::factory()->for($user)->create([
             'summary' => $this->summary(),
+            'position' => $this->position(),
             'experiences' => $this->experiences(),
             'education' => $this->education(),
             'skills' => $this->skills(),
@@ -34,6 +35,11 @@ class AdminSeeder extends Seeder
     private function avatarUrl()
     {
         return "https://github.com/amirabroun.png";
+    }
+
+    private function position()
+    {
+        return 'backend dev - system admin';
     }
 
     private function summary()

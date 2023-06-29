@@ -74,6 +74,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->text('summary')->nullable();
+            $table->string('position')->nullable();
             $table->json('experiences')->nullable();
             $table->json('education')->nullable();
             $table->json('skills')->nullable();
