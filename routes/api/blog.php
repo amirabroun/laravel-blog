@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\{PostController, CategoryController};
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,9 @@ use App\Http\Controllers\Api\UserController;
 |
 */
 
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+
 Route::prefix('users')
     ->controller(UserController::class)
     ->whereUuid('uuid')
@@ -21,6 +25,9 @@ Route::prefix('users')
         Route::get('/', 'index')
             ->middleware('auth:sanctum')
             ->name('users.index');
+
+        Route::get('{uuid}/posts', 'getUserPosts')
+            ->name('users.posts');
 
         Route::get('{uuid}', 'show')
             ->name('users.profile');
