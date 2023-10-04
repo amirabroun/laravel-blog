@@ -59,7 +59,7 @@ return [
         'media' => [
             'driver' => 'local',
             'root' => public_path('media'),
-            'url' => env('APP_URL', 'amirabroun.fun') . 'public/media',
+            'url' => url('media'),
             'visibility' => 'public',
             'throw' => false,
         ],

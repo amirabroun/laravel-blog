@@ -1,4 +1,4 @@
-<link rel="stylesheet"  href="{{ url('/public/css/bootstrap.css') }}">
+<link rel="stylesheet"  href="{{ url('/css/bootstrap.css') }}">
 
 <style>
     body,
