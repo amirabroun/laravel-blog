@@ -15,7 +15,16 @@ use App\Http\Controllers\Api\{PostController, CategoryController};
 |
 */
 
-Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::prefix('posts')
+    ->controller(PostController::class)
+    ->group(function () {
+        Route::get('/', 'index')->name('posts.index');
+
+        Route::post('/', 'store')
+            ->middleware('auth:sanctum')
+            ->name('posts.store');
+    });
+
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 
 Route::prefix('users')
