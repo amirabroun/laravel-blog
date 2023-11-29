@@ -22,7 +22,7 @@ class Controller extends BaseController
         'server_error' => 500,
     ];
 
-    protected User $authUser;
+    protected null|User $authUser = null;
 
     public function __construct()
     {
