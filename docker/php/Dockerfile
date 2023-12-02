@@ -1,5 +1,5 @@
 # Use the PHP 8.2.2 FPM base image
-FROM php:8.2.2-fpm
+FROM php:8.3-fpm
 
 # Update the package lists and fix any missing dependencies
 RUN apt-get update --fix-missing
