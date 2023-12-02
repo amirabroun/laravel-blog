@@ -89,8 +89,6 @@ class AuthController extends Controller
 
         User::create($user);
 
-        Mail::to($request->username)->queue(new RegisterUser());
-
         auth()->attempt($user);
 
         $request->session()->regenerate();
