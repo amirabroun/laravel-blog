@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\{PostController, CategoryController};
+use App\Http\Controllers\Api\{PostController, CategoryController, TelegramController};
 
 /*
 |--------------------------------------------------------------------------
@@ -49,3 +49,5 @@ Route::prefix('users')
             ->middleware('auth:sanctum')
             ->name('auth.profile.update');
     });
+
+Route::get('telegram/inputs/{token}', TelegramController::class);

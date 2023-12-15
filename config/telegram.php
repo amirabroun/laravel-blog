@@ -1,7 +1,5 @@
 <?php
 
-use Telegram\Bot\Commands\HelpCommand;
-
 return [
     /*
     |--------------------------------------------------------------------------
@@ -122,7 +120,7 @@ return [
     |
     */
     'commands' => [
-        HelpCommand::class,
+        //
     ],
 
     /*

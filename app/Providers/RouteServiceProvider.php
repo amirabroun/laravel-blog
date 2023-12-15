@@ -7,7 +7,6 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
-use Telegram\Bot\Laravel\Facades\Telegram;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -21,16 +20,6 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::middleware('api')->post('api/telegram/inputs/{token}', function (Request $request, $token) {
-                $telegram = $request->all();
-
-                Telegram::sendMessage([
-                    'chat_id' => $telegram['message']['from']['id'],
-                    'text' => 'در حال دولوپ هستم :)',
-                    'reply_to_message_id' => $telegram['message']['message_id'],
-                ]);
-            });
-
             Route::middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/api/auth.php'));
