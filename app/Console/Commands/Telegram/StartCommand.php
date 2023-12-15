@@ -25,8 +25,9 @@ class StartCommand extends Command
         $username = $user->first_name . ' ' . $user->last_name;
 
         $response = "سلام {$username}! به ربات ما خوش اومدی! ";
+        $response .= PHP_EOL . PHP_EOL;
         foreach ($this->nextSteps as $name => $description) {
-            $response .= sprintf('/%s - %s' . PHP_EOL, $name, $description);
+            $response .= sprintf('/%s  : %s' . PHP_EOL, $name, $description);
         }
 
         $this->replyWithMessage(['text' => $response]);
