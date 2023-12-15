@@ -19,8 +19,8 @@ class TelegramController extends Controller
         $userId = $request['message']['from']['id'];
 
         $commandName = substr($this->getUserState($userId), 1);
-
-        Telegram::bot()->triggerCommand($commandName, Telegram::getWebhookUpdate());
+        
+        Telegram::triggerCommand($commandName, Telegram::getWebhookUpdate());
 
         return;
 
