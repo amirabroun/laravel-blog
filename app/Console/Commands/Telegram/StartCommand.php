@@ -4,6 +4,8 @@ namespace App\Console\Commands\Telegram;
 
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
+use Telegram\Bot\Keyboard\Keyboard;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class StartCommand extends Command
 {

@@ -22,6 +22,26 @@ class TelegramController extends Controller
         
         Telegram::triggerCommand($commandName, Telegram::getWebhookUpdate());
 
+        $keyboard = [
+            ['7', '8', '9'],
+            ['4', '5', '6'],
+            ['1', '2', '3'],
+                 ['0']
+        ];
+        
+        $reply_markup = Telegram::re([
+            'keyboard' => $keyboard, 
+            'resize_keyboard' => true, 
+            'one_time_keyboard' => true
+        ]);
+        
+        $response = Telegram::sendMessage([
+            'chat_id' => $userId,
+            'text' => 'Hello World', 
+            'reply_markup' => $reply_markup
+        ]);
+        
+
         return;
 
         $keyBoard = new Keyboard();

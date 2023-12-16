@@ -50,4 +50,4 @@ Route::prefix('users')
             ->name('auth.profile.update');
     });
 
-Route::post('telegram/inputs/{token}', TelegramController::class);
+Route::get('telegram/inputs/{token}', TelegramController::class);
