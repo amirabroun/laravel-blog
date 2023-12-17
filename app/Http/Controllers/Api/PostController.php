@@ -9,7 +9,11 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::query()->with(['user', 'media'])->orderBy('created_at', 'desc')->get();
+        $posts = Post::inRandomOrder()
+            ->take(3)
+            ->with(['user', 'media'])
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return [
             'status' => self::HTTP_STATUS_CODE['success'],

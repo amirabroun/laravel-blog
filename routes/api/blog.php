@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\{PostController, CategoryController};
+use App\Http\Controllers\Api\{PostController, CategoryController, SuggestionController};
 
 /*
 |--------------------------------------------------------------------------
@@ -48,4 +48,14 @@ Route::prefix('users')
         Route::put('{uuid}/update-resume', 'updateUserResume')
             ->middleware('auth:sanctum')
             ->name('auth.profile.update');
+    });
+
+Route::prefix('suggestions')
+    ->controller(SuggestionController::class)
+    ->group(function () {
+        Route::get('users', 'getSuggestionsUsers')
+            ->middleware('auth:sanctum')
+            ->name('users.suggestions.users');
+
+        Route::get('posts', 'getSuggestionsPosts')->name('users.suggestions.posts');
     });
