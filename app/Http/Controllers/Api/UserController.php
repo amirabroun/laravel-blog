@@ -28,7 +28,10 @@ class UserController extends Controller
 
     public function show(string $uuid)
     {
-        $user = User::uuid($uuid)->with(['resume', 'media'])->first();
+        $user = User::uuid($uuid)
+            ->with(['resume', 'media', 'followers'])
+            ->first()
+            ->append('followed_by_auth_user');
 
         if (!$user) {
             return [

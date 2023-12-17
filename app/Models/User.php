@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Traits\Follow\Followable;
+use App\Traits\Follow\Follower;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\MediaLibrary\{InteractsWithMedia, HasMedia};
 use Illuminate\Notifications\Notifiable;
@@ -17,6 +19,8 @@ use App\Traits\HasUuid;
 class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasUuid, InteractsWithMedia;
+
+    use Follower, Followable;
 
     protected $fillable = ['first_name', 'last_name', 'username', 'password', 'is_admin'];
 
@@ -45,6 +49,16 @@ class User extends Authenticatable implements HasMedia
         $url = !$avatar ? null : $avatar->getUrl();
 
         return Attribute::get(fn () => $url);
+    }
+
+    protected function followedByAuthUser(): Attribute
+    {
+        /** @var User */
+        if (!$user = auth()->user()) {
+            return Attribute::get(fn () => null);
+        }
+
+        return Attribute::get(fn () => $this->isFollowedBy($user));
     }
 
     protected function fullName(): Attribute

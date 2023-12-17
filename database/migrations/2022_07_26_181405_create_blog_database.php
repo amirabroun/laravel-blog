@@ -111,6 +111,16 @@ return new class extends Migration
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('followables', function (Blueprint $table) {
+            $table->id();
+            $table->morphs('followable');
+            $table->foreignId('follower_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->timestamp('accepted_at')->nullable();
+            $table->timestamps();
+
+            $table->index(['followable_type', 'accepted_at']);
+        });
     }
 
     /**
@@ -139,5 +149,7 @@ return new class extends Migration
         Schema::dropIfExists('media');
 
         Schema::dropIfExists('personal_access_tokens');
+
+        Schema::dropIfExists('followables');
     }
 };
