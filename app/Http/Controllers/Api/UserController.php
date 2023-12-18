@@ -132,4 +132,14 @@ class UserController extends Controller
             'data' => compact('user'),
         ];
     }
+
+    public function toggleFollow($uuid)
+    {
+        $this->authUser->toggleFollow(User::uuid($uuid)->first());
+
+        return [
+            'status' => self::HTTP_STATUS_CODE['success'],
+            'message' =>  null,
+        ];
+    }
 }

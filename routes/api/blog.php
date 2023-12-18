@@ -45,6 +45,10 @@ Route::prefix('users')
             ->middleware('auth:sanctum')
             ->name('auth.profile.update');
 
+        Route::get('{uuid}/toggle-follow', 'toggleFollow')
+            ->middleware('auth:sanctum')
+            ->name('auth.users.toggleFollow');
+
         Route::put('{uuid}/update-resume', 'updateUserResume')
             ->middleware('auth:sanctum')
             ->name('auth.profile.update');
