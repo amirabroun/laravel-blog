@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Database\Eloquent\Model;
 
 class Controller extends BaseController
 {
@@ -33,5 +35,25 @@ class Controller extends BaseController
 
             return $next($request);
         });
+    }
+
+    protected function setAuthUserFollowStatus(Collection $followables)
+    {
+        if (!auth()->check()) return;
+
+        $userFollowings = $this->authUser->followingsPivot()->get();
+
+        $followables->map(function (Model $followable) use ($userFollowings) {
+            $follow = $userFollowings
+                ->where('followable_type', $followable->getMorphClass())
+                ->where('followable_id', $followable->getKey())
+                ->first();
+
+            $followable
+                ->setAttribute('auth_followed_at', $follow?->created_at)
+                ->setAttribute('follow_accepted_at', $follow?->accepted_at);
+        });
+
+        return $followables;
     }
 }

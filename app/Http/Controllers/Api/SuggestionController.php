@@ -11,13 +11,12 @@ class SuggestionController extends Controller
         $users = User::inRandomOrder()
             ->take(5)
             ->with('media')
-            ->get()
-            ->append('followed_by_auth_user');
+            ->get();
 
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('app.users'),
-            'data' => compact('users'),
+            'data' => ['users' => $this->setAuthUserFollowStatus($users)],
         ];
     }
 
