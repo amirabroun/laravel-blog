@@ -156,7 +156,11 @@ class User extends Authenticatable implements HasMedia
                 ->isNotEmpty();
         }
 
-        return $this->followingsPivot()->of($followable)->accepted()->exists();
+        return $this->followingsPivot()
+            ->where('followable_id', $followable->getKey())
+            ->where('followable_type', $followable->getMorphClass())
+            ->whereNotNull('accepted_at')
+            ->exists();
     }
 
     public function hasRequestedToFollow(Model $followable): bool
