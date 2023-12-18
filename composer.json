@@ -12,6 +12,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
+        "laravel/telescope": "^4.17",
         "laravel/tinker": "^2.7",
         "spatie/laravel-medialibrary": "^10.0.0",
         "tucker-eric/eloquentfilter": "^3.1"
