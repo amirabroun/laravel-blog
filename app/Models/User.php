@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use App\Traits\Follow\Followable;
-use App\Traits\Follow\Follower;
+use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
+use App\Traits\Followable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\MediaLibrary\{InteractsWithMedia, HasMedia};
 use Illuminate\Notifications\Notifiable;
@@ -18,9 +19,7 @@ use App\Traits\HasUuid;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasUuid, InteractsWithMedia;
-
-    use Follower, Followable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasUuid, InteractsWithMedia, Followable;
 
     protected $fillable = ['first_name', 'last_name', 'username', 'password', 'is_admin'];
 
@@ -30,6 +29,11 @@ class User extends Authenticatable implements HasMedia
         'password',
         'remember_token',
     ];
+
+    public function needsToApproveFollowRequests()
+    {
+        return false;
+    }
 
     public function registerMediaCollections(): void
     {
@@ -49,16 +53,6 @@ class User extends Authenticatable implements HasMedia
         $url = !$avatar ? null : $avatar->getUrl();
 
         return Attribute::get(fn () => $url);
-    }
-
-    protected function followedByAuthUser(): Attribute
-    {
-        /** @var User */
-        if (!$user = auth()->user()) {
-            return Attribute::get(fn () => null);
-        }
-
-        return Attribute::get(fn () => $this->isFollowedBy($user));
     }
 
     protected function fullName(): Attribute
@@ -123,5 +117,102 @@ class User extends Authenticatable implements HasMedia
         }
 
         return false;
+    }
+
+    public function followingsPivot()
+    {
+        return $this->hasMany(Follow::class, 'follower_id');
+    }
+
+    public function followings()
+    {
+        return $this->morphToMany(
+            self::class,
+            'followable',
+            'followables',
+            'follower_id',
+            'followable_id',
+        );
+    }
+
+    protected function attachFollowStatus(): Attribute
+    {
+        return Attribute::set(
+            fn ($password) => Hash::make($password)
+        );
+    }
+
+    public function isFollowing(Model $followable): bool
+    {
+        if (!in_array(Followable::class, \class_uses($followable))) {
+            throw new InvalidArgumentException('The followable model must use the Followable trait.');
+        }
+
+        if ($this->relationLoaded('followings')) {
+            return $this->followings
+                ->whereNotNull('accepted_at')
+                ->where('followable_id', $followable->getKey())
+                ->where('followable_type', $followable->getMorphClass())
+                ->isNotEmpty();
+        }
+
+        return $this->followingsPivot()->of($followable)->accepted()->exists();
+    }
+
+    public function hasRequestedToFollow(Model $followable): bool
+    {
+        if (!in_array(Followable::class, \class_uses($followable))) {
+            throw new InvalidArgumentException('The followable model must use the Followable trait.');
+        }
+
+        if ($this->relationLoaded('followings')) {
+            return $this->followings->whereNull('accepted_at')
+                ->where('followable_id', $followable->getKey())
+                ->where('followable_type', $followable->getMorphClass())
+                ->isNotEmpty();
+        }
+
+        return $this->followingsPivot()->of($followable)->notAccepted()->exists();
+    }
+
+    public function follow(Model $followable)
+    {
+        if ($followable->is($this)) {
+            throw new InvalidArgumentException('Cannot follow yourself.');
+        }
+
+        if (!in_array(Followable::class, \class_uses($followable))) {
+            throw new InvalidArgumentException('The followable model must use the Followable trait.');
+        }
+
+        $isPending = $followable->needsToApproveFollowRequests() ?: false;
+
+        $this->followingsPivot()->updateOrCreate([
+            'followable_id' => $followable->getKey(),
+            'followable_type' => $followable->getMorphClass(),
+        ], [
+            'accepted_at' => $isPending ? null : now(),
+        ]);
+    }
+
+    public function unfollow(Model $followable): void
+    {
+        if (!in_array(Followable::class, \class_uses($followable))) {
+            throw new InvalidArgumentException('The followable model must use the Followable trait.');
+        }
+
+        $this->followingsPivot()
+            ->where('followable_id', $followable->getKey())
+            ->where('followable_type', $followable->getMorphClass())
+            ->delete();
+    }
+
+    public function toggleFollow(Model $followable): void
+    {
+        if (!in_array(Followable::class, \class_uses($followable))) {
+            throw new InvalidArgumentException('The followable model must use the Followable trait.');
+        }
+
+        $this->isFollowing($followable) ? $this->unfollow($followable) : $this->follow($followable);
     }
 }
