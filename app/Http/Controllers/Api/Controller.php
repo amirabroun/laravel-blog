@@ -39,7 +39,7 @@ class Controller extends BaseController
 
     protected function setAuthUserFollowStatus(Collection $followables)
     {
-        if (!auth()->check()) return;
+        if (!auth()->check()) return $followables;
 
         $userFollowings = $this->authUser->followingsPivot()->get();
 

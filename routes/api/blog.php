@@ -58,7 +58,6 @@ Route::prefix('suggestions')
     ->controller(SuggestionController::class)
     ->group(function () {
         Route::get('users', 'getSuggestionsUsers')
-            ->middleware('auth:sanctum')
             ->name('users.suggestions.users');
 
         Route::get('posts', 'getSuggestionsPosts')->name('users.suggestions.posts');
