@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "107802427dbc4f7c32a1f4a9728a3fe1",
+    "content-hash": "d282dce7619a015edf198922c9479e71",
     "packages": [
         {
             "name": "brick/math",
@@ -2686,6 +2686,91 @@
                 }
             ],
             "time": "2023-02-08T01:06:31+00:00"
+        },
+        {
+            "name": "php-telegram-bot/fluent-keyboard",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-telegram-bot/fluent-keyboard.git",
+                "reference": "1e04bf8a06808f7d78e04bf0e3f82155b85f8922"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-telegram-bot/fluent-keyboard/zipball/1e04bf8a06808f7d78e04bf0e3f82155b85f8922",
+                "reference": "1e04bf8a06808f7d78e04bf0e3f82155b85f8922",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "ext-json": "*",
+                "pestphp/pest": "^1.21"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "./src/helpers.php"
+                ],
+                "psr-4": {
+                    "PhpTelegramBot\\FluentKeyboard\\": "./src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tii",
+                    "email": "mail@tii.one"
+                }
+            ],
+            "description": "Fluent Keyboard builder for ReplyKeyboardMarkup and InlineKeyboardMarkup.",
+            "keywords": [
+                "api",
+                "bot",
+                "builder",
+                "fluent",
+                "keyboard",
+                "telegram"
+            ],
+            "support": {
+                "issues": "https://github.com/php-telegram-bot/fluent-keyboard/issues",
+                "source": "https://github.com/php-telegram-bot/fluent-keyboard/tree/v1.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/php-telegram-bot/core#donate",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/noplanman",
+                    "type": "github"
+                },
+                {
+                    "url": "https://ko-fi.com/phptelegrambot",
+                    "type": "ko_fi"
+                },
+                {
+                    "url": "https://liberapay.com/PHP-Telegram-Bot",
+                    "type": "liberapay"
+                },
+                {
+                    "url": "https://opencollective.com/php-telegram-bot",
+                    "type": "open_collective"
+                },
+                {
+                    "url": "https://www.patreon.com/phptelegrambot",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/longman/telegram-bot",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-04-19T22:14:17+00:00"
         },
         {
             "name": "phpoption/phpoption",
