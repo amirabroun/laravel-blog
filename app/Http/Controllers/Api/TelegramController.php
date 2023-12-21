@@ -9,39 +9,69 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 class TelegramController extends Controller
 {
     const STATES = [
-        '/start',
-        '/auth',
-        '/createPost',
+        'start' => '/start',
+        'auth' => '/auth',
+        'createPost' => '/createPost',
     ];
 
-    public function __invoke(Request $request)
+    public function test()
     {
-        $userId = $request['message']['from']['id'];
-        $messageId = $request['message']['message_id'];
-        $newMessage = 'در حال دولوپ هستم :)';
+
+
+        Telegram::bot()->answerCallbackQuery([
+            'callback_query_id' => 1541230401797510449 #$callbackQuery['id'] 
+        ]);
+        $userId = 358845666;
+        $messageId = 447;
+        $newMessage = 'hi';
 
         $replyMarkup = Keyboard::make([
             'inline_keyboard' => [
                 [
                     [
                         'text' => 'ok',
-                        'callback_data' => 'ok',
+                        'callback_data' => '/start',
                     ],
                     [
                         'text' => 'cancel',
-                        'callback_data' => 'cancel',
+                        'callback_data' => '/end',
                     ],
                 ]
             ],
             'resize_keyboard' => true,
-            'one_time_keyboard' => true
+            'one_time_keyboard' => true,
+            'parse_mode' => 'markdown',
+
         ]);
 
-        Telegram::sendMessage([
+        $response = Telegram::bot()->sendMessage([
             'chat_id' => $userId,
             'reply_to_message_id' => $messageId,
             'text' => $newMessage,
             'reply_markup' => $replyMarkup
+        ]);
+
+        dd($response);
+    }
+
+    public function __invoke(Request $request)
+    {
+        isset($request['message'])
+            ? $this->handleMessage($request['message'])
+            : $this->handleCallbackQuery($request['callback_query']);
+    }
+
+    private function handleMessage($message)
+    {
+        if (self::STATES['start'] == $message['text']) {
+            Telegram::triggerCommand('start', Telegram::getWebhookUpdate());
+        }
+    }
+
+    private function handleCallbackQuery($callbackQuery)
+    {
+        Telegram::bot()->answerCallbackQuery([
+            'callback_query_id' => $callbackQuery['id']
         ]);
     }
 
@@ -85,6 +115,33 @@ class TelegramController extends Controller
                 ],
                 'resize_keyboard' => true,
             ])
+        ]);
+
+        $messageId = $request['message']['message_id'];
+        $newMessage = 'در حال دولوپ هستم :)';
+
+        $replyMarkup = Keyboard::make([
+            'inline_keyboard' => [
+                [
+                    [
+                        'text' => 'ok',
+                        'callback_data' => 'ok',
+                    ],
+                    [
+                        'text' => 'cancel',
+                        'callback_data' => 'cancel',
+                    ],
+                ]
+            ],
+            'resize_keyboard' => true,
+            'one_time_keyboard' => true
+        ]);
+
+        Telegram::bot()->sendMessage([
+            'chat_id' => $userId,
+            'reply_to_message_id' => $messageId,
+            'text' => $newMessage,
+            'reply_markup' => $replyMarkup
         ]);
     }
 }

@@ -39,7 +39,7 @@ Route::prefix('users')
             ->name('users.posts');
 
         Route::get('{uuid}', 'show')
-            ->name('users.profile');
+            ->name('users.profile');    
 
         Route::put('{uuid}/update-profile', 'updateUserProfile')
             ->middleware('auth:sanctum')
@@ -51,3 +51,4 @@ Route::prefix('users')
     });
 
 Route::post('telegram/inputs/{token}', TelegramController::class);
+Route::get('telegram/test', [TelegramController::class, 'test']);
