@@ -28,6 +28,10 @@ class Controller extends BaseController
 
     public function __construct()
     {
+        if (request()->bearerToken()) {
+            $this->middleware('auth:sanctum');
+        }
+
         $this->middleware(function ($request, $next) {
             if (auth()->check()) {
                 $this->authUser = auth()->user();
