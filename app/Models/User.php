@@ -83,6 +83,16 @@ class User extends Authenticatable implements HasMedia
         return $this->hasOne(Resume::class);
     }
 
+    public function notFollowed(?Followable $followable = null)
+    {
+        if ($followable == null) $followable = self::class;
+
+        return $followable::query()->whereNot('id', $this->id)->where(fn ($query) => $query->whereHas(
+            'followers',
+            fn ($query) => $query->whereNot('follower_id', $this->id)
+        )->orWhereDoesntHave('followers'));
+    }
+
     public function likes()
     {
         return $this->hasMany(Like::class);
