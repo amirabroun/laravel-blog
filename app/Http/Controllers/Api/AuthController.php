@@ -14,7 +14,7 @@ class AuthController extends Controller
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('auth.successfully_auth'),
-            'data' => ['user' => new UserResource($this->authUser)],
+            'data' => ['user' => new UserResource(auth()->user())],
         ];
     }
 

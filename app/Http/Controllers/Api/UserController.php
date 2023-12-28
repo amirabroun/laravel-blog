@@ -55,14 +55,14 @@ class UserController extends Controller
             'username' => ['required', 'string', Rule::unique('users')->ignore($uuid, 'uuid')],
         ]);
 
-        if ($this->authUser->uuid != $uuid) {
+        if (auth()->user()->uuid != $uuid) {
             return [
                 'status' => self::HTTP_STATUS_CODE['unauthorized'],
                 'message' => __('auth.no_update_access')
             ];
         }
 
-        if (!$this->authUser->update($data)) {
+        if (!auth()->user()->update($data)) {
             return [
                 'status' => self::HTTP_STATUS_CODE['server_error'],
                 'message' => __('app.server_error'),
@@ -84,14 +84,14 @@ class UserController extends Controller
 
         $request::validateContact($data);
 
-        if ($this->authUser->uuid != $uuid) {
+        if (auth()->user()->uuid != $uuid) {
             return [
                 'status' => self::HTTP_STATUS_CODE['unauthorized'],
                 'message' => __('auth.no_update_access')
             ];
         }
 
-        $status = $this->authUser->resume()->update([
+        $status = auth()->user()->resume()->update([
             'summary' => $data['summary'] ?? null,
             'experiences' => $data['experiences'] ?? null,
             'skills' => $data['skills'] ?? null,
@@ -135,7 +135,7 @@ class UserController extends Controller
 
     public function toggleFollow($uuid)
     {
-        $this->authUser->toggleFollow(User::uuid($uuid)->first());
+        auth()->user()->toggleFollow(User::uuid($uuid)->first());
 
         return [
             'status' => self::HTTP_STATUS_CODE['success'],

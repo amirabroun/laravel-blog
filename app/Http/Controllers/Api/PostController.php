@@ -13,7 +13,7 @@ class PostController extends Controller
             'user',
             fn ($query) => $query->whereHas(
                 'followers',
-                fn ($query) => $query->where('follower_id', $this->authUser->id)
+                fn ($query) => $query->where('follower_id', auth()->id())
             )
         )->get();
 
@@ -33,7 +33,7 @@ class PostController extends Controller
             'image' => 'file',
         ]);
 
-        $this->authUser->posts()->save($post = new Post($postData));
+        auth()->user()->posts()->save($post = new Post($postData));
 
         if ($request->file('image', false)) {
             $post->addMediaFromRequest('image')->usingFileName(

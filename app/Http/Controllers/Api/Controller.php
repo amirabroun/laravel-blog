@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -24,28 +23,17 @@ class Controller extends BaseController
         'server_error' => 500,
     ];
 
-    protected null|User $authUser = null;
-
     public function __construct()
     {
-        if (request()->bearerToken()) {
+        request()->bearerToken() == null ?:
             $this->middleware('auth:sanctum');
-        }
-
-        $this->middleware(function ($request, $next) {
-            if (auth()->check()) {
-                $this->authUser = auth()->user();
-            }
-
-            return $next($request);
-        });
     }
 
     protected function setAuthUserFollowStatus(Collection $followables)
     {
         if (!auth()->check()) return $followables;
 
-        $userFollowings = $this->authUser->followingsPivot()->get();
+        $userFollowings = auth()->user()->followingsPivot()->get();
 
         $followables->map(function (Model $followable) use ($userFollowings) {
             $follow = $userFollowings
