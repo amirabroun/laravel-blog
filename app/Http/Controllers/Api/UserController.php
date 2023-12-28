@@ -117,7 +117,7 @@ class UserController extends Controller
 
     public function getUserPosts(string $uuid)
     {
-        $user = User::uuid($uuid)->with('posts')->first();
+        $user = User::uuid($uuid)->with(['posts', 'media'])->first();
 
         if (!$user) {
             return [
@@ -129,7 +129,7 @@ class UserController extends Controller
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('user.profile'),
-            'data' => compact('user'),
+            'data' => ['user' => $this->setAuthUserFollowStatus($user)],
         ];
     }
 
