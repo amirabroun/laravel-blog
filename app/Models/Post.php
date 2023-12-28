@@ -16,7 +16,7 @@ class Post extends Model implements HasMedia
 
     protected $fillable = ['title', 'body'];
 
-    protected $appends = ['image', 'count_likes', 'can_auth_user_like_this_post'];
+    protected $appends = ['image'];
 
     protected $casts = [
         'created_at' => 'date:D F j, Y, G:i',
