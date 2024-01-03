@@ -23,12 +23,6 @@ class Controller extends BaseController
         'server_error' => 500,
     ];
 
-    public function __construct()
-    {
-        request()->bearerToken() == null ?:
-            $this->middleware('auth:sanctum');
-    }
-
     protected function setAuthUserFollowStatus(Collection|Model $followables)
     {
         if (!auth()->check()) return $followables;

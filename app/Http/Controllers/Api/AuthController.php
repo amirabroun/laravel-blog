@@ -73,9 +73,9 @@ class AuthController extends Controller
         ];
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
-        if (!$request->user()->currentAccessToken()->delete()) {
+        if (!auth()->user()->tokens()->delete()) {
             return [
                 'status' => self::HTTP_STATUS_CODE['server_error'],
                 'message' => __('app.server_error'),
