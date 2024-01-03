@@ -9,7 +9,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::query()->with(['user', 'media'])->orderBy('created_at', 'desc')->whereHas(
+        $posts = Post::query()->with(['user' => fn ($query) => $query->with('media'), 'media'])->orderBy('created_at', 'desc')->whereHas(
             'user',
             fn ($query) => $query->whereHas(
                 'followers',

@@ -28,7 +28,7 @@ class SuggestionController extends Controller
         $posts = Post::query()->when(
             auth()->check(),
             fn ($query) => $query->whereNot('user_id', auth()->id())
-        )->with(['user', 'media'])->take(mt_rand(2, 4))->inRandomOrder()->whereHas(
+        )->with(['user' => fn ($query) => $query->with('media'), 'media'])->take(mt_rand(2, 4))->inRandomOrder()->whereHas(
             'user',
             fn ($query) => $query->whereDoesntHave('followers')->when(
                 auth()->check(),
