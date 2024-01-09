@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\{Post, User};
+use App\Http\Resources\UserCollection;
 
 class SuggestionController extends Controller
 {
@@ -12,14 +13,12 @@ class SuggestionController extends Controller
             ? auth()->user()->notFollowed()->take(mt_rand(2, 5))
             : User::query()->take(mt_rand(8, 15));
 
-        $usersNotFollowed = $this->setAuthUserFollowStatus(
-            $userSuggestionsQuery->inRandomOrder()->with('media')->get()
-        );
+        $usersNotFollowed = $userSuggestionsQuery->inRandomOrder()->with('media')->get();
 
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('app.users'),
-            'data' => ['users' => $usersNotFollowed],
+            'data' => ['users' => UserCollection::make($usersNotFollowed)],
         ];
     }
 

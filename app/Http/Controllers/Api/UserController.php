@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Requests\UpdateUserResumeRequest;
-use App\Http\Resources\{UserProfileResource, UserCollection};
+use App\Http\Resources\{UserProfileResource, UserCollection, UserResource};
 
 class UserController extends Controller
 {
@@ -129,7 +129,7 @@ class UserController extends Controller
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('user.profile'),
-            'data' => ['user' => $this->setAuthUserFollowStatus($user)],
+            'data' => ['user' => UserResource::make($user)],
         ];
     }
 

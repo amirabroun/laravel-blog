@@ -15,16 +15,37 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         $data = [
+            'id' => $this->id,
             'uuid' => $this->uuid,
+            'first_name' => $this->full_name,
+            'last_name' => $this->full_name,
             'full_name' => $this->full_name,
             'username' => $this->username,
+            'address' => $this->address,
             'is_admin' => $this->is_admin == 1,
             'avatar' => $this->avatar,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'deleted_at' => $this->deleted_at,
+            'posts' => PostResource::collection($this->whenLoaded('posts')),
+            'media' => $this->media,
         ];
 
         !$this->token ?: $data['token'] = $this->token;
+
+        if (auth()->check() && auth()->id() != $this->id) {
+            $data = $this->appendFollowStatus($data);
+        }
+
+        return $data;
+    }
+
+    function appendFollowStatus($data)
+    {
+        $following = app()->auth_followings->get($this->id);
+
+        $data['auth_followed_at'] = $following == null ? null : $following['auth_followed_at'];
+        $data['follow_accepted_at'] = $following == null ? null : $following['follow_accepted_at'];
 
         return $data;
     }
