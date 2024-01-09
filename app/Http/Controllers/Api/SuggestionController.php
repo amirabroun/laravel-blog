@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\{Post, User};
-use App\Http\Resources\UserCollection;
+use App\Http\Resources\{UserCollection, PostCollection};
 
 class SuggestionController extends Controller
 {
@@ -41,7 +41,7 @@ class SuggestionController extends Controller
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('app.posts'),
-            'data' => compact('posts'),
+            'data' => ['posts' => PostCollection::make($posts)],
         ];
     }
 }
