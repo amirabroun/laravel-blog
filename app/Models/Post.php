@@ -40,26 +40,6 @@ class Post extends Model implements HasMedia
         return Attribute::get(fn () => $url);
     }
 
-    protected function countLikes(): Attribute
-    {
-        return Attribute::get(fn () => $this->likes()->count());
-    }
-
-    protected function canAuthUserLikeThisPost(): Attribute
-    {
-        /** @var User */
-        if (!$user = auth()->user()) {
-            return Attribute::get(fn () => false);
-        }
-
-        $get = $user->likes()
-            ->where('likeable_id', $this->id)
-            ->where('likeable_type', Post::class)
-            ->count() == 0;
-
-        return Attribute::get(fn () => $get);
-    }
-
     public function user()
     {
         return $this->belongsTo(User::class);

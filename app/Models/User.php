@@ -23,7 +23,7 @@ class User extends Authenticatable implements HasMedia
 
     protected $fillable = ['first_name', 'last_name', 'username', 'password', 'is_admin'];
 
-    protected $appends = ['full_name', 'avatar'];
+    protected $appends = ['full_name'];
 
     protected $hidden = [
         'password',
@@ -142,7 +142,7 @@ class User extends Authenticatable implements HasMedia
             'followables',
             'follower_id',
             'followable_id',
-        );
+        )->withPivot(['accepted_at', 'created_at']);
     }
 
     protected function attachFollowStatus(): Attribute

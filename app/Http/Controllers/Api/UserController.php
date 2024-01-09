@@ -117,7 +117,7 @@ class UserController extends Controller
 
     public function getUserPosts(string $uuid)
     {
-        $user = User::uuid($uuid)->with(['posts', 'media'])->first();
+        $user = User::uuid($uuid)->with(['posts' => fn ($query) => $query->with('media'), 'media'])->first();
 
         if (!$user) {
             return [
