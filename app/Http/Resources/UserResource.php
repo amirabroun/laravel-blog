@@ -24,10 +24,13 @@ class UserResource extends JsonResource
             'address' => $this->address,
             'is_admin' => $this->is_admin == 1,
             'avatar' => $this->avatar,
+            'followers_count' => $this->followers_count,
+            'followings_count' => $this->followings_count,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,
             'posts' => PostResource::collection($this->whenLoaded('posts')),
+            'followings' => FollowableResource::collection($this->whenLoaded('followings')),
             'media' => $this->media,
         ];
 
