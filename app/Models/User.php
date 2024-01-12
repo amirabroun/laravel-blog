@@ -21,7 +21,7 @@ class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasUuid, InteractsWithMedia, Followable;
 
-    protected $fillable = ['first_name', 'last_name', 'username', 'password', 'is_admin'];
+    protected $fillable = ['first_name', 'last_name', 'username', 'password', 'is_admin'];  
 
     protected $appends = ['full_name'];
 
@@ -219,14 +219,5 @@ class User extends Authenticatable implements HasMedia
             ->where('followable_id', $followable->getKey())
             ->where('followable_type', $followable->getMorphClass())
             ->delete();
-    }
-
-    public function toggleFollow(Model $followable): void
-    {
-        if (!in_array(Followable::class, \class_uses($followable))) {
-            throw new InvalidArgumentException('The followable model must use the Followable trait.');
-        }
-
-        $this->isFollowing($followable) ? $this->unfollow($followable) : $this->follow($followable);
     }
 }

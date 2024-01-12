@@ -117,7 +117,13 @@ class UserController extends Controller
 
     public function getUserPosts(string $uuid)
     {
-        $user = User::uuid($uuid)->with(['posts' => fn ($query) => $query->with('media'), 'media'])->first();
+        $user = User::uuid($uuid)
+            ->withCount('followers as followers_count')
+            ->withCount('followings as followings_count')
+            ->with([
+                'followings' => fn ($query) => $query->inRandomOrder()->with('media')->take(mt_rand(2, 5)),
+                'posts' => fn ($query) => $query->latest()->with('media'), 'media'
+            ])->first();
 
         if (!$user) {
             return [
@@ -135,7 +141,11 @@ class UserController extends Controller
 
     public function toggleFollow($uuid)
     {
-        auth()->user()->toggleFollow(User::uuid($uuid)->first());
+        $user = User::uuid($uuid)->first();
+
+        app()->auth_followings->get($user->id) == null
+            ? auth()->user()->follow($user)
+            : auth()->user()->unfollow($user);
 
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
