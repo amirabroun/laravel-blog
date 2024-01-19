@@ -33,7 +33,7 @@ Route::prefix('users')
 
         Route::get('{uuid}/posts', 'getUserPosts')->name('users.posts');
 
-        Route::get('{uuid}', 'show')->name('users.profile');
+        Route::post('{uuid}', 'show')->name('users.profile');
 
         Route::put('{uuid}/update-profile', 'updateUserProfile')->name('auth.profile.update');
 

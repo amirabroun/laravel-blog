@@ -31,6 +31,7 @@ class UserResource extends JsonResource
             'deleted_at' => $this->deleted_at,
             'posts' => PostResource::collection($this->whenLoaded('posts')),
             'followings' => FollowableResource::collection($this->whenLoaded('followings')),
+            'followers' => FollowableResource::collection($this->whenLoaded('followers')),
             'media' => $this->media,
         ];
 

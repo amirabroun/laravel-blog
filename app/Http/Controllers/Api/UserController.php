@@ -26,12 +26,41 @@ class UserController extends Controller
         ];
     }
 
-    public function show(string $uuid)
+    public function show(Request $request, string $uuid)
     {
-        $user = User::uuid($uuid)
-            ->with(['resume', 'media', 'followers'])
-            ->first()
-            ->append('followed_by_auth_user');
+        $data = $request->validate([
+            'with' => 'array',
+            'with.*' => ['string', Rule::in(['posts', 'followings', 'followers'])],
+        ]);
+
+        $userQuery = User::uuid($uuid)
+            ->withCount('followers as followers_count')
+            ->withCount('followings as followings_count')
+            ->with('media');
+
+        if (in_array('posts', $data['with'] ?? [])) {
+            $userQuery->with([
+                'posts' => fn ($query) => $query->latest()->with('media')
+            ]);
+        }
+
+        if (in_array('followings', $data['with'] ?? [])) {
+            $userQuery->with([
+                'followings' => fn ($query) => $query->with('media'),
+            ]);
+        } else {
+            $userQuery->with([
+                'followings' => fn ($query) => $query->inRandomOrder()->with('media')->take(mt_rand(2, 5)),
+            ]);
+        }
+
+        if (in_array('followers', $data['with'] ?? [])) {
+            $userQuery->with([
+                'followers' => fn ($query) => $query->with('media')
+            ]);
+        }
+
+        $user = $userQuery->first();
 
         if (!$user) {
             return [
@@ -43,7 +72,7 @@ class UserController extends Controller
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('user.profile'),
-            'data' => new UserProfileResource($user),
+            'data' => ['user' => UserResource::make($user)],
         ];
     }
 
