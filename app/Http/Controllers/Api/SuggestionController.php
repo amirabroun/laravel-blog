@@ -9,16 +9,15 @@ class SuggestionController extends Controller
 {
     public function getSuggestionsUsers()
     {
-        $userSuggestionsQuery = auth()->check()
-            ? auth()->user()->notFollowed()->take(mt_rand(2, 5))
-            : User::query()->take(mt_rand(8, 15));
+        $userSuggestionsQuery = User::query()->take(mt_rand(8, 15))->inRandomOrder()->with('media');
 
-        $usersNotFollowed = $userSuggestionsQuery->inRandomOrder()->with('media')->get();
+        !auth()->check() ?:
+            $userSuggestionsQuery->whereNotIn('id', [auth()->id(), ...app()->auth_followings->pluck('id')->toArray()]);
 
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('app.users'),
-            'data' => ['users' => UserCollection::make($usersNotFollowed)],
+            'data' => ['users' => UserCollection::make($userSuggestionsQuery->get())],
         ];
     }
 

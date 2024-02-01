@@ -16,6 +16,8 @@ class FollowableResource extends JsonResource
     {
         $data = $this->resource->toArray();
 
+        $data['avatar'] = $this->resource->avatar;
+
         if (auth()->check() && auth()->id() != $this->id) {
             $data = $this->appendFollowStatus($data);
         }
