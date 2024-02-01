@@ -26,41 +26,17 @@ class UserController extends Controller
         ];
     }
 
-    public function show(Request $request, string $uuid)
+    public function show(string $uuid)
     {
-        $data = $request->validate([
-            'with' => 'array',
-            'with.*' => ['string', Rule::in(['posts', 'followings', 'followers'])],
-        ]);
-
-        $userQuery = User::uuid($uuid)
+        $user = User::uuid($uuid)
             ->withCount('followers as followers_count')
             ->withCount('followings as followings_count')
-            ->with('media');
-
-        if (in_array('posts', $data['with'] ?? [])) {
-            $userQuery->with([
-                'posts' => fn ($query) => $query->latest()->with('media')
-            ]);
-        }
-
-        if (in_array('followings', $data['with'] ?? [])) {
-            $userQuery->with([
+            ->with([
+                'media',
+                'posts' => fn ($query) => $query->latest()->with('media'),
                 'followings' => fn ($query) => $query->with('media'),
-            ]);
-        } else {
-            $userQuery->with([
-                'followings' => fn ($query) => $query->inRandomOrder()->with('media')->take(mt_rand(2, 5)),
-            ]);
-        }
-
-        if (in_array('followers', $data['with'] ?? [])) {
-            $userQuery->with([
-                'followers' => fn ($query) => $query->with('media')
-            ]);
-        }
-
-        $user = $userQuery->first();
+                'followers' => fn ($query) => $query->with('media'),
+            ])->first();
 
         if (!$user) {
             return [
