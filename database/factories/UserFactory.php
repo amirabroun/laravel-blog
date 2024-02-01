@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -22,7 +21,7 @@ class UserFactory extends Factory
             'first_name' => fake()->name(),
             'last_name' => fake()->lastName(),
             'username' => fake()->userName(),
-            'password' => fake()->password(),
+            'password' => 12345678,
         ];
     }
 
