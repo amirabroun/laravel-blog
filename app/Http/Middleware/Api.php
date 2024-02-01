@@ -26,7 +26,7 @@ class Api
     {
         $personalAccessToken = PersonalAccessToken::findToken($token);
 
-        $user = $personalAccessToken->tokenable()->with([
+        $user = $personalAccessToken?->tokenable()->with([
             'followings' => fn ($query) => $query->select([
                 'users.id', 'users.first_name', 'users.last_name', 'users.username',
                 'followables.created_at as auth_followed_at', 'followables.accepted_at as follow_accepted_at',
