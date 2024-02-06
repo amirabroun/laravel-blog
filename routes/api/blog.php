@@ -37,6 +37,10 @@ Route::prefix('users')
 
         Route::put('{uuid}/update-profile', 'updateUserProfile')->name('auth.profile.update');
 
+        Route::post('{uuid}/avatar', 'addUserAvatar')->name('auth.profile.avatar.store');
+
+        Route::delete('{uuid}/avatar', 'deleteUserAvatar')->name('auth.profile.avatar.delete');
+
         Route::put('{uuid}/toggle-follow', 'toggleFollow')->name('auth.users.toggleFollow');
 
         Route::put('{uuid}/update-resume', 'updateUserResume')->name('auth.profile.update');

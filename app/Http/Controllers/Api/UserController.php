@@ -57,10 +57,9 @@ class UserController extends Controller
         $data = $request->validate([
             'first_name' => 'string',
             'last_name' => 'string',
-            'username' => ['required', 'string', Rule::unique('users')->ignore($uuid, 'uuid')],
         ]);
 
-        if (auth()->user()->uuid != $uuid) {
+        if (auth()->guest() || auth()->user()->uuid != $uuid) {
             return [
                 'status' => self::HTTP_STATUS_CODE['unauthorized'],
                 'message' => __('auth.no_update_access')
@@ -74,12 +73,78 @@ class UserController extends Controller
             ];
         }
 
-        $user = User::uuid($uuid)->with(['resume', 'media'])->first();
+        return  [
+            'status' => self::HTTP_STATUS_CODE['success'],
+            'message' => 'user profile updated',
+        ];
+    }
+
+    public function addUserAvatar(Request $request, string $uuid)
+    {
+        $request->validate([
+            'avatar' => 'required|file|mimetypes:image/jpeg,image/png,image/jpg',
+        ]);
+
+        $user = User::query()->where('uuid', $uuid)->with('media')->first();
+
+        if (!$user) {
+            return [
+                'status' => self::HTTP_STATUS_CODE['not_found'],
+                'message' => __('auth.user_not_found.uuid'),
+            ];
+        }
+
+        if (auth()->guest() || auth()->user()->uuid != $uuid) {
+            return [
+                'status' => self::HTTP_STATUS_CODE['unauthorized'],
+                'message' => __('auth.no_update_access')
+            ];
+        }
+
+        if ($request->file('avatar', false)) {
+            $user->addMediaFromRequest('avatar')->usingFileName(
+                $request->file('avatar')->hashName()
+            )->toMediaCollection('avatar');
+        }
 
         return  [
             'status' => self::HTTP_STATUS_CODE['success'],
-            'message' => 'update user profile',
-            'data' => ['user' => new UserProfileResource($user)],
+            'message' => 'avatar added',
+        ];
+    }
+
+
+    public function deleteUserAvatar($uuid)
+    {
+        $user = User::query()->where('uuid', $uuid)->with('media')->first();
+
+        if (!$user) {
+            return [
+                'status' => self::HTTP_STATUS_CODE['not_found'],
+                'message' => __('auth.user_not_found.uuid'),
+            ];
+        }
+
+        if (auth()->guest() || auth()->user()->uuid != $uuid) {
+            return [
+                'status' => self::HTTP_STATUS_CODE['unauthorized'],
+                'message' => __('auth.no_update_access')
+            ];
+        }
+
+        if ($user->media->count() == 0) {
+            return [
+                'status' => self::HTTP_STATUS_CODE['bad_request'],
+                'message' => 'user does not have avatar'
+            ];
+        }
+
+        $user->media->where('collection_name', 'avatar')
+            ->map(fn ($image) => $image->forceDelete());
+
+        return  [
+            'status' => self::HTTP_STATUS_CODE['success'],
+            'message' => 'user profile avatar deleted',
         ];
     }
 
