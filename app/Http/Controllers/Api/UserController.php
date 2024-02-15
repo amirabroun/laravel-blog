@@ -57,6 +57,7 @@ class UserController extends Controller
         $data = $request->validate([
             'first_name' => 'string',
             'last_name' => 'string',
+            'username' => 'string',
         ]);
 
         if (auth()->guest() || auth()->user()->uuid != $uuid) {
