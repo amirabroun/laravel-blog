@@ -35,6 +35,8 @@ Route::prefix('users')
 
         Route::post('{uuid}', 'show')->name('users.profile');
 
+        Route::post('{uuid}/username/check', 'checkUniqueUsername')->name('users.profile.username.update');
+
         Route::put('{uuid}/update-profile', 'updateUserProfile')->name('auth.profile.update');
 
         Route::post('{uuid}/avatar', 'addUserAvatar')->name('auth.profile.avatar.store');

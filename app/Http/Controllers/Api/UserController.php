@@ -113,7 +113,6 @@ class UserController extends Controller
         ];
     }
 
-
     public function deleteUserAvatar($uuid)
     {
         $user = User::query()->where('uuid', $uuid)->with('media')->first();
@@ -145,6 +144,20 @@ class UserController extends Controller
         return  [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => 'user profile avatar deleted',
+        ];
+    }
+
+    public function checkUniqueUsername(Request $request)
+    {
+        $request->validate([
+            'username' => Rule::unique('users', 'username')->ignore(auth()->id()),
+        ], [
+            'username' => 'username is not available :)'
+        ]);
+
+        return  [
+            'status' => self::HTTP_STATUS_CODE['success'],
+            'message' => 'username is available',
         ];
     }
 
