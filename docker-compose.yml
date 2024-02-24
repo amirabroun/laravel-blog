@@ -13,6 +13,7 @@ services:
 
     php:
         container_name: "${APP_NAME}"
+        hostname: blog
         build: ./docker/php
         volumes:
             - ./:/usr/share/nginx/www
