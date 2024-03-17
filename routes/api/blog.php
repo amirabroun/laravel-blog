@@ -21,6 +21,12 @@ Route::prefix('posts')
         Route::get('/', 'index')->name('posts.index');
 
         Route::post('/', 'store')->name('posts.store');
+
+        Route::put('{uuid}/update', 'update')->name('posts.update');
+
+        Route::delete('{uuid}', 'delete')->name('posts.delete');
+
+        Route::delete('{uuid}/image', 'deletePostImage')->name('posts.image.delete');
     });
 
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
