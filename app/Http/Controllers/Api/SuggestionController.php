@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\{Post, User};
-use App\Http\Resources\{UserCollection, PostCollection};
+use App\Http\Resources\{PostResource, UserResource};
 
 class SuggestionController extends Controller
 {
     public function getSuggestionsUsers()
     {
-        $userSuggestionsQuery = User::query()->take(mt_rand(8, 15))->inRandomOrder()->with('media');
+        $userSuggestionsQuery = User::query()->take(mt_rand(2, 5))->inRandomOrder()->with('media');
 
         !auth()->check() ?:
             $userSuggestionsQuery->whereNotIn('id', [auth()->id(), ...app()->auth_followings->pluck('id')->toArray()]);
@@ -17,7 +17,7 @@ class SuggestionController extends Controller
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('app.users'),
-            'data' => ['users' => UserCollection::make($userSuggestionsQuery->get())],
+            'data' => ['users' => UserResource::collection($userSuggestionsQuery->get())],
         ];
     }
 
@@ -40,7 +40,7 @@ class SuggestionController extends Controller
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('app.posts'),
-            'data' => ['posts' => PostCollection::make($posts)],
+            'data' => ['posts' => PostResource::collection($posts)],
         ];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
-use App\Http\Resources\PostCollection;
+use App\Http\Resources\PostResource;
 
 class PostController extends Controller
 {
@@ -21,7 +21,7 @@ class PostController extends Controller
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('app.posts'),
-            'data' => ['posts' => PostCollection::make($posts)],
+            'data' => ['posts' => PostResource::collection($posts)],
         ];
     }
 

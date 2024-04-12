@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Http\Resources\UserResource;
 use App\Http\Requests\UpdateUserResumeRequest;
-use App\Http\Resources\{UserProfileResource, UserCollection, UserResource};
 
 class UserController extends Controller
 {
@@ -21,7 +21,7 @@ class UserController extends Controller
             'message' => __('user.users'),
             'data' => [
                 'lastPage' => $lastPage,
-                'users' => new UserCollection($users)
+                'users' => UserResource::collection($users)
             ],
         ];
     }
@@ -195,7 +195,7 @@ class UserController extends Controller
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('user.profile_update_successfully'),
-            'data' => ['user' => new UserProfileResource($user)],
+            'data' => ['user' => UserResource::make($user)],
         ];
     }
 

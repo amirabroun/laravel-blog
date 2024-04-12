@@ -11,10 +11,17 @@ class AuthController extends Controller
 {
     public function account()
     {
+        if (!auth()->check()) {
+            return [
+                'status' => self::HTTP_STATUS_CODE['unauthorized'],
+                'message' => __('auth.unauthorized'),
+            ];
+        }
+
         return [
             'status' => self::HTTP_STATUS_CODE['success'],
             'message' => __('auth.successfully_auth'),
-            'data' => ['user' => new UserResource(auth()->user())],
+            'data' => ['user' => UserResource::make(auth()->user())],
         ];
     }
 
