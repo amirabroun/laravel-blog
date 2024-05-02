@@ -77,7 +77,7 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->to(session('previous_url'));
+        return redirect()->intended('/');
     }
 
     public function register(Request $request)
