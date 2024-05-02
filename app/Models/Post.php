@@ -18,6 +18,10 @@ class Post extends Model implements HasMedia
 
     protected $appends = ['image'];
 
+    protected $withCount = ['likes'];
+
+    protected $with = ['media', 'likes'];
+
     protected $casts = [
         'created_at' => 'date:D F j, Y, G:i',
     ];
@@ -31,8 +35,6 @@ class Post extends Model implements HasMedia
 
     protected function image(): Attribute
     {
-        $this->relationLoaded('media') ?: $this->load('media');
-
         $image = $this->media->where('collection_name', 'image')->last();
 
         $url = $image == null ? false : $image->getUrl();

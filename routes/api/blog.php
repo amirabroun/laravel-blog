@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\{PostController, CategoryController, SuggestionController};
+use App\Http\Controllers\Api\{PostController, CategoryController, LikeController, SuggestionController};
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +29,8 @@ Route::prefix('posts')
         Route::delete('{uuid}/image', 'deletePostImage')->name('posts.image.delete');
     });
 
+Route::put('posts/{uuid}/toggle-like', [LikeController::class, 'toggleLikePost'])->name('posts.like.toggle');
+
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 
 Route::prefix('users')
@@ -49,7 +51,7 @@ Route::prefix('users')
 
         Route::delete('{uuid}/avatar', 'deleteUserAvatar')->name('auth.profile.avatar.delete');
 
-        Route::put('{uuid}/toggle-follow', 'toggleFollow')->name('auth.users.toggleFollow');
+        Route::put('{uuid}/toggle-follow', 'toggleFollow')->name('users.follow.toggle');
 
         Route::put('{uuid}/update-resume', 'updateUserResume')->name('auth.profile.update');
     });

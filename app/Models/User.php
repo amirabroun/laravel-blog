@@ -23,7 +23,9 @@ class User extends Authenticatable implements HasMedia
 
     protected $fillable = ['first_name', 'last_name', 'username', 'password', 'is_admin'];  
 
-    protected $appends = ['full_name'];
+    protected $appends = ['full_name', 'avatar'];
+
+    protected $with = ['media'];
 
     protected $hidden = [
         'password',
@@ -44,10 +46,6 @@ class User extends Authenticatable implements HasMedia
 
     protected function avatar(): Attribute
     {
-        if (!$this->relationLoaded('media')) {
-            $this->load('media');
-        }
-
         $avatar = $this->media->where('collection_name', 'avatar')->last();
 
         $url = !$avatar ? null : $avatar->getUrl();
