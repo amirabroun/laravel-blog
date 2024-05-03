@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Post;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Web\{CategoryController, PostController};
 use Illuminate\Support\Facades\Route;
 
@@ -38,3 +40,17 @@ Route::prefix('categories')
         Route::get('create', fn () => view('category.createCategory'))->name('categories.create');
         Route::post('/', 'store')->name('categories.store');
     });
+
+
+Route::get('/posts-filter', fn () => view('post.filterPosts'))->name('filterPosts.view');
+
+Route::post('/posts-filter', function (Request $request) {
+    $data = $request->validate([
+        'from' => 'date',
+        'to' => 'date'
+    ]);
+
+    $posts = Post::query()->whereBetWeen('created_at', [$data['from'], $data['to']])->get();
+
+    return view('post.filterPosts')->with('posts', $posts);
+})->name('filterPosts');
