@@ -57,6 +57,16 @@
                                 <input name="to" value="{{ $to ?? null }}">
                             </div>
                         </form>
+
+                        <form method="post" action="{{ route('posts.export') }}" class="mt-1">
+                            @csrf
+                            <input type="submit" value="genrate word" class="btn btn-secondary rounded">
+                            <div hidden>
+                                <input name="type" value="word">
+                                <input name="from" value="{{ $from ?? null }}">
+                                <input name="to" value="{{ $to ?? null }}">
+                            </div>
+                        </form>
                         @endisset
                     </div>
                 </div>

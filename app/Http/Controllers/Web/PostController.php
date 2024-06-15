@@ -7,6 +7,7 @@ use App\Excel\JsonToExcel;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Models\{Post, Category};
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -143,7 +144,7 @@ class PostController extends Controller
     public function exportPosts(Request $request)
     {
         $data = $request->validate([
-            'type' => Rule::in(['excel', 'pdf']),
+            'type' => Rule::in(['excel', 'pdf', 'word']),
             'from' => 'date',
             'to' => 'date'
         ]);
@@ -162,6 +163,7 @@ class PostController extends Controller
         $filePath = match ($data['type']) {
             'pdf' => $this->pdfExport($posts),
             'excel' => $this->excelExport($posts),
+            'word' => $this->wordExport($posts),
             default => 0,
         };
 
@@ -191,6 +193,45 @@ class PostController extends Controller
             view('pdf.posts-report')->with(compact(('posts')))->render(),
             'temp/' . $filename
         );
+
+        return Storage::disk('public')->url($filename);
+    }
+
+    private function wordExport($posts)
+    {
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+
+        $section = $phpWord->addSection();
+        foreach ($posts as $post) {
+            $section->addText(
+                'Title: ' . $post['title'],
+                array('name' => 'Tahoma', 'size' => 10)
+            );
+
+            $section->addLine();
+            $section->addText(
+                'Body: ' . $post['body'],
+                array('name' => 'Tahoma', 'size' => 10)
+            );
+
+            $section->addLine();
+            $section->addText(
+                'Created at: ' . $post['created_at'],
+                array('name' => 'Tahoma', 'size' => 10)
+            );
+
+            $section->addLine();
+            $section->addLine();
+            $section->addLine();
+            $section->addLine();
+            $section->addLine();
+        }
+        
+        File::isDirectory('temp') or File::makeDirectory('temp', 0777, true, true);
+        
+        $filename = uniqid() . '.docx';
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save('temp/' . $filename);
 
         return Storage::disk('public')->url($filename);
     }
