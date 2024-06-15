@@ -17,26 +17,48 @@
             <div class="row">
                 <div class="col-12 mb-6 card shadow single-blog-post card-body text-dark">
                     <div class="text-content text-dark">
-                        <form class="mb-1" method="post" action="{{ route('filterPosts') }}" id="contactForm" name="contactForm" enctype="multipart/form-data">
+                        <form class="mb-1" method="post" action="{{ route('posts.filter') }}" id="contactForm" name="contactForm" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-6">
                                     <label for="from">from</label>
-                                    <input type="date" class="form-input" name="from">
+                                    <input value="{{ $from ?? null }}" type="datetime-local" class="form-input" name="from">
                                 </div>
                                 <div class="col-6">
                                     <label for="to">to</label>
-                                    <input type="date" class="form-input" name="to">
+                                    <input value="{{ $to ?? null }}" type="datetime-local" class="form-input" name="to">
                                 </div>
                             </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-md-12 form-group mt-5 mb-1">
-                            <input type="submit" value="Get" style="border-radius: 5px;" class="btn btn-info shadow py-2  px-4 rounded">
-                        </div>
+                            <div class="row">
+                                <div class="col-md-12 form-group mt-5 mb-1">
+                                    <input type="submit" value="Get" style="border-radius: 5px;" class="btn btn-info shadow py-2  px-4 rounded">
+                                </div>
+                            </div>
+                        </form>
+
+                        @isset($posts)
+                        <form method="post" action="{{ route('posts.export') }}" class="mt-3">
+                            @csrf
+                            <input type="submit" value="genrate excel" class="btn btn-secondary rounded">
+                            <div hidden>
+                                <input name="type" value="excel">
+                                <input name="from" value="{{ $from ?? null }}">
+                                <input name="to" value="{{ $to ?? null }}">
+                            </div>
+                        </form>
+
+                        <form method="post" action="{{ route('posts.export') }}" class="mt-1">
+                            @csrf
+                            <input type="submit" value="genrate pdf" class="btn btn-secondary rounded">
+                            <div hidden>
+                                <input name="type" value="pdf">
+                                <input name="from" value="{{ $from ?? null }}">
+                                <input name="to" value="{{ $to ?? null }}">
+                            </div>
+                        </form>
+                        @endisset
                     </div>
-                    </form>
                 </div>
             </div>
             @isset($posts)

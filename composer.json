@@ -9,11 +9,16 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "barryvdh/laravel-snappy": "^1.0",
         "guzzlehttp/guzzle": "^7.2",
+        "h4cc/wkhtmltoimage-i386": "0.12.x",
+        "h4cc/wkhtmltopdf-i386": "0.12.x",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
         "laravel/telescope": "^4.17",
         "laravel/tinker": "^2.7",
+        "maatwebsite/excel": "^3.1",
+        "phpoffice/phpspreadsheet": "^1.24",
         "spatie/laravel-medialibrary": "^10.0.0",
         "tucker-eric/eloquentfilter": "^3.1"
     },

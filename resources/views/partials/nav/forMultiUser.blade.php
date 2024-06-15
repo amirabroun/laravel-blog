@@ -127,7 +127,7 @@
                 <a class="mr-3 text-dark" href="{{ route('posts.create') }}">New Post</a>
             </li>
             <li class="nav-item">
-                <a class="mr-3 text-dark" href="{{ route('filterPosts.view') }}">Filter Posts</a>
+                <a class="mr-3 text-dark" href="{{ route('posts.filter.view') }}">Filter Posts</a>
             </li>
             <li class="nav-item d-block  d-lg-none">
                 <h1></h1>

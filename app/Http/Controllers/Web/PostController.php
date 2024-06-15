@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Web;
 
+use Knp\Snappy\Pdf;
+use App\Excel\JsonToExcel;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Models\{Post, Category};
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -118,5 +122,76 @@ class PostController extends Controller
         $post->media->map(fn ($image) => $image->forceDelete());
 
         return redirect()->back();
+    }
+
+    public function filterPosts(Request $request)
+    {
+        $data = $request->validate([
+            'from' => 'date',
+            'to' => 'date'
+        ]);
+
+        $posts = Post::query()->whereBetWeen('created_at', [$data['from'], $data['to']])->latest()->get();
+
+        return view('post.filterPosts', [
+            ...compact('posts'),
+            'from' => $data['from'],
+            'to' => $data['to'],
+        ]);
+    }
+
+    public function exportPosts(Request $request)
+    {
+        $data = $request->validate([
+            'type' => Rule::in(['excel', 'pdf']),
+            'from' => 'date',
+            'to' => 'date'
+        ]);
+
+        $posts = Post::query()->whereBetWeen('created_at', [$data['from'], $data['to']])
+            ->latest('title', 'body', 'created_at')->get()->map(function ($post) {
+                $body = explode(" ", $post->body);
+
+                return [
+                    'title' => $post->title,
+                    'body' => implode(" ", array_splice($body, 0, 10)) . ' ... ',
+                    'created_at' => $post->created_at
+                ];
+            })->toArray();
+
+        $filePath = match ($data['type']) {
+            'pdf' => $this->pdfExport($posts),
+            'excel' => $this->excelExport($posts),
+            default => 0,
+        };
+
+        return response()->download($filePath);
+    }
+
+    private function excelExport($posts)
+    {
+        $response = JsonToExcel::generate([
+            'headers' => ['title', 'body', 'created at'],
+            'title' => 'esml',
+            'data' => $posts
+        ]);
+
+        return $response['data']['link'];
+    }
+
+    private function pdfExport($posts)
+    {
+        $snappy = new Pdf('wkhtmltopdf', [
+            'encoding' => 'UTF-8',
+            'page-size' => 'a4',
+        ]);
+
+        $filename = uniqid() . '.pdf';
+        $snappy->generateFromHtml(
+            view('pdf.posts-report')->with(compact(('posts')))->render(),
+            'temp/' . $filename
+        );
+
+        return Storage::disk('public')->url($filename);
     }
 }

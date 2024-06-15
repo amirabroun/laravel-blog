@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Post;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Web\{CategoryController, PostController};
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +24,10 @@ Route::prefix('posts')
         Route::delete('{uuid}/delete-file', 'deletePostFile')->name('posts.files.delete');
         Route::get('create',  fn () => view('post.newPost'))->name('posts.create');
         Route::post('/', 'store')->name('posts.store');
+
+        Route::get('filter', fn () => view('post.filterPosts'))->name('posts.filter.view');
+        Route::post('filter', 'filterPosts')->name('posts.filter');
+        Route::post('export', 'exportPosts')->name('posts.export');
     });
 
 Route::prefix('categories')
@@ -40,17 +42,3 @@ Route::prefix('categories')
         Route::get('create', fn () => view('category.createCategory'))->name('categories.create');
         Route::post('/', 'store')->name('categories.store');
     });
-
-
-Route::get('/posts-filter', fn () => view('post.filterPosts'))->name('filterPosts.view');
-
-Route::post('/posts-filter', function (Request $request) {
-    $data = $request->validate([
-        'from' => 'date',
-        'to' => 'date'
-    ]);
-
-    $posts = Post::query()->whereBetWeen('created_at', [$data['from'], $data['to']])->get();
-
-    return view('post.filterPosts')->with('posts', $posts);
-})->name('filterPosts');

@@ -8,13 +8,13 @@ RUN apt-get update --fix-missing
 RUN apt-get install -y curl wget zip unzip git g++ nano 
 
 # Install required libraries for PHP extensions
-RUN apt-get install -y libpng-dev libonig-dev libxml2-dev libzip-dev libldap2-dev
+RUN apt-get install -y libpng-dev libonig-dev libxml2-dev libzip-dev libldap2-dev wkhtmltopdf
 
 # Clean up the package cache to reduce the size of the image
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install additional PHP extensions
-RUN docker-php-ext-install exif intl pdo pdo_mysql ldap
+RUN docker-php-ext-install exif intl pdo pdo_mysql gd soap calendar gettext pcntl sockets zip ldap
 
 # Install Xdebug and enable it
 RUN pecl install xdebug
