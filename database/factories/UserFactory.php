@@ -22,6 +22,7 @@ class UserFactory extends Factory
             'uuid' => fake()->uuid(),
             'first_name' => fake()->name(),
             'last_name' => fake()->lastName(),
+            'phone' => fake()->phoneNumber(),
             'username' => fake()->userName(),
             'password' => 12345678,
             'created_at' => $date,

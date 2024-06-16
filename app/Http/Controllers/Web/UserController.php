@@ -10,22 +10,19 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
-
 class UserController extends Controller
 {
     public function filterUsers(Request $request)
     {
         $data = $request->validate([
-            'from' => 'date',
-            'to' => 'date'
+            'count' => 'int'
         ]);
 
-        $users = User::query()->whereBetWeen('created_at', [$data['from'], $data['to']])->latest()->get();
+        $users = User::query()->take($data['count'])->get();
 
         return view('filterUsers', [
             ...compact('users'),
-            'from' => $data['from'],
-            'to' => $data['to'],
+            'count' => $data['count'],
         ]);
     }
 
@@ -33,15 +30,13 @@ class UserController extends Controller
     {
         $data = $request->validate([
             'type' => Rule::in(['excel', 'pdf', 'word']),
-            'from' => 'date',
-            'to' => 'date'
+            'count' => 'int'
         ]);
 
-        $users = User::query()->whereBetWeen('created_at', [$data['from'], $data['to']])->get()->map(function ($user) {
+        $users = User::query()->take($data['count'])->get()->map(function ($user) {
             return [
                 'name' => $user->full_name,
-                'username' => $user->username,
-                'created_at' => $user->created_at
+                'phone' => $user->phone,
             ];
         })->toArray();
 
@@ -58,8 +53,8 @@ class UserController extends Controller
     private function excelExport($users)
     {
         $response = JsonToExcel::generate([
-            'headers' => ['نام و نام خانوادگی', 'نام کاربری منحصر به فرد', 'تاریخ ثبت نام'],
-            'title' => 'esml',
+            'headers' => ['نام', 'شماره تلفن'],
+            'title' => 'دفترچه تلفن',
             'data' => $users
         ]);
 
@@ -75,7 +70,7 @@ class UserController extends Controller
 
         $filename = uniqid() . '.pdf';
         $snappy->generateFromHtml(
-            view('pdf.users-report')->with(compact(('users')))->render(),
+            view('users-report')->with(compact(('users')))->render(),
             'temp/' . $filename
         );
 
@@ -89,26 +84,11 @@ class UserController extends Controller
         $section = $phpWord->addSection();
         foreach ($users as $user) {
             $string = '';
-            $string .= $user['username'] . ' با نام کاربری منحصر به فرد ';
-            $string .=  $user['name'] . 'کاربر ';
-            
-            $section->addText(
-                $string,
-                array('name' => 'Tahoma', 'size' => 10)
-            );
-            
-            $string = '';
-            $string .=  ' در تاریخ ' . $user['created_at'];
-            $string .= ' ثبت نام کرده است ';
-            
-            $section->addLine();
-            $section->addText(
-                $string,
-                array('name' => 'Tahoma', 'size' => 10)
-            );
-            
-            $section->addLine();
-            $section->addLine();
+            $string .= $user['phone'] . ' : شماره تلفن   ';
+            $string .=  $user['name'] . ' کاربر ';
+
+            $section->addText($string);
+
             $section->addLine();
         }
 
