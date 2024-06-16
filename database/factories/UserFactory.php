@@ -16,12 +16,16 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $date = now()->subDays(rand(1, 10));
+
         return [
             'uuid' => fake()->uuid(),
             'first_name' => fake()->name(),
             'last_name' => fake()->lastName(),
             'username' => fake()->userName(),
             'password' => 12345678,
+            'created_at' => $date,
+            'updated_at' => $date,
         ];
     }
 

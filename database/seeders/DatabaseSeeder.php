@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use ReflectionClass, ReflectionProperty;
-use Database\Seeders\BlogSeeder\AdminSeeder;
 use App\Models\{Category, Post, User, Label};
 
 class DatabaseSeeder extends Seeder
@@ -16,8 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(AdminSeeder::class);
-
         $reflection = new ReflectionClass($this);
 
         collect(
