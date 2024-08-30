@@ -121,6 +121,15 @@ return new class extends Migration
 
             $table->index(['followable_type', 'accepted_at']);
         });
+
+        Schema::create('notifications', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('type');
+            $table->morphs('notifiable');
+            $table->text('data');
+            $table->timestamp('read_at')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -130,6 +139,8 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('notifications');
+
         Schema::dropIfExists('likes');
 
         Schema::dropIfExists('comments');

@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\UpdateUserResumeRequest;
+use App\Notifications\NewFollower;
+use App\Http\Resources\NotificationResource;
+use App\Models\Notification;
 
 class UserController extends Controller
 {
@@ -33,9 +36,9 @@ class UserController extends Controller
             ->withCount('followings as followings_count')
             ->with([
                 'media',
-                'posts' => fn ($query) => $query->latest()->with('media'),
-                'followings' => fn ($query) => $query->with('media'),
-                'followers' => fn ($query) => $query->with('media'),
+                'posts' => fn($query) => $query->latest()->with('media'),
+                'followings' => fn($query) => $query->with('media'),
+                'followers' => fn($query) => $query->with('media'),
             ])->first();
 
         if (!$user) {
@@ -140,7 +143,7 @@ class UserController extends Controller
         }
 
         $user->media->where('collection_name', 'avatar')
-            ->map(fn ($image) => $image->forceDelete());
+            ->map(fn($image) => $image->forceDelete());
 
         return  [
             'status' => self::HTTP_STATUS_CODE['success'],
@@ -205,8 +208,9 @@ class UserController extends Controller
             ->withCount('followers as followers_count')
             ->withCount('followings as followings_count')
             ->with([
-                'followings' => fn ($query) => $query->inRandomOrder()->with('media')->take(mt_rand(2, 5)),
-                'posts' => fn ($query) => $query->latest()->with('media'), 'media'
+                'followings' => fn($query) => $query->inRandomOrder()->with('media')->take(mt_rand(2, 5)),
+                'posts' => fn($query) => $query->latest()->with('media'),
+                'media'
             ])->first();
 
         if (!$user) {
@@ -223,13 +227,37 @@ class UserController extends Controller
         ];
     }
 
+    public function getUserNotifications(string $uuid)
+    {
+        $user = User::uuid($uuid)->with([
+            'unreadNotifications' => fn($query) => $query->orderBy('created_at')
+        ])->first();
+
+        if (!$user) {
+            return [
+                'status' => self::HTTP_STATUS_CODE['not_found'],
+                'message' => __('auth.user_not_found.uuid'),
+            ];
+        }
+
+        return [
+            'status' => self::HTTP_STATUS_CODE['success'],
+            'message' => __('user.notifications'),
+            'data' => ['notifications' => NotificationResource::collection($user->unreadNotifications)],
+        ];
+    }
+
     public function toggleFollow($uuid)
     {
         $user = User::uuid($uuid)->first();
 
-        app()->auth_followings->get($user->id) == null
-            ? auth()->user()->follow($user)
-            : auth()->user()->unfollow($user);
+        if (app()->auth_followings->get($user->id) == null) {
+            auth()->user()->follow($user);
+
+            $user->notify(new NewFollower(auth()->id()));
+        } else {
+            auth()->user()->unfollow($user);
+        }
 
         return [
             'status' => self::HTTP_STATUS_CODE['success'],

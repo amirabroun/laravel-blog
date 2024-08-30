@@ -21,11 +21,9 @@ class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasUuid, InteractsWithMedia, Followable;
 
-    protected $fillable = ['first_name', 'last_name', 'username', 'password', 'is_admin'];  
+    protected $fillable = ['first_name', 'last_name', 'username', 'password', 'is_admin'];
 
     protected $appends = ['full_name', 'avatar'];
-
-    protected $with = ['media'];
 
     protected $hidden = [
         'password',
@@ -74,6 +72,11 @@ class User extends Authenticatable implements HasMedia
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'notifiable')->latest();
     }
 
     public function resume()

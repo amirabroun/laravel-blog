@@ -54,6 +54,8 @@ Route::prefix('users')
         Route::put('{uuid}/toggle-follow', 'toggleFollow')->name('users.follow.toggle');
 
         Route::put('{uuid}/update-resume', 'updateUserResume')->name('auth.profile.update');
+
+        Route::get('{uuid}/notifications', 'getUserNotifications')->name('users.notifications');
     });
 
 Route::prefix('suggestions')
