@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\{PostController, CategoryController, LikeController
 |
 */
 
+Route::get('example/posts', [PostController::class, 'getExampleData'])->withoutMiddleware('auth');
+
 Route::prefix('posts')
     ->controller(PostController::class)
     ->group(function () {
