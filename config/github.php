@@ -43,7 +43,7 @@ return [
 
         'main' => [
             'method'     => 'token',
-            'token'      => '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',
+            'token'      => env('API_GITHUB_KEY'),
             // 'backoff'    => false,
             // 'cache'      => false,
             // 'version'    => 'v3',
