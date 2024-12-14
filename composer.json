@@ -9,11 +9,14 @@
     "license": "MIT",
     "require": {
         "php": "^8.3",
+        "graham-campbell/github": "^12.3",
         "guzzlehttp/guzzle": "^7.2",
+        "jcobhams/newsapi": "^1.0",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
         "laravel/telescope": "^4.17",
         "laravel/tinker": "^2.7",
+        "predis/predis": "^2.2",
         "spatie/laravel-medialibrary": "^10.0.0",
         "tucker-eric/eloquentfilter": "^3.1"
     },
@@ -60,7 +63,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     },
     "minimum-stability": "stable",
     "prefer-stable": true

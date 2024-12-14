@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\NewFollower;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 use App\Traits\Followable;
@@ -208,6 +209,8 @@ class User extends Authenticatable implements HasMedia
         ], [
             'accepted_at' => $isPending ? null : now(),
         ]);
+        
+        $followable->notify(new NewFollower($this->id));
     }
 
     public function unfollow(Model $followable): void

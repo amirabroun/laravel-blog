@@ -9,7 +9,7 @@ class AdminSeeder extends Seeder
 {
     public function run()
     {
-        $firstUser = User::factory()
+        $admin = User::factory()
             ->create([
                 'first_name' => 'Amir',
                 'last_name' => 'Abroun',
@@ -18,11 +18,11 @@ class AdminSeeder extends Seeder
                 'is_admin' => 1,
             ]);
 
-        $firstUser->addMediaFromUrl($this->avatarUrl())->usingFileName(
+        $admin->addMediaFromUrl($this->avatarUrl())->usingFileName(
             fake()->uuid() . '.png'
         )->toMediaCollection('avatar');
 
-        Resume::factory()->for($firstUser)->create([
+        Resume::factory()->for($admin)->create([
             'summary' => $this->summary(),
             'position' => $this->position(),
             'experiences' => $this->experiences(),
@@ -30,22 +30,6 @@ class AdminSeeder extends Seeder
             'skills' => $this->skills(),
             'contact' => $this->contact(),
         ]);
-
-        $secendUser = User::factory()
-            ->create([
-                'first_name' => 'Reza',
-                'last_name' => 'Golnari',
-                'username' => 'AqaReza',
-                'password' => 11111111,
-                'is_admin' => 1,
-            ]);
-
-        $secendUser->addMediaFromUrl("https://github.com/Reza-Golnari.png")->usingFileName(
-            fake()->uuid() . '.png'
-        )->toMediaCollection('avatar');
-
-        $firstUser->follow($secendUser);
-        $secendUser->follow($firstUser);
     }
 
     private function avatarUrl()

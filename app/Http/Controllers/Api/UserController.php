@@ -36,6 +36,7 @@ class UserController extends Controller
             ->withCount('followings as followings_count')
             ->with([
                 'media',
+                'resume',
                 'posts' => fn($query) => $query->latest()->with('media'),
                 'followings' => fn($query) => $query->with('media'),
                 'followers' => fn($query) => $query->with('media'),
@@ -253,8 +254,6 @@ class UserController extends Controller
 
         if (app()->auth_followings->get($user->id) == null) {
             auth()->user()->follow($user);
-
-            $user->notify(new NewFollower(auth()->id()));
         } else {
             auth()->user()->unfollow($user);
         }
