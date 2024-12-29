@@ -5,6 +5,7 @@ namespace Database\Seeders\BlogSeeder;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use GrahamCampbell\GitHub\Facades\GitHub;
+use Throwable;
 
 class GithubUsersSeeder extends Seeder
 {
@@ -23,9 +24,7 @@ class GithubUsersSeeder extends Seeder
             return; // Limit recursion depth to avoid rate-limiting issues
         }
 
-        $count = $depth == 1 ? null : rand(1, 4);
-
-        foreach ($this->getFollowersList($githubUsername, $count) as $githubUser) {
+        foreach ($this->getFollowersList($githubUsername) as $githubUser) {
             $newUser = $this->getOrCreateUser($githubUser);
 
             $newUser->follow($user);
@@ -39,7 +38,7 @@ class GithubUsersSeeder extends Seeder
             $this->seedFollowersAndFollowingRecursively($newUser, $githubUser['username'], $depth + 1);
         }
 
-        foreach ($this->getFollowingList($githubUsername, $count) as $githubUser) {
+        foreach ($this->getFollowingList($githubUsername) as $githubUser) {
             $newUser = $this->getOrCreateUser($githubUser);
 
             $user->follow($newUser);
@@ -67,29 +66,38 @@ class GithubUsersSeeder extends Seeder
         ]);
     }
 
-    private function getFollowersList($username, $count = null)
+    private function getFollowersList($username)
     {
         $followers = GitHub::user()->followers($username);
 
-        $followers = $count ? array_slice($followers, 0, $count) : $followers;
+        $followers = array_slice($followers, 0, 1);
         $githubUsers = [];
 
         foreach ($followers as $follower) {
-            $githubUsers[] = GitHub::user()->showById($follower['id']);
+
+            try {
+                $githubUsers[] = GitHub::user()->showById($follower['id']);
+            } catch (Throwable $e) {
+                continue;
+            }
         }
 
         return $this->prepareUsers($githubUsers);
     }
 
-    private function getFollowingList($username, $count = null)
+    private function getFollowingList($username)
     {
-        $following = GitHub::user()->following($username);
+        $followings = GitHub::user()->following($username);
 
-        $following = $count ? array_slice($following, 0, $count) : $following;
+        $followings = array_slice($followings, 0, 1);
         $githubUsers = [];
 
-        foreach ($following as $followee) {
-            $githubUsers[] = GitHub::user()->showById($followee['id']);
+        foreach ($followings as $following) {
+            try {
+                $githubUsers[] = GitHub::user()->showById($following['id']);
+            } catch (Throwable $e) {
+                continue;
+            }
         }
 
         return $this->prepareUsers($githubUsers);
