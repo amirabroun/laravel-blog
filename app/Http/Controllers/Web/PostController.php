@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
-use App\Models\{Post, Category};
+use App\Models\{Post, Category, Label};
 
 class PostController extends Controller
 {
@@ -11,7 +11,7 @@ class PostController extends Controller
     {
         session()->forget('activeCategory');
 
-        $posts = Post::query()->with(['user', 'media'])->orderBy('created_at', 'desc')->get();
+        $posts = Post::query()->with(['user', 'media', 'category', 'labels'])->orderBy('created_at', 'desc')->get();
 
         return view('index', compact('posts'));
     }
@@ -29,6 +29,23 @@ class PostController extends Controller
         return view('post.editPost', compact('post', 'categories'));
     }
 
+    public function toggleLikePost(string $uuid)
+    {
+        if (!auth()->check()) {
+            abort(404);
+        }
+
+        if (!$post = Post::query()->with('likes')->where('uuid', $uuid)->first()) {
+            abort(404);
+        }
+
+        $post = $post->likes->where('user_id', auth()->id())->first() == null
+            ? $post->likePost(auth()->user())
+            : $post->disLikePost(auth()->user());
+
+        return back();
+    }
+
     public function show($uuid)
     {
         $post = Post::query()->where('uuid', $uuid)->with(['category', 'media'])->firstOrFail();
@@ -43,10 +60,18 @@ class PostController extends Controller
         $postData = $request->validate([
             'title' => 'required|string',
             'body' => 'required|string',
+            'label_id' => 'int|exists:labels,id',
             'category_id' => 'required|exists:categories,id',
         ]);
 
         $this->authUser->posts()->save($post = new Post($postData));
+
+        $post->category()->delete();
+        $post->category()->associate($request->category_id);
+
+        if ($postData['label_id'] != null) {
+            $post->labels()->attach($request->label_id);
+        }
 
         if ($request->file('image', false)) {
             $post->addMediaFromRequest('image')->usingFileName(
@@ -62,13 +87,19 @@ class PostController extends Controller
         $newPostData = $request->validate([
             'title' => 'required|string',
             'body' => 'required|string',
+            'label_id' => 'int|exists:labels,id',
             'category_id' => 'required|exists:categories,id',
         ]);
 
         $post = Post::query()->where('uuid', $uuid)->with('media')->firstOrFail();
+        $post->category()->associate($request->category_id);
 
         if (!$this->authUser->ownerOrAdmin($post)) {
             abort(404);
+        }
+
+        if ($newPostData['label_id'] != null) {
+            $post->labels()->attach($request->label_id);
         }
 
         if ($request->file('image', false)) {
@@ -80,9 +111,10 @@ class PostController extends Controller
         $post->update($newPostData);
 
         $post = Post::query()->where('uuid', $uuid)->first();
-        $categories = Category::all(['id', 'title'])->except(['id' => $post->category_id]);
+        $categories = Category::all(['id', 'title']);
+        $labels = Label::all(['id', 'title']);
 
-        return view('post.editPost', compact('post', 'categories'))
+        return view('post.editPost', compact('post', 'categories', 'labels'))
             ->with(['updateMessage' => 'Post updated successfully']);
     }
 
@@ -94,7 +126,7 @@ class PostController extends Controller
             abort(404);
         }
 
-        $post->media->map(fn ($image) => $image->forceDelete());
+        $post->media->map(fn($image) => $image->forceDelete());
 
         !isset($post->labels) ?: $post->labels()->detach($post->labels);
 
@@ -115,7 +147,7 @@ class PostController extends Controller
             return back()->withErrors(['file' => 'post does not have file']);
         }
 
-        $post->media->map(fn ($image) => $image->forceDelete());
+        $post->media->map(fn($image) => $image->forceDelete());
 
         return redirect()->back();
     }

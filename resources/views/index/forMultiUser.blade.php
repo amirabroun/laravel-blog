@@ -1,19 +1,32 @@
 <div class="col mt-3 mb-5">
     <div class="row main-section">
         <div class="col-lg-1"></div>
-        <div class="col-sm-12 col-md-12 col-lg-7 mb-4 shadow-post">
+        <div class="col-sm-12 col-md-12 col-lg-7 mb-4">
+            @isset($allStaticResponses)
+            @foreach ($allStaticResponses as $field => $responses)
+            @foreach ($responses as $question => $response)
+            <div class="card-body">
+                <h2 class="card-title">
+                    {{ $question }}
+                </h2>
+                <p class="card-text">
+                    {{ $response }}
+                </p>
+            </div>
+            @endforeach
+            @endforeach
+            @endisset
             @isset($posts)
             @foreach ($posts as $post)
-            <div class="card mb-4">
+            <div class="card mb-4 shadow-post">
                 <div class="card-header text-muted" style="font-size: 13.5px;">
-                    <span>
-                        <a style="color: blue;" class="text-dark" href="{{ route('users.profile.show', ['uuid' => $post->user->uuid]) }}">
-                            {{ $post->user->full_name  }}
-                        </a>
-                    </span>
-                    <span class="text-muted">
-                        /
-                    </span>
+                    @isset($post->category->title)
+                    <h6>
+                        Category : {{ $post->category->title }}
+                    </h6>
+
+                    @endisset
+
                     @isset($post->created_at)
                     <span class="text-muted mr-2" style="font-size: 13px;">{{ date('D F j, Y, G:i', strtotime($post->created_at)) }} </span>
                     @endisset
@@ -51,6 +64,17 @@
                         </ul>
                     </div>
                     @endif
+
+                    <form action="{{ route('posts.like.toggle', ['uuid' => $post->uuid]) }}" method="post" style="display: inline;">
+                        @method("PUT")
+                        @csrf
+                        <button type="submit" class="btn btn-danger" style="font-size: 12px;" aria-controls="SupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="toggler text-dark">like
+                                <span id="like-count-{{ $post->uuid }}">{{ $post->likes_count }}</span>
+                            </span>
+                        </button>
+                    </form>
+
                 </div>
                 <a class="text-dark" style="text-decoration: none;" href="{{ route('posts.show', ['uuid' => $post->uuid]) }}">
                     <div class="card-body">
@@ -67,6 +91,13 @@
                             {{ $post->body }}
                         </p>
                     </div>
+                    @isset($post->labels)
+                    <div class="d-flex flex-wrap gap-2 p-1">
+                        @foreach ($post->labels as $label)
+                        <button class="btn btn-info p-1 ml-1"> # {{ $label->title }}</button>
+                        @endforeach
+                    </div>
+                    @endisset
                 </a>
             </div>
             @endforeach

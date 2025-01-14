@@ -21,10 +21,22 @@
                             {{ csrf_field() }}
                             <div class="row">
                                 <div class="col-6 col-lg-3 mt-2">
+                                <span class="text bg-light p-1">Category</span>
                                     <div class="form-group">
                                         <select class="form-input" id="exampleFormControlSelect1" name="category_id">
                                             @foreach (App\Models\Category::all() as $category)
                                             <option value="{{ $category->id }}"> {{ $category->title }} </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-lg-3 mt-2">
+                                    <span class="text bg-light p-1">Label</span>
+                                    <div class="form-group">
+                                        <select class="form-input" id="exampleFormControlSelect1" name="label_id">
+                                            @foreach (App\Models\Label::all() as $label)
+                                            <option value="{{ $label->id }}"> {{ $label->title }} </option>
                                             @endforeach
                                         </select>
                                     </div>

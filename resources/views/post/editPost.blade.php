@@ -22,11 +22,23 @@
                             @method('PUT')
                             <div class="row">
                                 <div class="col-6 col-lg-3 mt-2">
+                                    <span class="text bg-light p-1">Category</span>
                                     <div class="form-group">
                                         <select class="form-input" id="exampleFormControlSelect1" name="category_id">
                                             <option value="{{ $post->category?->id }}"> {{ $post->category?->title }} </option>
                                             @foreach ($categories as $category)
                                             <option value="{{ $category->id }}"> {{ $category->title }} </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 col-lg-3 mt-2">
+                                    <span class="text bg-light p-1">Label</span>
+                                    <div class="form-group">
+                                        <select class="form-input" id="exampleFormControlSelect1" name="label_id">
+                                            @foreach (App\Models\Label::all() as $label)
+                                            <option value="{{ $label->id }}"> {{ $label->title }} </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -51,7 +63,7 @@
                                                 @if($post->image)
                                                 <br>
                                                 <hr>
-                                                <img class="card-img-top w-100 mb-4"  src="{{ $post->media?->first()->getUrl() }}" alt="#">
+                                                <img class="card-img-top w-100 mb-4" src="{{ $post->media?->first()->getUrl() }}" alt="#">
                                                 <br>
                                                 @endif
 
