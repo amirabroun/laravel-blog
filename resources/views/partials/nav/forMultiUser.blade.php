@@ -7,13 +7,9 @@
         |
 
         @auth
-        <span class="mb-0 ml-2 mr-2">
-            Welcome
-            <a class="text-dark ml-1" href=" {{ route('users.profile.show', ['uuid' => auth()->user()->uuid ]) }} ">
-                {{ auth()->user()->full_name ?? 'friend' }}
-            </a>
-        </span>
-        |
+        <a class="text-dark mr-2" href=" {{ route('posts.index.suggestion') }} ">
+            suggestion posts
+        </a>
         @endauth
 
         @guest
@@ -22,6 +18,18 @@
             <a class="text-success ml-2" href="{{ route('login.index') }}">Login</a>
         </span>
         @endguest
+
+        <form action="{{ route('posts.index.search') }}" method="GET" class="d-inline mr-1">
+            <input
+                type="text"
+                name="text"
+                value="{{ $text ?? '' }}"
+                class="form-control d-inline-block"
+                style="width: 200px; height: 30px;"
+                placeholder="Search posts..."
+                required>
+            <button type="submit" style="width: 100px; height: 35px;" class="btn btn-info ml-1">Search</button>
+        </form>
     </span>
 
     @auth
@@ -29,18 +37,12 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav ml-auto">
             <li class="nav-item d-block  d-lg-none">
                 <h1>
                     <hr>
                 </h1>
             </li>
-
-            @if (auth()->user()->isAdmin())
-            <li class="nav-item">
-                <a class="mr-3 text-dark" href="{{ route('users.index') }}">Users</a>
-            </li>
-            @endif
 
             <li class="nav-item d-block  d-lg-none">
                 <h1></h1>
