@@ -13,6 +13,10 @@ class GithubUsersSeeder extends Seeder
 
     public function run()
     {
+        if (!config('github.connections.main.token')) {
+            return;
+        }
+
         $adminUser = User::query()->where('username', $this->adminGithubUserName)->first();
 
         $this->seedFollowersAndFollowingRecursively($adminUser, $this->adminGithubUserName);

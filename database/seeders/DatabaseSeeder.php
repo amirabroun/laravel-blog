@@ -90,6 +90,7 @@ class DatabaseSeeder extends Seeder
         foreach ($categories as $title) {
             DB::table('categories')->insert([
                 'title' => $title,
+                'uuid' => fake()->uuid(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

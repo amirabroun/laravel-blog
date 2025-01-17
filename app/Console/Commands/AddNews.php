@@ -28,6 +28,10 @@ class AddNews extends Command
      */
     public function handle()
     {
+        if (!config('services.api_news.api_key')) {
+            return;
+        }
+
         $newsArticles = (new Jcobhams)->getNews(
             $this->argument('number_of_news_for_each_user') * $this->argument('count_of_user_selection')
         );
