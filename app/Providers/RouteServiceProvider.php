@@ -36,7 +36,7 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web/blog.php'));
 
-            if (app()->environment('local')) Route::get('/', TestController::class);
+            //  Route::get('/', TestController::class);
         });
     }
 

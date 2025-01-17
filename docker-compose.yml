@@ -3,18 +3,19 @@ services:
 
     nginx:
         container_name: "${APP_TITLE}"
+        image: nginx:latest
         ports:
             - "${APP_PORT}:80"
-        build: ./docker/nginx
         links:
             - php
         volumes:
+            - ./nginx.conf:/etc/nginx/conf.d/default.conf
             - ./:/usr/share/nginx/www
 
     php:
         container_name: "${APP_NAME}"
         hostname: blog
-        build: ./docker/php
+        build: .
         volumes:
             - ./:/usr/share/nginx/www
 
