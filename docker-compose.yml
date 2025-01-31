@@ -10,14 +10,14 @@ services:
             - php
         volumes:
             - ./nginx.conf:/etc/nginx/conf.d/default.conf
-            - ./:/usr/share/nginx/www
+            - ".:/var/www/html"
 
     php:
         container_name: "${APP_NAME}"
         hostname: blog
         build: .
         volumes:
-            - ./:/usr/share/nginx/www
+            - ".:/var/www/html"
 
 networks:
     default:

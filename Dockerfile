@@ -2,8 +2,6 @@
 FROM php:8.3-fpm
 
 # Define build arguments for user, group, and Node.js version
-ARG WWWUSER=1000
-ARG WWWGROUP=1000
 ARG NODE_VERSION=18
 
 # Update the package lists and install required system dependencies
@@ -35,16 +33,19 @@ RUN mkdir -p /etc/apt/keyrings \
     && npm install -g npm \
     && npm install -g pnpm
 
-# Set the working directory for the application
-WORKDIR /usr/share/nginx/www
+# Set working directory
+WORKDIR /var/www/html
 
-# Copy application files from the host machine to the container
-COPY . .
+# Copy existing application directory permissions
+COPY --chown=www-data:www-data . /var/www/html
 
-# Ensure proper permissions for storage and cache directories
-RUN mkdir -p /storage /bootstrap/cache && \
-    chown -R root:root /storage /bootstrap/cache && \
-    chmod -R 777 /storage /bootstrap/cache
+# Change ownership of the storage and cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Change permissions of the storage and cache
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+USER www-data
 
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
