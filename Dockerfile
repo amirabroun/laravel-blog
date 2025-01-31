@@ -39,13 +39,16 @@ WORKDIR /var/www/html
 # Copy existing application directory permissions
 COPY --chown=www-data:www-data . /var/www/html
 
+RUN groupadd --force -g 1000 www
+RUN useradd -ms /bin/bash --no-user-group -g 1000 -u 1337 www
+
 # Change ownership of the storage and cache
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Change permissions of the storage and cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-USER www-data
+USER www
 
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000
