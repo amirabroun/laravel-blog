@@ -1,4 +1,4 @@
-<link rel="stylesheet"  href="{{ url('/css/bootstrap.css') }}">
+@vite(['resources/css/bootstrap.css', 'resources/js/bootstrap.js'])
 
 <style>
     body,
