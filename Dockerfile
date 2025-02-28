@@ -13,10 +13,10 @@ RUN apt-get update --fix-missing && apt-get install -y \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install required PHP extensions
-RUN docker-php-ext-install exif intl pdo pdo_mysql ldap
+RUN docker-php-ext-install exif intl pdo pdo_mysql ldap pcntl
 
 # Enable the installed PHP extensions
-RUN docker-php-ext-enable exif intl pdo pdo_mysql ldap
+RUN docker-php-ext-enable exif intl pdo pdo_mysql ldap pcntl
 
 # Install Xdebug extension for debugging and enable it
 RUN pecl install xdebug && docker-php-ext-enable xdebug
@@ -37,16 +37,9 @@ RUN mkdir -p /etc/apt/keyrings \
 WORKDIR /var/www/html
 
 RUN groupadd --force -g 1000 www
-RUN useradd -ms /bin/bash --no-log-init --no-user-group -g 1000 -u 1337 www
-# 1337
-# Copy existing application directory permissions
-COPY --chown=www-data:www-data . /var/www/html
+RUN useradd -ms /bin/bash --no-log-init --no-user-group -g 1000 -u 1000 www
 
-# # Change ownership of the storage and cache
-# RUN chown -R www:www /var/www/html/storage /var/www/html/bootstrap/cache
-
-# # Change permissions of the storage and cache
-# RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+COPY --chown=www:www . /var/www/html
 
 USER www
 
