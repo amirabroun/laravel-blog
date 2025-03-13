@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\AuthController;
+use App\Http\Controllers\Web\TaskController;
 
 Route::prefix('users')
     ->controller(AuthController::class)
@@ -15,11 +16,20 @@ Route::prefix('users')
         Route::delete('{uuid}/delete-avatar', 'deleteUserAvatar')->name('users.files.avatar.delete');
     });
 
+Route::prefix('users/{uuid}/calendar')
+    ->controller(TaskController::class)
+    ->middleware('auth')
+    ->whereUuid('uuid')
+    ->group(function () {
+        Route::get('/', 'index')->name('users.calendar.index');
+        Route::delete('/{id}', 'destroy')->name('users.calendar.delete');
+    });
+
 Route::prefix('register')
     ->controller(AuthController::class)
     ->middleware('guest')
     ->group(function () {
-        Route::get('/', fn () => view('auth.register'))->name('register.index');
+        Route::get('/', fn() => view('auth.register'))->name('register.index');
         Route::post('/', 'register')->name('register');
     });
 
@@ -27,7 +37,7 @@ Route::prefix('login')
     ->controller(AuthController::class)
     ->middleware('guest')
     ->group(function () {
-        Route::get('/', fn () => view('auth.login'))->name('login.index');
+        Route::get('/', fn() => view('auth.login'))->name('login.index');
         Route::post('/', 'login')->name('login');
     });
 

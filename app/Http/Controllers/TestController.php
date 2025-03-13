@@ -17,12 +17,13 @@ use Closure;
 use Illuminate\Support\Collection;
 use App\Http\Resources\{PostResource, UserResource};
 use App\Models\Label;
+use App\Models\Task;
 use Database\Seeders\BlogSeeder\GithubUsersSeeder;
 
 class TestController
 {
-    public function __invoke(Request $request)
+    public function __invoke()
     {
-        //
+        return;
     }
 }

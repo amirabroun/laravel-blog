@@ -3,7 +3,7 @@
 namespace Database\Seeders\BlogSeeder;
 
 use Illuminate\Database\Seeder;
-use App\Models\{User, Resume};
+use App\Models\{User, Resume, Task};
 
 class AdminSeeder extends Seeder
 {
@@ -29,6 +29,10 @@ class AdminSeeder extends Seeder
             'education' => $this->education(),
             'skills' => $this->skills(),
             'contact' => $this->contact(),
+        ]);
+
+        Task::factory(10)->create([
+            'user_id' => $admin->id,
         ]);
     }
 

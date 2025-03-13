@@ -8,7 +8,12 @@
 
         @auth
         <a class="text-dark mr-2" href=" {{ route('posts.index.suggestion') }} ">
-            suggestion posts
+            Suggestion posts
+        </a>
+        |
+
+        <a class="text-dark mr-2" href=" {{ route('users.calendar.index', ['uuid' => auth()->user()->uuid ]) }} ">
+            Calendar
         </a>
         @endauth
 

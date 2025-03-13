@@ -130,6 +130,16 @@ return new class extends Migration
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('tasks', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->dateTime('start');
+            $table->dateTime('end')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -139,6 +149,8 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('tasks');
+
         Schema::dropIfExists('notifications');
 
         Schema::dropIfExists('likes');

@@ -49,7 +49,7 @@ class User extends Authenticatable implements HasMedia
 
         $url = !$avatar ? null : $avatar->getUrl();
 
-        return Attribute::get(fn () => $url);
+        return Attribute::get(fn() => $url);
     }
 
     protected function fullName(): Attribute
@@ -60,19 +60,24 @@ class User extends Authenticatable implements HasMedia
             $fullName = $this->username;
         }
 
-        return Attribute::get(fn () => $fullName);
+        return Attribute::get(fn() => $fullName);
     }
 
     protected function password(): Attribute
     {
         return Attribute::set(
-            fn ($password) => Hash::make($password)
+            fn($password) => Hash::make($password)
         );
     }
 
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
     }
 
     public function notifications()
@@ -89,9 +94,9 @@ class User extends Authenticatable implements HasMedia
     {
         if ($followable == null) $followable = self::class;
 
-        return $followable::query()->whereNot('id', $this->id)->where(fn ($query) => $query->whereHas(
+        return $followable::query()->whereNot('id', $this->id)->where(fn($query) => $query->whereHas(
             'followers',
-            fn ($query) => $query->whereNot('follower_id', $this->id)
+            fn($query) => $query->whereNot('follower_id', $this->id)
         )->orWhereDoesntHave('followers'));
     }
 
@@ -150,7 +155,7 @@ class User extends Authenticatable implements HasMedia
     protected function attachFollowStatus(): Attribute
     {
         return Attribute::set(
-            fn ($password) => Hash::make($password)
+            fn($password) => Hash::make($password)
         );
     }
 
@@ -209,7 +214,7 @@ class User extends Authenticatable implements HasMedia
         ], [
             'accepted_at' => $isPending ? null : now(),
         ]);
-        
+
         $followable->notify(new NewFollower($this->id));
     }
 

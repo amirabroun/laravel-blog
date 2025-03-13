@@ -15,7 +15,6 @@ Route::get('/suggestion', [SuggestionController::class, 'getSuggestionsPosts'])-
 Route::get('/search', [SuggestionController::class, 'search'])->name('posts.index.search');
 
 Route::put('posts/{uuid}/toggle-like', [PostController::class, 'toggleLikePost'])->name('posts.like.toggle');
-Route::get('calendar',  fn() => view('auth.calendar'))->name('users.calendar');
 
 Route::prefix('posts')
     ->controller(PostController::class)
