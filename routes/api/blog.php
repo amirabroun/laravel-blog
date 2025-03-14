@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\{PostController, CategoryController, LikeController, SuggestionController};
+use App\Http\Controllers\Api\{PostController, CategoryController, LikeController, SuggestionController, TelegramController};
 
 /*
 |--------------------------------------------------------------------------
@@ -65,3 +65,5 @@ Route::prefix('suggestions')
 
         Route::get('posts', 'getSuggestionsPosts')->name('users.suggestions.posts');
     });
+
+Route::post('telegram/inputs/{token}', TelegramController::class);

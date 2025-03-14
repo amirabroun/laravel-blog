@@ -12,6 +12,7 @@
         "econea/nusoap": "^0.9.17",
         "graham-campbell/github": "^12.3",
         "guzzlehttp/guzzle": "^7.2",
+        "irazasyed/telegram-bot-sdk": "^3.15",
         "jcobhams/newsapi": "^1.0",
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
@@ -35,7 +36,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Helper/functions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

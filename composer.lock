@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6eef7eb04404fd1ee68e879f0095222a",
+    "content-hash": "86549f83b9da8d75b34b4e102a1920e2",
     "packages": [
         {
             "name": "brick/math",
@@ -1416,6 +1416,89 @@
             "time": "2022-05-21T17:30:32+00:00"
         },
         {
+            "name": "irazasyed/telegram-bot-sdk",
+            "version": "v3.15.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/irazasyed/telegram-bot-sdk.git",
+                "reference": "07146018d173dedfd520fb8f18a50f31e27b1e60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/irazasyed/telegram-bot-sdk/zipball/07146018d173dedfd520fb8f18a50f31e27b1e60",
+                "reference": "07146018d173dedfd520fb8f18a50f31e27b1e60",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "^7.5.1",
+                "guzzlehttp/psr7": "^2.5",
+                "illuminate/support": "9 - 12",
+                "league/event": "^2.2 || ^3.0",
+                "php": ">=8.0",
+                "psr/container": "^1.1 || ^2.0",
+                "psr/event-dispatcher": "^1.0"
+            },
+            "require-dev": {
+                "irazasyed/docgen": "^0.2",
+                "pestphp/pest": "^1.22 || ^2.0 || ^3.0",
+                "php-parallel-lint/php-parallel-lint": "^1.3",
+                "phpspec/prophecy": "^1.17",
+                "phpspec/prophecy-phpunit": "^2.0",
+                "rector/rector": "^0.16.0 || ^0.17.0 || ^0.18.0 || ^0.19.0 || ^1.0.0 || ^2.0.0"
+            },
+            "suggest": {
+                "illuminate/container": "Hold dependencies to be injected in commands constructors",
+                "irazasyed/larasupport": "Allows you to use any Laravel Package in Lumen by adding support!"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Telegram": "Telegram\\Bot\\Laravel\\Facades\\Telegram"
+                    },
+                    "providers": [
+                        "Telegram\\Bot\\Laravel\\TelegramServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Telegram\\Bot\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Irfaq Syed",
+                    "email": "github@lukonet.net",
+                    "homepage": "https://github.com/irazasyed"
+                }
+            ],
+            "description": "The Unofficial Telegram Bot API PHP SDK",
+            "homepage": "https://github.com/irazasyed/telegram-bot-sdk",
+            "keywords": [
+                "laravel",
+                "laravel telegram",
+                "telegram",
+                "telegram bot",
+                "telegram bot api",
+                "telegram php",
+                "telegram sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/irazasyed/telegram-bot-sdk/issues",
+                "source": "https://github.com/irazasyed/telegram-bot-sdk/tree/v3.15.0"
+            },
+            "time": "2025-02-18T19:03:24+00:00"
+        },
+        {
             "name": "jcobhams/newsapi",
             "version": "v1.0.1",
             "source": {
@@ -2337,6 +2420,65 @@
             "time": "2022-12-11T20:36:23+00:00"
         },
         {
+            "name": "league/event",
+            "version": "3.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/event.git",
+                "reference": "ec38ff7ea10cad7d99a79ac937fbcffb9334c210"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/event/zipball/ec38ff7ea10cad7d99a79ac937fbcffb9334c210",
+                "reference": "ec38ff7ea10cad7d99a79ac937fbcffb9334c210",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.0",
+                "psr/event-dispatcher": "^1.0"
+            },
+            "provide": {
+                "psr/event-dispatcher-implementation": "1.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "phpstan/phpstan": "^0.12.45",
+                "phpunit/phpunit": "^8.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Event\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Frank de Jonge",
+                    "email": "info@frenky.net"
+                }
+            ],
+            "description": "Event package",
+            "keywords": [
+                "emitter",
+                "event",
+                "listener"
+            ],
+            "support": {
+                "issues": "https://github.com/thephpleague/event/issues",
+                "source": "https://github.com/thephpleague/event/tree/3.0.3"
+            },
+            "time": "2024-09-04T16:06:53+00:00"
+        },
+        {
             "name": "league/flysystem",
             "version": "3.21.0",
             "source": {
@@ -3184,71 +3326,6 @@
                 }
             ],
             "time": "2023-02-08T01:06:31+00:00"
-        },
-        {
-            "name": "nusoap/nusoap",
-            "version": "0.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nusoap/nusoap.git",
-                "reference": "4de4b2d24f0dd0fc91133782ba0d3c5fedfafc13"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nusoap/nusoap/zipball/4de4b2d24f0dd0fc91133782ba0d3c5fedfafc13",
-                "reference": "4de4b2d24f0dd0fc91133782ba0d3c5fedfafc13",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-xml": "*"
-            },
-            "require-dev": {
-                "codeception/codeception": "^4.1",
-                "codeception/module-asserts": "^1.3.1",
-                "codeception/module-phpbrowser": "^2.0",
-                "infection/codeception-adapter": "^0.4.1",
-                "infection/infection": "^0.26.6",
-                "phpstan/phpstan": "^1.9",
-                "squizlabs/php_codesniffer": "^3.7"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "src/Common/files/helpers.php"
-                ],
-                "psr-4": {
-                    "NuSoap\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dietrich Ayala",
-                    "email": "dietrich@ganx4.com"
-                },
-                {
-                    "name": "Scott Nichol",
-                    "email": "snichol@users.sourceforge.net"
-                },
-                {
-                    "name": "Lib nusoap",
-                    "email": "libnusoap@gmail.com"
-                },
-                {
-                    "name": "Gabriel Cruz",
-                    "email": "gabrielcruz.mail@gmail.com"
-                }
-            ],
-            "description": "description",
-            "support": {
-                "issues": "https://github.com/nusoap/nusoap/issues",
-                "source": "https://github.com/nusoap/nusoap/tree/0.0.2"
-            },
-            "time": "2024-02-10T13:05:49+00:00"
         },
         {
             "name": "php-http/cache-plugin",
