@@ -31,9 +31,17 @@ class AdminSeeder extends Seeder
             'contact' => $this->contact(),
         ]);
 
-        Task::factory(10)->create([
-            'user_id' => $admin->id,
-        ]);
+        collect([
+            'آپدیت رستافن',
+            'خرید قهوه',
+            'پروژه فلاتر',
+            'تمیز کاری شب عید'
+        ])->each(function ($title) use ($admin) {
+            Task::factory()->create([
+                'title' => $title,
+                'user_id' => $admin->id,
+            ]);
+        });
     }
 
     private function avatarUrl()

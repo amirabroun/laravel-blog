@@ -16,11 +16,13 @@ class TaskFactory extends Factory
      */
     public function definition(): array
     {
+        $time = now()->addDays(rand(1, 10));
+
         return [
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
-            'start' => now()->addDays(rand(1, 10)),
-            'end' => now()->addDays(rand(11, 20)),
+            'start' => $time,
+            'end' => $time->addHour(rand(0, 1)),
             'user_id' => null,
         ];
     }
