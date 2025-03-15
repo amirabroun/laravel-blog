@@ -47,10 +47,14 @@ class HandleLoginAction
 
         if (!$isAuthenticated) {
             telegramUserState($telegramUserId, 'waiting_for_username');
+
             return 'رمز عبور نامعتبر است. لطفاً دوباره یوزرنیم را وارد کنید.';
         }
 
-        telegramUserState($telegramUserId, 'authenticated');
+        telegramAuthUser(
+            $telegramUserId,
+            User::query()->where('username', telegramCache($telegramUserId))->first()->id
+        );
 
         return 'شما با موفقیت لاگین شدید! خوش آمدید، حالا من میفهمم چی میخواید. 😊' . PHP_EOL . PHP_EOL .
             'شما می‌توانید تسک جدید بسازید، تسک‌های قبلی رو ویرایش کنید، یا حتی تسک‌ها رو حذف کنید. ' . PHP_EOL .

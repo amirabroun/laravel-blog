@@ -23,10 +23,10 @@ class TelegramController extends Controller
 
     private function handleMessage($message, $telegramUserId)
     {
-        if (telegramUserState($telegramUserId) === 'authenticated') {
-            return resolve(AuthenticatedAction::class)->handle($message, $telegramUserId);
+        if (!auth()->check()) {
+            return resolve(HandleLoginAction::class)->handle($message, $telegramUserId);
         }
 
-        return resolve(HandleLoginAction::class)->handle($message, $telegramUserId);
+        return resolve(AuthenticatedAction::class)->handle($message, $telegramUserId);
     }
 }

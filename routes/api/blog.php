@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\{PostController, CategoryController, LikeController, SuggestionController, TelegramController};
+use App\Http\Middleware\TelegramAuthMiddleware;
+use App\Http\Controllers\Api\{PostController, CategoryController, LikeController, SuggestionController, TelegramController, UserController};
 
 /*
 |--------------------------------------------------------------------------
@@ -66,4 +66,4 @@ Route::prefix('suggestions')
         Route::get('posts', 'getSuggestionsPosts')->name('users.suggestions.posts');
     });
 
-Route::post('telegram/inputs/{token}', TelegramController::class);
+Route::post('telegram/inputs/{token}', TelegramController::class)->middleware(TelegramAuthMiddleware::class);
