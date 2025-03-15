@@ -6,86 +6,43 @@ class AuthenticatedAction
 {
     public function handle($message, $telegramUserId)
     {
-        if (isCommandMatched($message, $this->taskKeyWords())) {
-            return $this->createTask($message, $telegramUserId);
-        }
+        return match (true) {
+            isCommandMatched($message, $this->getTaskKeyWords()) => $this->getTasks($message, $telegramUserId),
 
-        if (isCommandMatched($message, $this->deleteKeyWords())) {
-            return $this->deleteTask($message, $telegramUserId);
-        }
+            isCommandMatched($message, $this->logoutKeyWords()) => $this->logout($telegramUserId),
 
-        if (isCommandMatched($message, $this->editKeyWords())) {
-            return $this->editTask($message, $telegramUserId);
-        }
-
-        if (isCommandMatched($message, $this->logoutKeyWords())) {
-            return $this->logout($telegramUserId);
-        }
-
-        return 'اوه! متاسفم، نتونستم دقیقا متوجه بشم که چی می‌خواهید. ' . PHP_EOL .
-            'لطفا بیشتر توضیح بدید تا بهتر بتونم کمک کنم. 😊';
+            default => "اوه! متاسفم، نتونستم دقیقا متوجه بشم که چی می‌خواهید. "
+                . PHP_EOL . "لطفا بیشتر توضیح بدید تا بهتر بتونم کمک کنم. 😊"
+        };
     }
 
-    private function createTask($message, $telegramUserId)
+    private function getTasks()
     {
-        return 'در حال ساخت تسک جدید...';
+        $tasks = auth()->user()->tasks()->get();
+
+        return $tasks->map(
+            fn($task) => $this->createTaskTitle($task->title, $task->start)
+        )->implode(PHP_EOL . PHP_EOL);
     }
 
-    private function deleteTask($message, $telegramUserId)
+    private function createTaskTitle($taskTitle, $start)
     {
-        return 'در حال حذف تسک...';
-    }
+        $formattedDate = toJalali($start, 'd %B، ساعت H:i');
+        $relativeTime  = diffForHumans($start);
 
-    private function editTask($message, $telegramUserId)
-    {
-        return 'در حال ویرایش تسک...';
+        return "$formattedDate $taskTitle ($relativeTime)";
     }
 
     private function logout($telegramUserId)
     {
-        telegramUserState($telegramUserId, null);
-        telegramCache($telegramUserId, null);
+        telegramAuthUser($telegramUserId, null);
 
         return 'شما از حساب خود خارج شدید.';
     }
 
-    private function taskKeyWords()
+    private function getTaskKeyWords()
     {
-        return [
-            'ساخت تسک',
-            'create task',
-            'اضافه کردن تسک',
-            'add task',
-            'ایجاد تسک',
-            'create a task',
-            'create new task',
-        ];
-    }
-
-    private function deleteKeyWords()
-    {
-        return [
-            'دلیت',
-            'delete',
-            'حذف تسک',
-            'remove task',
-            'پاک کردن تسک',
-            'delete task',
-            'از بین بردن تسک',
-        ];
-    }
-
-    private function editKeyWords()
-    {
-        return [
-            'میخوام تسک ادیت کنم',
-            'edit task',
-            'ویرایش تسک',
-            'تغییر تسک',
-            'edit the task',
-            'update task',
-            'بروزرسانی تسک',
-        ];
+        return ['تسک ها', 'تسک‌ها', 'کار ها', 'کارها'];
     }
 
     private function logoutKeyWords()
