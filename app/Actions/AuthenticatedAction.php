@@ -16,6 +16,7 @@ class AuthenticatedAction
         return match (true) {
             $callbackData == 'get_tasks' => $this->getTasks(),
             $callbackData == 'logout' => $this->logout($telegramUserId),
+            str_starts_with($callbackData, 'done_task_') => $this->deleteTask($callbackData),
             default => __('telegram.error_unknown', [], 'fa'),
         };
     }
@@ -36,17 +37,25 @@ class AuthenticatedAction
         return __('telegram.task_saved', [], 'fa');
     }
 
-    private function getTasks()
+    private function getTasks($extraMessage = '')
     {
         $tasks = auth()->user()->tasks()->get();
 
         if ($tasks->isEmpty()) {
-            return __('telegram.no_tasks', [], 'fa');
+            return __('telegram.no_tasks', [], 'fa') . PHP_EOL . $extraMessage;
         }
 
-        return $tasks->map(
-            fn($task) => $this->getTaskTitle($task->title, $task->start)
-        )->implode(PHP_EOL . PHP_EOL);
+        return $tasks->map(function ($task) {
+            $doneButton = json_encode([
+                'inline_keyboard' => [
+                    [
+                        ['text' => '✅ انجام شد', 'callback_data' => 'done_task_' . $task->id]
+                    ]
+                ]
+            ]);
+
+            return $this->getTaskTitle($task->title, $task->start) . PHP_EOL . json_encode(['reply_markup' => $doneButton]);
+        })->implode(PHP_EOL . PHP_EOL) . PHP_EOL . $extraMessage;
     }
 
     private function getTaskTitle($taskTitle, $start)
@@ -55,6 +64,15 @@ class AuthenticatedAction
         $relativeTime  = diffForHumans($start);
 
         return "$formattedDate $taskTitle ($relativeTime)";
+    }
+
+    private function deleteTask($callbackData)
+    {
+        $taskId = str_replace('done_task_', '', $callbackData);
+
+        Task::query()->where('id', $taskId)->delete();
+
+        return $this->getTasks(__('telegram.task_deleted', [], 'fa'));
     }
 
     private function logout($telegramUserId)
