@@ -21,6 +21,7 @@ class TelegramController extends Controller
 
         $response = [
             'chat_id' => $id,
+            'parse_mode' => 'Markdown',
             'reply_to_message_id' => $messageId,
             'text' => $this->handleMessage($id, $text, $callbackData),
         ];
