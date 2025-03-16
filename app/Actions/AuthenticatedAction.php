@@ -2,18 +2,34 @@
 
 namespace App\Actions;
 
+use App\Models\Task;
+use App\Helper\DateOffsetParser;
+
 class AuthenticatedAction
 {
-    public function handle($message, $telegramUserId)
+    public function handle($telegramUserId, $message, $callbackData)
     {
         return match (true) {
-            isCommandMatched($message, $this->getTaskKeyWords()) => $this->getTasks($message, $telegramUserId),
-
-            isCommandMatched($message, $this->logoutKeyWords()) => $this->logout($telegramUserId),
-
+            $this->isSaveTaskCommand($message) => $this->saveTask($message),
+            $callbackData == 'get_tasks' => $this->getTasks(),
+            $callbackData == 'logout' => $this->logout($telegramUserId),
             default => "اوه! متاسفم، نتونستم دقیقا متوجه بشم که چی می‌خواهید. "
                 . PHP_EOL . "لطفا بیشتر توضیح بدید تا بهتر بتونم کمک کنم. 😊"
         };
+    }
+
+    private function saveTask($message)
+    {
+        list($title, $start) = explode('،', $message, 2);
+
+        $task = new Task([
+            'title' => trim($title),
+            'start' => DateOffsetParser::calculateOffset(trim($start)),
+        ]);
+
+        auth()->user()->tasks()->save($task);
+
+        return 'تسک با موفقیت ذخیره شد';
     }
 
     private function getTasks()
@@ -21,11 +37,11 @@ class AuthenticatedAction
         $tasks = auth()->user()->tasks()->get();
 
         return $tasks->map(
-            fn($task) => $this->createTaskTitle($task->title, $task->start)
+            fn($task) => $this->getTaskTitle($task->title, $task->start)
         )->implode(PHP_EOL . PHP_EOL);
     }
 
-    private function createTaskTitle($taskTitle, $start)
+    private function getTaskTitle($taskTitle, $start)
     {
         $formattedDate = toJalali($start, 'd %B، ساعت H:i');
         $relativeTime  = diffForHumans($start);
@@ -35,33 +51,34 @@ class AuthenticatedAction
 
     private function logout($telegramUserId)
     {
+        telegramUserState($telegramUserId, 'waiting_for_username');
         telegramAuthUser($telegramUserId, null);
 
-        return 'شما از حساب خود خارج شدید.';
+        return 'شما از حساب خود خارج شدید. برای لاگین مجدد یوزرنیم خود را وارد کنید.';
     }
 
-    private function getTaskKeyWords()
+    private function isSaveTaskCommand($message)
     {
-        return ['تسک ها', 'تسک‌ها', 'کار ها', 'کارها'];
-    }
-
-    private function logoutKeyWords()
-    {
-        return [
-            'میخوام لاگ اوت شم',
-            'log out',
-            'خروج',
-            'خداحافظ',
-            'sign out',
-            'logout',
-            'exit',
-            'logoff',
-            'بیرون برو',
-            'از حساب خارج شو',
-            'من میخواهم خارج بشم',
-            'من میخوام خروج کنم',
-            'end session',
-            'close account',
-        ];
+        return isCommandMatched($message, [
+            'ساعت',
+            'زمان',
+            'روز',
+            'تاریخ',
+            'از',
+            'تا',
+            'بعد از',
+            'قبل از',
+            'در ساعت',
+            'در روز',
+            'در تاریخ',
+            'برای ساعت',
+            'برای روز',
+            'در مدت',
+            'بین',
+            'از ساعت',
+            'تا ساعت',
+            'در روزهای',
+            'در هفته'
+        ]);
     }
 }
