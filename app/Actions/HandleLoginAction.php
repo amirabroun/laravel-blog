@@ -57,8 +57,6 @@ class HandleLoginAction
             User::query()->where('username', telegramCache($telegramUserId))->first()->id
         );
 
-        return 'شما با موفقیت لاگین شدید! خوش آمدید، حالا من میفهمم چی میخواید. 😊' . PHP_EOL . PHP_EOL .
-            'نحوه ساخت تسک: [اسم تسک]، [تاریخ تسک (ما میفهمیم هرجور بگی)]' . PHP_EOL . PHP_EOL .
-            'چطور میتونم به شما کمک کنم؟';
+        return __('telegram.login_success', [], 'fa');
     }
 }

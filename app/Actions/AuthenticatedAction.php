@@ -9,32 +9,40 @@ class AuthenticatedAction
 {
     public function handle($telegramUserId, $message, $callbackData)
     {
+        if ($message != null) {
+            return $this->saveTask($message);
+        }
+
         return match (true) {
-            $this->isSaveTaskCommand($message) => $this->saveTask($message),
             $callbackData == 'get_tasks' => $this->getTasks(),
             $callbackData == 'logout' => $this->logout($telegramUserId),
-            default => "اوه! متاسفم، نتونستم دقیقا متوجه بشم که چی می‌خواهید. "
-                . PHP_EOL . "لطفا بیشتر توضیح بدید تا بهتر بتونم کمک کنم. 😊"
+            default => __('telegram.error_unknown', [], 'fa'),
         };
     }
 
     private function saveTask($message)
     {
-        list($title, $start) = explode('،', $message, 2);
+        $parsed = $this->parseTaskMessage($message);
 
-        $task = new Task([
-            'title' => trim($title),
-            'start' => DateOffsetParser::calculateOffset(trim($start)),
-        ]);
+        if (!$parsed) {
+            return __('telegram.error_unknown', [], 'fa');
+        }
 
-        auth()->user()->tasks()->save($task);
+        auth()->user()->tasks()->save(new Task([
+            'title' => $parsed['title'],
+            'start' => DateOffsetParser::calculateOffset($parsed['time']),
+        ]));
 
-        return 'تسک با موفقیت ذخیره شد';
+        return __('telegram.task_saved', [], 'fa');
     }
 
     private function getTasks()
     {
         $tasks = auth()->user()->tasks()->get();
+
+        if ($tasks->isEmpty()) {
+            return __('telegram.no_tasks', [], 'fa');
+        }
 
         return $tasks->map(
             fn($task) => $this->getTaskTitle($task->title, $task->start)
@@ -54,32 +62,22 @@ class AuthenticatedAction
         telegramUserState($telegramUserId, 'waiting_for_username');
         telegramAuthUser($telegramUserId, null);
 
-        return 'شما از حساب خود خارج شدید. برای لاگین مجدد یوزرنیم خود را وارد کنید.';
+        return __('telegram.logged_out', [], 'fa');
     }
 
-    private function isSaveTaskCommand($message)
+    private function parseTaskMessage($message)
     {
-        return isCommandMatched($message, [
-            'ساعت',
-            'زمان',
-            'روز',
-            'تاریخ',
-            'از',
-            'تا',
-            'فردا',
-            'بعد از',
-            'قبل از',
-            'در ساعت',
-            'در روز',
-            'در تاریخ',
-            'برای ساعت',
-            'برای روز',
-            'در مدت',
-            'بین',
-            'از ساعت',
-            'تا ساعت',
-            'در روزهای',
-            'در هفته'
-        ]);
+        $timePattern = implode('|', array_map('preg_quote',  __('telegram.time_keywords', [], 'fa')));
+
+        $pattern = '/^(.*?)\s*،\s*(' . $timePattern . '.*)$/u';
+
+        if (!preg_match($pattern, $message, $matches)) {
+            return null;
+        }
+
+        return [
+            'title' => trim($matches[1]),
+            'time' => trim($matches[2]),
+        ];
     }
 }
