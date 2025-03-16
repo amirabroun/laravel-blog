@@ -10,13 +10,16 @@ class AuthenticatedAction
     public function handle($telegramUserId, $message, $callbackData)
     {
         if ($message != null) {
+            if (strpos($message, 'done_task_') === 1) {
+                return $this->deleteTask($message);
+            }
+
             return $this->saveTask($message);
         }
 
         return match (true) {
             $callbackData == 'get_tasks' => $this->getTasks(),
             $callbackData == 'logout' => $this->logout($telegramUserId),
-            str_starts_with($callbackData, 'done_task_') => $this->deleteTask($callbackData),
             default => __('telegram.error_unknown', [], 'fa'),
         };
     }
@@ -42,20 +45,26 @@ class AuthenticatedAction
         $tasks = auth()->user()->tasks()->get();
 
         if ($tasks->isEmpty()) {
-            return __('telegram.no_tasks', [], 'fa') . PHP_EOL . $extraMessage;
+            return $extraMessage . PHP_EOL . PHP_EOL . __('telegram.no_tasks', [], 'fa');
         }
 
-        return $tasks->map(function ($task) {
-            $doneButton = json_encode([
-                'inline_keyboard' => [
-                    [
-                        ['text' => '✅ انجام شد', 'callback_data' => 'done_task_' . $task->id]
-                    ]
-                ]
-            ]);
+        $overdueTasks = $tasks->filter(fn($task) => $task->start < now());
+        $otherTasks = $tasks->filter(fn($task) => $task->start >= now());
 
-            return $this->getTaskTitle($task->title, $task->start) . PHP_EOL . json_encode(['reply_markup' => $doneButton]);
-        })->implode(PHP_EOL . PHP_EOL) . PHP_EOL . $extraMessage;
+        $formatTask = function ($task) {
+            $doneCommand = "/done_task_" . $task->id;
+            return $this->getTaskTitle($task->title, $task->start) . PHP_EOL . "حذف: " . $doneCommand;
+        };
+
+        $overdueText = $overdueTasks->isNotEmpty()
+            ? "🚨 کارهای عقب‌افتاده:" . PHP_EOL . PHP_EOL . $overdueTasks->map($formatTask)->implode(PHP_EOL . PHP_EOL)
+            : '';
+
+        $otherText = $otherTasks->isNotEmpty()
+            ? "📌 سایر کارها:" .  PHP_EOL . PHP_EOL . $otherTasks->map($formatTask)->implode(PHP_EOL . PHP_EOL)
+            : '';
+
+        return $extraMessage . PHP_EOL . PHP_EOL . trim($overdueText . PHP_EOL . PHP_EOL . $otherText);
     }
 
     private function getTaskTitle($taskTitle, $start)
@@ -66,9 +75,9 @@ class AuthenticatedAction
         return "$formattedDate $taskTitle ($relativeTime)";
     }
 
-    private function deleteTask($callbackData)
+    private function deleteTask($message)
     {
-        $taskId = str_replace('done_task_', '', $callbackData);
+        $taskId = str_replace('/done_task_', '', $message);
 
         Task::query()->where('id', $taskId)->delete();
 
