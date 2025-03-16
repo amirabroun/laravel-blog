@@ -6,13 +6,13 @@ use App\Models\User;
 
 class HandleLoginAction
 {
-    public function handle($message, $telegramUserId)
+    public function handle($telegramUserId, $message)
     {
         $state = telegramUserState($telegramUserId);
 
         return match ($state) {
-            'waiting_for_username' => $this->username($message, $telegramUserId),
-            'waiting_for_password' => $this->password($message, $telegramUserId),
+            'waiting_for_username' => $this->username($telegramUserId, $message),
+            'waiting_for_password' => $this->password($telegramUserId, $message),
             default => $this->first($telegramUserId),
         };
     }
@@ -24,7 +24,7 @@ class HandleLoginAction
         return 'سلام، برای دسترسی به امکانات لطفا لاگین کنید. یوزرنیم خود را وارد کنید.';
     }
 
-    private function username($username, $telegramUserId)
+    private function username($telegramUserId, $username)
     {
         $user = User::query()->where('username', $username)->first();
 
@@ -38,9 +38,9 @@ class HandleLoginAction
         return 'یوزرنیم شما درست است. رمز عبور را وارد کنید.';
     }
 
-    private function password($password, $telegramUserId)
+    private function password($telegramUserId, $password)
     {
-        $isAuthenticated = auth()->validate([
+        $isAuthenticated = auth()->attempt([
             'username' => telegramCache($telegramUserId),
             'password' => $password,
         ]);
@@ -51,14 +51,14 @@ class HandleLoginAction
             return 'رمز عبور نامعتبر است. لطفاً دوباره یوزرنیم را وارد کنید.';
         }
 
+        telegramUserState($telegramUserId, null);
         telegramAuthUser(
             $telegramUserId,
             User::query()->where('username', telegramCache($telegramUserId))->first()->id
         );
 
         return 'شما با موفقیت لاگین شدید! خوش آمدید، حالا من میفهمم چی میخواید. 😊' . PHP_EOL . PHP_EOL .
-            'شما می‌توانید تسک جدید بسازید، تسک‌های قبلی رو ویرایش کنید، یا حتی تسک‌ها رو حذف کنید. ' . PHP_EOL .
-            'اگر به فکر لاگ اوت هم هستید، می‌تونید به راحتی من رو از حساب کاربریتون خارج کنید. 😎' . PHP_EOL . PHP_EOL .
+            'نحوه ساخت تسک: [اسم تسک]، [تاریخ تسک (ما میفهمیم هرجور بگی)]' . PHP_EOL . PHP_EOL .
             'چطور میتونم به شما کمک کنم؟';
     }
 }

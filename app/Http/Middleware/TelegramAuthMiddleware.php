@@ -9,7 +9,7 @@ class TelegramAuthMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $telegramUserId = $request->message['from']['id'];
+        $telegramUserId = data_get($request, 'message.from.id', data_get($request, 'callback_query.from.id'));
 
         if ($userId = telegramAuthUser($telegramUserId)) {
             auth()->loginUsingId($userId);
