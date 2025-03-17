@@ -9,29 +9,27 @@ class AuthenticatedAction
 {
     public function handle($telegramUserId, $message, $callbackData)
     {
-        if ($message != null) {
-            if (strpos($message, 'done_task_') === 1) {
-                return $this->deleteTask($message);
-            }
-
-            return $this->saveTask($message);
+        if ($callbackData == 'get_tasks') {
+            return $this->getTasks();
         }
 
-        return match (true) {
-            $callbackData == 'get_tasks' => $this->getTasks(),
-            $callbackData == 'logout' => $this->logout($telegramUserId),
-            default => __('telegram.error_unknown', [], 'fa'),
-        };
+        if ($callbackData == 'logout') {
+            return resolve(HandleLoginAction::class)->logout($telegramUserId);
+        }
+
+        if (strpos($message, 'donetask') === 1) {
+            return $this->deleteTask($message);
+        }
+
+        if ($parsed = $this->parseTaskMessage($message)) {
+            return $this->saveTask($parsed);
+        }
+
+        return __('telegram.error_unknown', [], 'fa');
     }
 
-    private function saveTask($message)
+    private function saveTask($parsed)
     {
-        $parsed = $this->parseTaskMessage($message);
-
-        if (!$parsed) {
-            return __('telegram.error_unknown', [], 'fa');
-        }
-
         auth()->user()->tasks()->save(new Task([
             'title' => $parsed['title'],
             'start' => DateOffsetParser::calculateOffset($parsed['time']),
@@ -77,19 +75,11 @@ class AuthenticatedAction
 
     private function deleteTask($message)
     {
-        $taskId = str_replace('/done_task_', '', $message);
+        $taskId = str_replace('/donetask', '', $message);
 
         Task::query()->where('id', $taskId)->delete();
 
         return $this->getTasks(__('telegram.task_deleted', [], 'fa'));
-    }
-
-    private function logout($telegramUserId)
-    {
-        telegramUserState($telegramUserId, 'waiting_for_username');
-        telegramAuthUser($telegramUserId, null);
-
-        return __('telegram.logged_out', [], 'fa');
     }
 
     private function parseTaskMessage($message)

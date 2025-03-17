@@ -59,4 +59,13 @@ class HandleLoginAction
 
         return __('telegram.login_success', [], 'fa');
     }
+
+    public function logout($telegramUserId)
+    {
+        telegramUserState($telegramUserId, 'waiting_for_username');
+        telegramAuthUser($telegramUserId, null);
+        auth()->logout();
+
+        return __('telegram.logged_out', [], 'fa');
+    }
 }
