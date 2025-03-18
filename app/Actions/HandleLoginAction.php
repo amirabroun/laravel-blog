@@ -6,64 +6,69 @@ use App\Models\User;
 
 class HandleLoginAction
 {
-    public function handle($telegramUserId, $message)
+    public function __construct(private $telegramUserId, private $message = '')
     {
-        $state = telegramUserState($telegramUserId);
+        //
+    }
+
+    public function handle()
+    {
+        $state = telegramUserState($this->telegramUserId);
 
         return match ($state) {
-            'waiting_for_username' => $this->username($telegramUserId, $message),
-            'waiting_for_password' => $this->password($telegramUserId, $message),
-            default => $this->first($telegramUserId),
+            'waiting_for_username' => $this->username(),
+            'waiting_for_password' => $this->password(),
+            default => $this->first(),
         };
     }
 
-    private function first($telegramUserId)
+    private function first()
     {
-        telegramUserState($telegramUserId, 'waiting_for_username');
+        telegramUserState($this->telegramUserId, 'waiting_for_username');
 
         return 'سلام، برای دسترسی به امکانات لطفا لاگین کنید. یوزرنیم خود را وارد کنید.';
     }
 
-    private function username($telegramUserId, $username)
+    private function username()
     {
-        $user = User::query()->where('username', $username)->first();
+        $user = User::query()->where('username', $this->message)->first();
 
         if (!$user) {
             return 'یوزرنیم نامعتبر است. لطفاً دوباره امتحان کنید.';
         }
 
-        telegramUserState($telegramUserId, 'waiting_for_password');
-        telegramCache($telegramUserId, $username);
+        telegramUserState($this->telegramUserId, 'waiting_for_password');
+        telegramCache($this->telegramUserId, $this->message);
 
         return 'یوزرنیم شما درست است. رمز عبور را وارد کنید.';
     }
 
-    private function password($telegramUserId, $password)
+    private function password()
     {
         $isAuthenticated = auth()->attempt([
-            'username' => telegramCache($telegramUserId),
-            'password' => $password,
+            'username' => telegramCache($this->telegramUserId),
+            'password' => $this->message,
         ]);
 
         if (!$isAuthenticated) {
-            telegramUserState($telegramUserId, 'waiting_for_username');
+            telegramUserState($this->telegramUserId, 'waiting_for_username');
 
             return 'رمز عبور نامعتبر است. لطفاً دوباره یوزرنیم را وارد کنید.';
         }
 
-        telegramUserState($telegramUserId, null);
+        telegramUserState($this->telegramUserId, null);
         telegramAuthUser(
-            $telegramUserId,
-            User::query()->where('username', telegramCache($telegramUserId))->first()->id
+            $this->telegramUserId,
+            User::query()->where('username', telegramCache($this->telegramUserId))->first()->id
         );
 
         return __('telegram.login_success', [], 'fa');
     }
 
-    public function logout($telegramUserId)
+    public function logout()
     {
-        telegramUserState($telegramUserId, 'waiting_for_username');
-        telegramAuthUser($telegramUserId, null);
+        telegramUserState($this->telegramUserId, 'waiting_for_username');
+        telegramAuthUser($this->telegramUserId, null);
         auth()->logout();
 
         return __('telegram.logged_out', [], 'fa');

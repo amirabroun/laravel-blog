@@ -36,7 +36,7 @@ class TelegramController extends Controller
     private function handleMessage($telegramUserId, $message = null, $callbackData = null)
     {
         if (!auth()->check()) {
-            return resolve(HandleLoginAction::class)->handle($telegramUserId, $message, $callbackData);
+            return dispatch_sync(new HandleLoginAction($telegramUserId, $message));
         }
 
         return resolve(AuthenticatedAction::class)->handle($telegramUserId, $message, $callbackData);
