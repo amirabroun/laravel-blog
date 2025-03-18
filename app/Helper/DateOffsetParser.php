@@ -64,11 +64,13 @@ class DateOffsetParser
 
         $hour = (int) $matches[2];
 
-        $timeMarker = $matches[1] ?? $matches[3];
+        foreach ($matches as $match) {
+            if ($match === 'عصر' || $match === 'شب' || $match === 'امشب') {
+                if ($hour < 12) {
+                    $hour += 12;
+                }
 
-        if ($timeMarker === 'عصر' || $timeMarker === 'شب' || $matches[2] === 'امشب') {
-            if ($hour < 12) {
-                $hour += 12;
+                break;
             }
         }
 
