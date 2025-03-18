@@ -4,111 +4,121 @@ namespace App\Helper;
 
 class DateOffsetParser
 {
-    public static function calculateOffset($text)
+    public function removeTimeFromText($text)
     {
-        $self = new static;
-        
-        $text = changeToEnglish($text);
+        $text = replacePersianWordsWithNumbers(changeToEnglish($text));
+
+        $text = $this->extractOrRemoveNumericDay($text, true);
+
+        $text = $this->extractOrRemoveHour($text, true);
+
+        $text = $this->extractOrRemoveWeekday($text, true);
+
+        $text = $this->extractOrRemoveRelativeDay($text, true);
+
+        $text = preg_replace('/[،,:؛.!؟"]/u', '', $text);
+
+        return trim($text);
+    }
+
+    /**
+     * If time is not given return false
+     */
+    public function resolveDateTimeFromText($text)
+    {
+        $text = replacePersianWordsWithNumbers(changeToEnglish($text));
 
         $daysToAdd = 0;
-        $timeToAdd = null;
+        $hourToAdd = $this->extractOrRemoveHour($text);
 
-        if ($weekdayOffset = $self->getWeekdayOffset($text)) {
+        if ($weekdayOffset = $this->extractOrRemoveWeekday($text)) {
             $daysToAdd += $weekdayOffset;
         }
 
-        if ($relativeOffset = $self->getRelativeDayOffset($text)) {
+        if ($relativeOffset = $this->extractOrRemoveRelativeDay($text)) {
             $daysToAdd += $relativeOffset;
         }
 
-        if ($numberOffset = $self->getNumericDayOffset($text)) {
+        if ($numberOffset = $this->extractOrRemoveNumericDay($text)) {
             $daysToAdd += $numberOffset;
         }
 
-        $date = now()->addDays($daysToAdd);
-
-        if ($timeOffset = $self->getTimeOffset($text)) {
-            $timeToAdd = $timeOffset;
+        if ($daysToAdd == 0 && $hourToAdd == 0) {
+            return false;
         }
 
-        if ($timeToAdd) {
-            $date = $date->setTime($timeToAdd['hour'], $timeToAdd['minute']);
-        }
-
-        return $date;
+        return now()->addDays($daysToAdd)->setTime($hourToAdd, 0);
     }
 
-    private function getTimeOffset($text)
+    private function extractOrRemoveHour($text, $removeTime = false)
     {
-        if (preg_match('/امشب|امروز/u', $text)) {
-            $text = str_replace('امشب', 'امروز شب', $text); 
+        $pattern = '/\b(صبح|ظهر|عصر|شب|امشب)?\s*(?:ساعت\s*)?(\d{1,2})\b\s*(صبح|ظهر|عصر|شب|امشب)?/u';
+
+        if (!preg_match($pattern, $text, $matches)) {
+            return $removeTime ? $text : 0;
         }
 
-        $patterns = [
-            '/(\d{1,2})\s*(?:ساعت|)(?:\s*(صبح|ظهر|عصر|شب))?/u', 
-            '/(\d{1,2})\s*(?:[:،])\s*(\d{1,2})/u' 
-        ];
+        if ($removeTime) {
+            return preg_replace($pattern, '', $text);
+        }
 
-        foreach ($patterns as $pattern) {
-            if (preg_match($pattern, $text, $matches)) {
-                $hour = (int) $matches[1];
+        $hour = (int) $matches[2];
 
-                if (isset($matches[2]) && ($matches[2] === 'شب' || $matches[2] === 'عصر') && $hour < 12) {
-                    $hour += 12;
-                }
+        $timeMarker = $matches[1] ?? $matches[3];
 
-                $minute = isset($matches[2]) ? (int) $matches[2] : 0;
-
-                return ['hour' => $hour, 'minute' => $minute];
+        if ($timeMarker === 'عصر' || $timeMarker === 'شب' || $matches[2] === 'امشب') {
+            if ($hour < 12) {
+                $hour += 12;
             }
         }
 
-        return null;
+        return $hour;
     }
 
-    private function getWeekdayOffset($text)
+    private function extractOrRemoveWeekday($text, $removeTime = false)
     {
         $weekdays = [
-            'شنبه' => 6,
             'یکشنبه' => 0,
             'دوشنبه' => 1,
             'سه‌شنبه' => 2,
             'چهارشنبه' => 3,
             'پنجشنبه' => 4,
             'جمعه' => 5,
+            'شنبه' => 6,
         ];
 
         foreach ($weekdays as $day => $weekdayNumber) {
             if (preg_match("/\b$day\b/u", $text)) {
                 $diff = $weekdayNumber - now()->dayOfWeek;
+
                 if ($diff < 0) {
                     $diff += 7;
                 }
 
-                if (preg_match('/هفته\s*بعد/', $text)) {
-                    $diff += 7;
-                } elseif (preg_match('/دو\s*هفته\s*بعد/', $text)) {
-                    $diff += 14;
+                if ($removeTime) {
+                    return preg_replace("/\b$day\b/u", '', $text);
                 }
 
                 return $diff;
             }
         }
 
-        return 0;
+        return $removeTime ? $text : 0;
     }
 
-    private function getRelativeDayOffset($text)
+    private function extractOrRemoveRelativeDay($text, $removeTime = false)
     {
-        $pattern = '/(?P<relative>فردا|پس‌فردا|پس‌|امروز|امشب|دیشب)/u';
+        $pattern = '/(?P<relative>فردا|پس[\s]?فردا)/u';
 
         if (!preg_match($pattern, $text, $matches)) {
-            return 0;
+            return $removeTime ? $text : 0;
+        }
+
+        if ($removeTime) {
+            return preg_replace($pattern, '', $text);
         }
 
         $relativeDays = [
-            'امروز' => 0,
-            'امشب' => 0,
             'فردا' => 1,
             'پس‌فردا' => 2,
             'پس‌ فردا' => 2,
@@ -117,59 +127,35 @@ class DateOffsetParser
         return $relativeDays[$matches['relative']] ?? 0;
     }
 
-    private function getNumericDayOffset($text)
+    private function extractOrRemoveNumericDay($text, $removeTime = false)
     {
-        $persianNumbers = [
-            'یک' => 1,
-            'دو' => 2,
-            'سه' => 3,
-            'چهار' => 4,
-            'پنج' => 5,
-            'شش' => 6,
-            'هفت' => 7,
-            'هشت' => 8,
-            'نه' => 9,
-            'ده' => 10,
-            'یازده' => 11,
-            'دوازده' => 12,
-            'سیزده' => 13,
-            'چهارده' => 14,
-            'پانزده' => 15,
-            'شانزده' => 16,
-            'هفده' => 17,
-            'هجده' => 18,
-            'نوزده' => 19,
-            'بیست' => 20,
-            'بیست و یک' => 21,
-            'بیست و دو' => 22,
-            'بیست و سه' => 23,
-            'بیست و چهار' => 24,
-            'بیست و پنج' => 25,
-            'بیست و شش' => 26,
-            'بیست و هفت' => 27,
-            'بیست و هشت' => 28,
-            'بیست و نه' => 29,
-            'سی' => 30,
-            'سی و یک' => 31,
-            'سی و دو' => 32,
-            'سی و سه' => 33,
-            'سی و چهار' => 34,
-            'سی و پنج' => 35
-        ];
+        $pattern = '/(?P<number>\d{1,2})\s+(روز|هفته|ماه)\s+دیگه/u';
 
-        $pattern = '/(?P<number>[0-9]{1,2}|' . implode('|', array_keys($persianNumbers)) . ')\s+(روز|هفته)\s+دیگه/u';
-
-        if (preg_match($pattern, $text, $matches)) {
-            $number = $matches['number'];
-            $unit = $matches[2];
-
-            if ($unit === 'هفته') {
-                return is_numeric($number) ? (int) $number * 7 : ($persianNumbers[$number] ?? 0) * 7;
+        if (!preg_match($pattern, $text, $matches)) {
+            if ($removeTime) {
+                return $text;
             }
 
-            return is_numeric($number) ? (int) $number : ($persianNumbers[$number] ?? 0);
+            return 0;
         }
 
-        return 0;
+        if ($removeTime) {
+            $text = preg_replace($pattern, '', $text);
+
+            return $text;
+        }
+
+        $number = $matches['number'];
+        $unit = $matches[2];
+
+        if ($unit === 'هفته') {
+            return (int) $number * 7;
+        }
+
+        if ($unit === 'ماه') {
+            return (int) $number * 30;
+        }
+
+        return (int) $number;
     }
 }

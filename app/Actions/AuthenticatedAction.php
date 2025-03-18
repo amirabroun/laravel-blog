@@ -14,7 +14,7 @@ class AuthenticatedAction
         }
 
         if ($callbackData == 'logout') {
-            return resolve(HandleLoginAction::class)->logout($telegramUserId);
+            (new HandleLoginAction($telegramUserId))->logout();
         }
 
         if (strpos($message, 'donetask') === 1) {
@@ -32,7 +32,7 @@ class AuthenticatedAction
     {
         auth()->user()->tasks()->save(new Task([
             'title' => $parsed['title'],
-            'start' => DateOffsetParser::calculateOffset($parsed['time']),
+            'start' => $parsed['start'],
         ]));
 
         return __('telegram.task_saved', [], 'fa');
@@ -77,24 +77,32 @@ class AuthenticatedAction
     {
         $taskId = str_replace('/donetask', '', $message);
 
-        Task::query()->where('id', $taskId)->delete();
+        auth()->user()->tasks()->where('id', $taskId)->delete();
 
         return $this->getTasks(__('telegram.task_deleted', [], 'fa'));
     }
 
     private function parseTaskMessage($message)
     {
-        $timePattern = implode('|', array_map('preg_quote',  __('telegram.time_keywords', [], 'fa')));
+        $title = $message;
+        $start = $message;
 
-        $pattern = '/^(.*?)\s*،\s*(' . $timePattern . '.*)$/u';
+        if (strpos($message, '،')) {
+            [$title, $start] = explode('،', $message, 2);
+        }
 
-        if (!preg_match($pattern, $message, $matches)) {
+        $parser = new DateOffsetParser;
+
+        $start = $parser->resolveDateTimeFromText($start);
+        $title = $parser->removeTimeFromText($title);
+
+        if ($start === false) {
             return null;
         }
 
         return [
-            'title' => trim($matches[1]),
-            'time' => trim($matches[2]),
+            'title' => $title,
+            'start' => $start,
         ];
     }
 }
