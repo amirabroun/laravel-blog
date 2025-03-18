@@ -123,7 +123,9 @@ class DateOffsetParser
         $relativeDays = [
             'فردا' => 1,
             'پس‌فردا' => 2,
-            'پس‌ فردا' => 2,
+            'پسفردا' => 2,
+            'پسفردا' => 2,
+            'پس فردا' => 2,
         ];
 
         return $relativeDays[$matches['relative']] ?? 0;
