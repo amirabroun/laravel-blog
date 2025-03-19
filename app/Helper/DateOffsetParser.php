@@ -4,21 +4,76 @@ namespace App\Helper;
 
 class DateOffsetParser
 {
-    public function removeTimeFromText($text)
+    private $relativeDayPattern = '/(?P<relative>فردا|پس[\s]?فردا)/u';
+    private $numericDayPattern = '/(?P<number>\d{1,2})\s+(روز|هفته|ماه)\s+دیگه/u';
+    private $hourPattern = '/\b(صبح|ظهر|عصر|شب|امشب)?\s*(?:ساعت\s*)?(\d{1,2})\b\s*(صبح|ظهر|عصر|شب|امشب)?/u';
+
+    private $weekdays = [
+        'یکشنبه' => 0,
+        'دوشنبه' => 1,
+        'سه‌شنبه' => 2,
+        'چهارشنبه' => 3,
+        'پنجشنبه' => 4,
+        'جمعه' => 5,
+        'شنبه' => 6,
+    ];
+
+    private $relativeDays = [
+        'فردا' => 1,
+        'پس‌فردا' => 2,
+        'پسفردا' => 2,
+        'پسفردا' => 2,
+        'پس فردا' => 2,
+    ];
+
+    private function prepareTextForAnalize($text)
     {
-        $text = replacePersianWordsWithNumbers(changeToEnglish($text));
-
-        $text = $this->extractOrRemoveNumericDay($text, true);
-
-        $text = $this->extractOrRemoveHour($text, true);
-
-        $text = $this->extractOrRemoveWeekday($text, true);
-
-        $text = $this->extractOrRemoveRelativeDay($text, true);
-
+        $text = normalizeSpaces($text);
+        $text = replacePersianHalfSpace($text);
+        $text = changeToEnglish($text);
+        $text = replacePersianWordsWithNumbers($text);
         $text = preg_replace('/[،,:؛.!؟"]/u', '', $text);
 
         return trim($text);
+    }
+
+    public function removeTimeFromText($text)
+    {
+        $text = $this->removeNumericDay($this->prepareTextForAnalize($text));
+
+        $text = $this->removeHour($text);
+
+        $text = $this->removeWeekday($text);
+
+        $text = $this->removeRelativeDay($text);
+
+        return $this->prepareTextForAnalize($text);
+    }
+
+    private function removeNumericDay($text)
+    {
+        return preg_replace($this->numericDayPattern, '', $text);
+    }
+
+    private function removeHour($text)
+    {
+        return preg_replace($this->hourPattern, '', $text);
+    }
+
+    private function removeWeekday($text)
+    {
+        foreach ($this->weekdays as $day => $weekdayNumber) {
+            if (preg_match("/\b$day\b/u", $text)) {
+                $text = preg_replace("/\b$day\b/u", '', $text);
+            }
+        }
+
+        return $text;
+    }
+
+    private function removeRelativeDay($text)
+    {
+        return preg_replace($this->relativeDayPattern, '', $text);
     }
 
     /**
@@ -26,20 +81,20 @@ class DateOffsetParser
      */
     public function resolveDateTimeFromText($text)
     {
-        $text = replacePersianWordsWithNumbers(changeToEnglish($text));
+        $text = $this->removeNumericDay($this->prepareTextForAnalize($text));
 
         $daysToAdd = 0;
-        $hourToAdd = $this->extractOrRemoveHour($text);
+        $hourToAdd = $this->extractHour($text);
 
-        if ($weekdayOffset = $this->extractOrRemoveWeekday($text)) {
+        if ($weekdayOffset = $this->extractWeekday($text)) {
             $daysToAdd += $weekdayOffset;
         }
 
-        if ($relativeOffset = $this->extractOrRemoveRelativeDay($text)) {
+        if ($relativeOffset = $this->extractRelativeDay($text)) {
             $daysToAdd += $relativeOffset;
         }
 
-        if ($numberOffset = $this->extractOrRemoveNumericDay($text)) {
+        if ($numberOffset = $this->extractNumericDay($text)) {
             $daysToAdd += $numberOffset;
         }
 
@@ -50,16 +105,10 @@ class DateOffsetParser
         return now()->addDays($daysToAdd)->setTime($hourToAdd, 0);
     }
 
-    private function extractOrRemoveHour($text, $removeTime = false)
+    private function extractHour($text)
     {
-        $pattern = '/\b(صبح|ظهر|عصر|شب|امشب)?\s*(?:ساعت\s*)?(\d{1,2})\b\s*(صبح|ظهر|عصر|شب|امشب)?/u';
-
-        if (!preg_match($pattern, $text, $matches)) {
-            return $removeTime ? $text : 0;
-        }
-
-        if ($removeTime) {
-            return preg_replace($pattern, '', $text);
+        if (!preg_match($this->hourPattern, $text, $matches)) {
+            return 0;
         }
 
         $hour = (int) $matches[2];
@@ -77,19 +126,9 @@ class DateOffsetParser
         return $hour;
     }
 
-    private function extractOrRemoveWeekday($text, $removeTime = false)
+    private function extractWeekday($text)
     {
-        $weekdays = [
-            'یکشنبه' => 0,
-            'دوشنبه' => 1,
-            'سه‌شنبه' => 2,
-            'چهارشنبه' => 3,
-            'پنجشنبه' => 4,
-            'جمعه' => 5,
-            'شنبه' => 6,
-        ];
-
-        foreach ($weekdays as $day => $weekdayNumber) {
+        foreach ($this->weekdays as $day => $weekdayNumber) {
             if (preg_match("/\b$day\b/u", $text)) {
                 $diff = $weekdayNumber - now()->dayOfWeek;
 
@@ -97,56 +136,26 @@ class DateOffsetParser
                     $diff += 7;
                 }
 
-                if ($removeTime) {
-                    return preg_replace("/\b$day\b/u", '', $text);
-                }
-
                 return $diff;
             }
         }
 
-        return $removeTime ? $text : 0;
+        return 0;
     }
 
-    private function extractOrRemoveRelativeDay($text, $removeTime = false)
+    private function extractRelativeDay($text)
     {
-        $pattern = '/(?P<relative>فردا|پس[\s]?فردا)/u';
-
-        if (!preg_match($pattern, $text, $matches)) {
-            return $removeTime ? $text : 0;
-        }
-
-        if ($removeTime) {
-            return preg_replace($pattern, '', $text);
-        }
-
-        $relativeDays = [
-            'فردا' => 1,
-            'پس‌فردا' => 2,
-            'پسفردا' => 2,
-            'پسفردا' => 2,
-            'پس فردا' => 2,
-        ];
-
-        return $relativeDays[$matches['relative']] ?? 0;
-    }
-
-    private function extractOrRemoveNumericDay($text, $removeTime = false)
-    {
-        $pattern = '/(?P<number>\d{1,2})\s+(روز|هفته|ماه)\s+دیگه/u';
-
-        if (!preg_match($pattern, $text, $matches)) {
-            if ($removeTime) {
-                return $text;
-            }
-
+        if (!preg_match($this->relativeDayPattern, $text, $matches)) {
             return 0;
         }
 
-        if ($removeTime) {
-            $text = preg_replace($pattern, '', $text);
+        return $this->relativeDays[$matches['relative']] ?? 0;
+    }
 
-            return $text;
+    private function extractNumericDay($text)
+    {
+        if (!preg_match($this->numericDayPattern, $text, $matches)) {
+            return 0;
         }
 
         $number = $matches['number'];

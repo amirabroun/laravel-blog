@@ -172,3 +172,17 @@ if (!function_exists('diffForHumans')) {
         return changeToPersian($string);
     }
 }
+
+if (!function_exists('replacePersianHalfSpace')) {
+    function replacePersianHalfSpace($text)
+    {
+        return str_replace("\u{200C}", ' ', $text);
+    }
+}
+
+if (!function_exists('normalizeSpaces')) {
+    function normalizeSpaces($text)
+    {
+        return trim(preg_replace('/\s+/', ' ', $text));
+    }
+}
