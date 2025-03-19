@@ -40,7 +40,7 @@ class AuthenticatedAction
 
     private function getTasks($extraMessage = '')
     {
-        $tasks = auth()->user()->tasks()->get();
+        $tasks = auth()->user()->tasks()->orderBy('start')->get();
 
         if ($tasks->isEmpty()) {
             return $extraMessage . PHP_EOL . PHP_EOL . __('telegram.no_tasks', [], 'fa');
