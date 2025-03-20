@@ -61,25 +61,13 @@ class DateOffsetParser
 
     public function removeTimeFromText($text)
     {
-        $text = $this->removeNumericDay($this->prepareTextForAnalize($text));
+        $text = $this->prepareTextForAnalize($text);
 
-        $text = $this->removeWeekday($text);
+        foreach ([$this->numericDayPattern, $this->hourPattern, $this->relativeDayPattern] as $pattern) {
+            $text = preg_replace($pattern, '', $text);
+        }
 
-        $text = $this->removeHour($text);
-
-        $text = $this->removeRelativeDay($text);
-
-        return $this->prepareTextForAnalize($text);
-    }
-
-    private function removeNumericDay($text)
-    {
-        return preg_replace($this->numericDayPattern, '', $text);
-    }
-
-    private function removeHour($text)
-    {
-        return preg_replace($this->hourPattern, '', $text);
+        return $this->removeWeekday($text);
     }
 
     private function removeWeekday($text)
@@ -93,17 +81,12 @@ class DateOffsetParser
         return $text;
     }
 
-    private function removeRelativeDay($text)
-    {
-        return preg_replace($this->relativeDayPattern, '', $text);
-    }
-
     /**
      * If time is not given return false
      */
     public function resolveDateTimeFromText($text)
     {
-        $text = $this->removeNumericDay($this->prepareTextForAnalize($text));
+        $text = $this->prepareTextForAnalize($text);
 
         $daysToAdd = 0;
         $hourToAdd = $this->extractHour($text);
