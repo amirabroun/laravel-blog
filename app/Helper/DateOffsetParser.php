@@ -124,7 +124,7 @@ class DateOffsetParser
             return false;
         }
 
-        return now()->addDays($daysToAdd)->setTime($hourToAdd, 0);
+        return now()->addDays($daysToAdd)->setTime($hourToAdd ?: 8, 0);
     }
 
     private function extractHour($text)
