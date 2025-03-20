@@ -80,6 +80,11 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(Task::class);
     }
 
+    public function unknownMessages()
+    {
+        return $this->hasMany(UnknownMessage::class);
+    }
+
     public function notifications()
     {
         return $this->morphMany(Notification::class, 'notifiable')->latest();

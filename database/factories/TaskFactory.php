@@ -19,6 +19,7 @@ class TaskFactory extends Factory
         $time = now()->addDays(rand(1, 10));
 
         return [
+            'uuid' => $this->faker->uuid(),
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
             'start' => $time,

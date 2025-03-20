@@ -133,11 +133,19 @@ return new class extends Migration
 
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->uuid();
             $table->foreignId('user_id')->constrained();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->dateTime('start');
+            $table->dateTime('start')->nullable();
             $table->dateTime('end')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('unknown_messages', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->text('message');
             $table->timestamps();
         });
     }
@@ -149,6 +157,8 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('unknown_messages');
+
         Schema::dropIfExists('tasks');
 
         Schema::dropIfExists('notifications');
