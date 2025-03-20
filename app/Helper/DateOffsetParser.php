@@ -10,12 +10,34 @@ class DateOffsetParser
 
     private $weekdays = [
         'یکشنبه' => 0,
+        'یک شنبه' => 0,
+        '1شنبه' => 0,
+
         'دوشنبه' => 1,
+        'دو شنبه' => 1,
+        '2شنبه' => 1,
+
         'سه‌شنبه' => 2,
+        'سه شنبه' => 2,
+        'سه‌ شنبه' => 2,
+        '3شنبه' => 2,
+        '3 شنبه' => 2,
+
         'چهارشنبه' => 3,
+        'چهار شنبه' => 3,
+        '4شنبه' => 3,
+        '4 شنبه' => 3,
+
         'پنجشنبه' => 4,
+        'پنج شنبه' => 4,
+        '5شنبه' => 4,
+        '5 شنبه' => 4,
+
         'جمعه' => 5,
+
         'شنبه' => 6,
+        '7شنبه' => 6,
+        '7 شنبه' => 6,
     ];
 
     private $relativeDays = [
@@ -41,9 +63,9 @@ class DateOffsetParser
     {
         $text = $this->removeNumericDay($this->prepareTextForAnalize($text));
 
-        $text = $this->removeHour($text);
-
         $text = $this->removeWeekday($text);
+
+        $text = $this->removeHour($text);
 
         $text = $this->removeRelativeDay($text);
 
@@ -129,7 +151,8 @@ class DateOffsetParser
     private function extractWeekday($text)
     {
         foreach ($this->weekdays as $day => $weekdayNumber) {
-            if (preg_match("/\b$day\b/u", $text)) {
+            $normalizedDay = str_replace(['‌', ' '], '\s*', $day);
+            if (preg_match("/\b$normalizedDay\b/u", $text)) {
                 $diff = $weekdayNumber - now()->dayOfWeek;
 
                 if ($diff < 0) {
