@@ -75,6 +75,8 @@ if (!function_exists('toJalali')) {
 
         $time = Jalalian::forge($time)->format($format);
 
+        $time = preg_replace('/\b0(\d)/', '$1', $time);
+
         return changeToPersian($time);
     }
 }

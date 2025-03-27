@@ -16,7 +16,7 @@ class TaskFactory extends Factory
      */
     public function definition(): array
     {
-        $time = now()->addDays(rand(1, 10));
+        $time = now()->addHours(rand(1, 24));
 
         return [
             'uuid' => $this->faker->uuid(),

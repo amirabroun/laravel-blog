@@ -19,7 +19,9 @@ class AuthenticatedAction
     public function handle()
     {
         if ($this->callbackData == 'get_tasks') {
-            return $this->getTasks();
+            $action = new GetTasksAction;
+
+            return $action();
         }
 
         if ($this->callbackData == 'logout') {
@@ -74,7 +76,7 @@ class AuthenticatedAction
             'start' => $parsed['start'],
         ]));
 
-        $message = __('telegram.task_saved', ['title' => $this->getTaskTitle($task->title, $task->start)], 'fa');
+        $message = __('telegram.task_saved', ['title' => "🔻 " . "*$task->title*"], 'fa');
         $replyMarkup = [
             'text' => 'اگر اشتباه شد کلیک کن😬',
             'callback_data' => 'task_creation_misunderstood_' . $task->uuid
@@ -83,48 +85,15 @@ class AuthenticatedAction
         return [$message, $replyMarkup];
     }
 
-    private function getTasks($extraMessage = '')
-    {
-        $tasks = auth()->user()->tasks()->orderBy('start')->get();
-
-        if ($tasks->isEmpty()) {
-            return $extraMessage . PHP_EOL . PHP_EOL . __('telegram.no_tasks', [], 'fa');
-        }
-
-        $overdueTasks = $tasks->filter(fn($task) => $task->start < now());
-        $otherTasks = $tasks->filter(fn($task) => $task->start >= now());
-
-        $formatTask = function ($task) {
-            $doneCommand = "/done_task_" . $task->id;
-            return $this->getTaskTitle($task->title, $task->start) . PHP_EOL . "حذف: " . $doneCommand;
-        };
-
-        $overdueText = $overdueTasks->isNotEmpty()
-            ? "🚨 کارهای عقب‌افتاده:" . PHP_EOL . PHP_EOL . $overdueTasks->map($formatTask)->implode(PHP_EOL . PHP_EOL)
-            : '';
-
-        $otherText = $otherTasks->isNotEmpty()
-            ? "📌 سایر کارها:" .  PHP_EOL . PHP_EOL . $otherTasks->map($formatTask)->implode(PHP_EOL . PHP_EOL)
-            : '';
-
-        return $extraMessage . PHP_EOL . PHP_EOL . trim($overdueText . PHP_EOL . PHP_EOL . $otherText);
-    }
-
-    private function getTaskTitle($taskTitle, $start)
-    {
-        $formattedDate = toJalali($start, 'd %B، ساعت H:i');
-        $relativeTime  = diffForHumans($start);
-
-        return "$formattedDate $taskTitle ($relativeTime)";
-    }
-
     private function deleteTask()
     {
         $taskId = str_replace('/donetask', '', $this->message);
 
         auth()->user()->tasks()->where('id', $taskId)->delete();
 
-        return $this->getTasks(__('telegram.task_deleted', [], 'fa'));
+        $action = new GetTasksAction;
+
+        return $action(__('telegram.task_deleted', [], 'fa'));
     }
 
     private function parseTaskMessage()
