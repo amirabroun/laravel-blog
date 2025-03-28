@@ -15,4 +15,13 @@ class UnknownMessage extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function save(array $options = [])
+    {
+        if (self::where('message', $this->message)->exists()) {
+            return true;
+        }
+
+        return parent::save($options);
+    }
 }
